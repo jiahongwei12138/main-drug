@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.drug.entity.MainHeadquarters;
 import com.drug.entity.MainModel;
 import com.drug.infoManagement.mapper.AdminIndexMapper;
 import com.drug.infoManagement.service.AdminIndexService;
@@ -17,6 +18,11 @@ public class AdminIndexServiceImpl implements AdminIndexService {
 	@Override
 	public List<MainModel> queryByMenu() {
 		return adminIndexMapper.queryByMenu();
+	}
+
+	@Override
+	public MainHeadquarters queryHeadquarter() {
+		return adminIndexMapper.queryHeadquarter();
 	}
 
 }

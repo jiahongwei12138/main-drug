@@ -25,7 +25,6 @@
 	
 </script>
 <script type="text/html" id="barDemo">
-  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">管理权限</a>
   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
@@ -38,81 +37,7 @@ layui.use(['table','laydate','form','tree', 'util'], function(){
   var tree = layui.tree
   ,layer = layui.layer
   ,util = layui.util
-//模拟数据
-  ,data = [{
-    title: 'ALL'
-    ,id: 2
-    ,spread: true
-    ,children: [{
-      title: '系统信息管理'
-      ,id: 5
-      ,spread: true
-      ,children: [{
-        title: '员工管理'
-        ,id: 11
-        ,spread: true
-        ,children: [{
-            title: '新增'
-            ,id: 11
-          },{
-        	  title:'删除'
-        	  ,id:22
-          }]
-      },{
-          title: '部门管理'
-              ,id: 11
-              ,spread: true
-              ,children: [{
-                  title: '新增'
-                  ,id: 11
-                },{
-              	  title:'删除'
-              	  ,id:22
-                }]
-            }]
-    },{
-        title: '采购管理'
-            ,id: 5
-            ,spread: true
-            ,children: [{
-              title: '采购申请'
-              ,id: 11
-              ,spread: true
-              ,children: [{
-                  title: '新增'
-                  ,id: 11
-                },{
-              	  title:'删除'
-              	  ,id:22
-                }]
-            },{
-                title: '采购计划'
-                    ,id: 11
-                    ,spread: true
-                    ,children: [{
-                        title: '新增'
-                        ,id: 11
-                      },{
-                    	  title:'删除'
-                    	  ,id:22
-                      }]
-                  }]
-          }]
-  }]
-  
-  
-	//基本演示
-  tree.render({
-    elem: '#test12'
-    ,data: data
-    ,showCheckbox: true  //是否显示复选框
-    ,id: 'demoId1'
-    ,isJump: true //是否允许点击节点时弹出新窗口跳转
-    ,click: function(obj){
-      var data = obj.data;  //获取当前点击的节点数据
-      layer.msg('状态：'+ obj.state + '<br>节点数据：' + JSON.stringify(data));
-    }
-  });
+
   table.render({
     elem: '#test'
     ,url:'../json/demo1.json'
@@ -124,7 +49,7 @@ layui.use(['table','laydate','form','tree', 'util'], function(){
       ,{field:'username', title:'部门名称',unresize:true}
       ,{field:'sex', title:'描述', unresize:true}
       ,{
-		fixed: 'right', align:'center', toolbar: '#barDemo',unresize:true
+		fixed: 'right', title:'操作',align:'center', toolbar: '#barDemo',unresize:true
       }
     ]]
     ,page: true
@@ -134,26 +59,7 @@ layui.use(['table','laydate','form','tree', 'util'], function(){
 //监听工具条
   table.on('tool(test)', function(obj){
     var data = obj.data;
-    if(obj.event === 'detail'){
-    	layer.open({
-			title : '权限管理',//标题
-			type : 1,//样式
-			shade: 0,
-			area: ['350px', '500px'],
-			content :$("#test12"),
-			
-			success : function(layero) {
-				var mask = $(".layui-layer-shade");
-				mask.appendTo(layero.parent());
-				//其中：layero是弹层的DOM对象
-			},
-			end : function() {
-				
-			}
-		});
-		
-		
-	} else if(obj.event === 'del'){
+    if(obj.event === 'del'){
       layer.confirm('确认删除该部门吗', function(index){
         obj.del();
         layer.close(index);
@@ -215,7 +121,6 @@ layui.use(['table','laydate','form','tree', 'util'], function(){
 });
 </script>
 
-		<div id="test12" class="demo-tree-more" style="display:none;"></div>
 
 		<div class="site-text" style="margin: 5%; display: none" id="branch" target="test123">
 		<form class="layui-form" lay-filter="formAuthority" id="formIdOne">

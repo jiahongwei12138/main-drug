@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.drug.entity.MainHeadquarters;
 import com.drug.entity.MainModel;
 import com.drug.infoManagement.service.AdminIndexService;
 import com.drug.util.ToolClass;
@@ -27,4 +28,13 @@ public class AdminIndexController {
 		map.put("data", menuList);
 		return map;
 	}
+	
+	@RequestMapping("/queryHeadquarter")
+	@ResponseBody
+	public Map<String,Object> queryHeadquarter(){
+		MainHeadquarters headquarter = adminIndexService.queryHeadquarter();
+		Map<String,Object> map = ToolClass.responseByData();
+		map.put("data", headquarter);
+		return map;
+	} 
 }

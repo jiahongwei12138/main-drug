@@ -12,6 +12,6 @@
 	</resultMap>
 	
 	<select id="queryByMenu" resultMap="MainModelMap">
-		select * from mian_model
+		select * from main_model
 	</select>
 </mapper>
