@@ -24,8 +24,7 @@ public class AdminIndexController {
 	@ResponseBody
 	public Map<String,Object> queryByMenu(){
 		List<MainModel> menuList = adminIndexService.queryByMenu();
-		Map<String,Object> map = ToolClass.responseByData();
-		map.put("data", menuList);
+		Map<String,Object> map = ToolClass.responseByData(menuList,0);
 		return map;
 	}
 	
@@ -33,8 +32,7 @@ public class AdminIndexController {
 	@ResponseBody
 	public Map<String,Object> queryHeadquarter(){
 		MainHeadquarters headquarter = adminIndexService.queryHeadquarter();
-		Map<String,Object> map = ToolClass.responseByData();
-		map.put("data", headquarter);
+		Map<String,Object> map = ToolClass.responseByData(headquarter,0);
 		return map;
 	} 
 }
