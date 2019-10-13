@@ -3,6 +3,8 @@ package com.drug.infoManagement.mapper;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Select;
+
 import com.drug.entity.MainDepartment;
 
 public interface DeptMapper {
@@ -20,5 +22,8 @@ public interface DeptMapper {
 	void updateEmpByDeptId(String deptId);
 
 	int queryCountDept();
+	
+	@Select("select * from main_department")
+	List<MainDepartment> queryDeptGiveOption();
 
 }

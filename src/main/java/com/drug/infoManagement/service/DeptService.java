@@ -15,4 +15,6 @@ public interface DeptService {
 	void deletDeptById(String deptId);
 
 	int queryCountDept();
+
+	List<MainDepartment> queryDeptGiveOption();
 }

@@ -68,4 +68,10 @@ public class DeptServiceImpl implements DeptService {
 		return DeptMapper.queryCountDept();
 	}
 
+
+	@Override
+	public List<MainDepartment> queryDeptGiveOption() {
+		return DeptMapper.queryDeptGiveOption();
+	}
+
 }

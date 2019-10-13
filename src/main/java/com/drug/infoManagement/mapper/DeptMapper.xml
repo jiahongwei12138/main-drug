@@ -22,7 +22,7 @@
 		select * from main_department where deptName=#{deptName}
 	</select>
 	
-	<!-- 通过部门名称修改部门状态 -->
+	<!-- 通过部门Id修改部门状态 -->
 	<update id="updateDeptById" parameterType="MainDepartment">
 		update main_department 
 		set 
