@@ -69,4 +69,22 @@
 		update main_employee set roleId=0 where roleId=#{roleId}
 	</update>
 	
+	<!-- 通过角色id删除该角色所拥有的权限模块 -->
+	<delete id="deleteAuthorityByRoleId" parameterType="String">
+		delete from main_role_model where roleId=#{roleId}
+	</delete>
+	
+	<!-- 分配权限模块 -->
+	<insert id="addAuthority" parameterType="Map">
+		insert into main_role_model(roleId,modelId) values
+		<foreach collection="modelIds" item="modelId" separator=",">
+			(#{roleId},#{modelId})
+		</foreach>
+	</insert>
+	
+	<!-- 通过角色id查询角色模块中间表的模块id -->
+	<select id="queryModelIdByRoleId" parameterType="Integer" resultType="Integer">
+		select modelId from main_role_model where roleId=#{roleId}
+	</select>
+	
 </mapper>

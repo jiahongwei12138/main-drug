@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.drug.entity.MainDepartment;
+import com.drug.entity.MainModel;
 import com.drug.entity.MainRole;
 import com.drug.infoManagement.mapper.RoleMapper;
 import com.drug.infoManagement.service.RoleService;
@@ -57,12 +58,29 @@ public class RoleServiceImpl implements RoleService{
 	@Override
 	public void deletRoleById(String roleId) {
 		roleMapper.updateEmpByRoleId(roleId);
+		roleMapper.deleteAuthorityByRoleId(roleId);
 		roleMapper.deletRoleById(roleId);
 	}
 
 	@Override
 	public void updateRoleById(MainRole mainRole) {
 		roleMapper.updateRoleById(mainRole);
+	}
+
+	@Override
+	public void assignAuthority(String roleId, Integer[] modelIds) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("roleId", roleId);
+		map.put("modelIds", modelIds);
+		//先根据角色id删除该角色所拥有的模块id
+		roleMapper.deleteAuthorityByRoleId(roleId);
+		//再为该角色添加新分配的模块id
+		roleMapper.addAuthority(map);
+	}
+
+	@Override
+	public List<Integer> queryModelIdByRoleId(Integer roleId) {
+		return roleMapper.queryModelIdByRoleId(roleId);
 	}
 
 }

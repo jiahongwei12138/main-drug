@@ -2,6 +2,7 @@ package com.drug.infoManagement.service;
 
 import java.util.List;
 
+import com.drug.entity.MainModel;
 import com.drug.entity.MainRole;
 
 public interface RoleService {
@@ -15,5 +16,9 @@ public interface RoleService {
 	void deletRoleById(String roleId);
 
 	void updateRoleById(MainRole mainRole);
+
+	void assignAuthority(String roleId, Integer[] modelIds);
+
+	List<Integer> queryModelIdByRoleId(Integer roleId);
 
 }

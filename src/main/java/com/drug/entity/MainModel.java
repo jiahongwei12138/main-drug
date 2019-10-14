@@ -1,14 +1,38 @@
 package com.drug.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainModel {
 
 	private Integer id;//modelId  
 	private String title;//modelName              
 	private Integer parentModelId;  
 	private String modelImg;               
-	private String modelUrl;                              
+	private String modelUrl;  
+	private boolean spread=false;
+	private boolean checked=false;
 	private Integer menuType;
+	private List<MainModel> children=new ArrayList<MainModel>();
 	
+	public List<MainModel> getChildren() {
+		return children;
+	}
+	public void setChildren(List<MainModel> children) {
+		this.children = children;
+	}
+	public boolean isSpread() {
+		return spread;
+	}
+	public void setSpread(boolean spread) {
+		this.spread = spread;
+	}
+	public boolean isChecked() {
+		return checked;
+	}
+	public void setChecked(boolean checked) {
+		this.checked = checked;
+	}
 	public Integer getId() {
 		return id;
 	}

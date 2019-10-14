@@ -31,88 +31,49 @@
 </script>
 
 <script>
+function getModelIds(modelIds,checkedData) {
+	//循环遍历checkedData数组
+	for(var i=0;i<checkedData.length;i++){
+		//将循环出的对象中的id属性值放入数组modelIds中
+		modelIds.push(checkedData[i].id);
+		//判断当前循环出的对象的children属性值数组的长度是否为0，如果不为0则递归调用getModelIds()方法
+		if(checkedData[i].children.length!=0){
+			getModelIds(modelIds,checkedData[i].children);
+		}
+	}
+	
+}
 layui.use(['table','laydate','form','tree', 'util'], function(){
   var table = layui.table;
   var laydate = layui.laydate;
   var form = layui.form;
   var tree = layui.tree
   ,layer = layui.layer
-  ,util = layui.util
+  ,util = layui.util;
 //模拟数据
-  ,data = [{
-    title: 'ALL'
-    ,id: 2
-    ,spread: true
-    ,children: [{
-      title: '系统信息管理'
-      ,id: 5
-      ,spread: true
-      ,children: [{
+  /* var data = [{title: 'ALL',modelType:1,spread:true,id: 2,
+	  children: [{title: '系统信息管理',modelType:1,spread:true,id: 5,
+		children: [{
         title: '员工管理'
+        ,modelType:1
+        ,spread:true
         ,id: 11
-        ,spread: true
         ,children: [{
             title: '新增'
+            ,modelType:1 
             ,id: 11
           },{
         	  title:'删除'
+        	,modelType:1
         	  ,id:22
           }]
-      },{
-          title: '部门管理'
-              ,id: 11
-              ,spread: true
-              ,children: [{
-                  title: '新增'
-                  ,id: 11
-                },{
-              	  title:'删除'
-              	  ,id:22
-                }]
-            }]
-    },{
-        title: '采购管理'
-            ,id: 5
-            ,spread: true
-            ,children: [{
-              title: '采购申请'
-              ,id: 11
-              ,spread: true
-              ,children: [{
-                  title: '新增'
-                  ,id: 11
-                },{
-              	  title:'删除'
-              	  ,id:22
-                }]
-            },{
-                title: '采购计划'
-                    ,id: 11
-                    ,spread: true
-                    ,children: [{
-                        title: '新增'
-                        ,id: 11
-                      },{
-                    	  title:'删除'
-                    	  ,id:22
-                      }]
                   }]
           }]
-  }]
+  }];  */ 
   
   
-	//基本演示
-  tree.render({
-    elem: '#test12'
-    ,data: data
-    ,showCheckbox: true  //是否显示复选框
-    ,id: 'demoId1'
-    ,isJump: true //是否允许点击节点时弹出新窗口跳转
-    ,click: function(obj){
-      var data = obj.data;  //获取当前点击的节点数据
-      layer.msg('状态：'+ obj.state + '<br>节点数据：' + JSON.stringify(data));
-    }
-  });
+  
+  
   table.render({
     elem: '#test'
     ,url:'${APP_PATH}/queryAllRole.do'
@@ -135,21 +96,79 @@ layui.use(['table','laydate','form','tree', 'util'], function(){
     ,limits:[5,10,20,30,40,50,60,70,80,90]
   });
   
+  var roleId;
+  //分配权限
+ util.event('lay-demo', {
+	 assignAuthority: function(othis){
+      var checkedData = tree.getChecked('demoId1'); //获取选中节点的数据
+      /* layer.alert(JSON.stringify(checkedData), {shade:0});
+      console.log(checkedData); */
+      if(checkedData.length==0){
+    	  layer.msg("请选择要分配的权限！", {time:2000, icon:5, shift:6});
+      }else{
+    	  var modelIds=[];
+    	  getModelIds(modelIds,checkedData);
+    	  console.log(modelIds);
+    	  $.ajax({
+    		  type:"post",
+    		  url:"${APP_PATH}/assignAuthority.do",
+    		  traditional:true,
+    		  data:{
+    			  "roleId":roleId,
+    			  "modelIds":modelIds
+    		  },
+    		  success:function(result){
+    			  if(result==false){
+						layer.msg("分配失败", {time:3000, icon:5, shift:6});
+					}else{
+						layer.msg("分配成功", {time:3000, icon:1, shift:3});
+					}
+    		  }
+    	  });
+      }
+    }
+  });
   
 //监听工具条
   table.on('tool(test)', function(obj){
     var data = obj.data;
+    roleId=data.roleId;
     if(obj.event === 'detail'){
     	layer.open({
 			title : '权限管理',//标题
 			type : 1,//样式
 			shade: 0,
-			area: ['350px', '500px'],
-			content :$("#test12"),
-			
+			area: ['350px', '450px'],
+			content :$("#pancl"),
 			success : function(layero) {
 				var mask = $(".layui-layer-shade");
 				mask.appendTo(layero.parent());
+				//加载树
+				$.ajax({
+					  type:"post",
+					  url:"${APP_PATH}/queryAllModel.do",
+					  data:{
+						  "roleId":data.roleId
+					  },
+					  dataType:"json",
+					  success:function(result){
+						//基本演示
+						  tree.render({
+						    elem: '#test12'
+						    ,data: result
+						    ,showCheckbox: true  //是否显示复选框
+						    ,id: 'demoId1'
+						    //,isJump: true //是否允许点击节点时弹出新窗口跳转
+						    /* ,click: function(obj){
+						      var data = obj.data;  //获取当前点击的节点数据
+						      layer.msg('状态：'+ obj.state + '<br>节点数据：' + JSON.stringify(data));
+						    }  */
+						  });
+						  modelArr=result;
+						  //alert(modelArr[0].children[0].title);
+						 //console.log(modelArr);
+					  }
+				  });
 				//其中：layero是弹层的DOM对象
 			},
 			end : function() {
@@ -231,6 +250,8 @@ layui.use(['table','laydate','form','tree', 'util'], function(){
 			//form.render('select'); 
 		}
 	});
+  
+  
 //工具栏事件
 	table.on('toolbar(test)', function(obj) {
 		var checkStatus = table.checkStatus(obj.config.id);
@@ -281,7 +302,16 @@ layui.use(['table','laydate','form','tree', 'util'], function(){
 });
 </script>
 
-		<div id="test12" class="demo-tree-more" style="display:none;"></div>
+	<div class="layui-card" id="pancl"  style="display:none;">
+		<div class="layui-card-header">
+			<div class="layui-btn-container">
+			  <div class="layui-btn-container">
+				  <button type="button" class="layui-btn layui-btn-sm" lay-demo="assignAuthority">分配权限</button>
+				</div>
+			</div>
+		</div>
+		<div id="test12" class="demo-tree-more"></div>
+	</div>
 
 		<div class="site-text" style="margin: 5%; display: none" id="branch" target="test123">
 		<form class="layui-form" lay-filter="formAuthority" id="formIdOne">
