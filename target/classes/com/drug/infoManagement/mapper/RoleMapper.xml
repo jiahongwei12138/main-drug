@@ -50,9 +50,9 @@
 		ON 
 		r.`deptId`=d.`deptId`
 		WHERE r.`roleState`='未删除'
-		LIMIT #{page},#{limit}
+		ORDER BY roleId DESC
 		)rm 
-		ORDER BY rm.roleId DESC
+		LIMIT #{page},#{limit}
 	</select>
 	
 	<select id="getCountRole" resultType="Integer">
@@ -60,9 +60,12 @@
 	</select>
 	
 	<!-- 删除角色-->
-	<delete id="deletRoleById" parameterType="String">
+	<update id="deletRoleById" parameterType="String">
+		update main_role set roleState='已删除' where roleId=#{roleId}
+	</update>
+	<!-- <delete id="deletRoleById" parameterType="String">
 		delete from main_role where roleId=#{roleId}
-	</delete>
+	</delete> -->
 	
 	<!-- 通过角色Id修改员工表的角色Id -->
 	<update id="updateEmpByRoleId" parameterType="String">

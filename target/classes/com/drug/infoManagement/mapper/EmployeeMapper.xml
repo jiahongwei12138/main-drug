@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.drug.infoManagement.mapper.EmployeeMapper">
+
+	<select id="queryRolesByDeptId" parameterType="Integer" resultType="MainRole">
+		SELECT roleId,roleName FROM main_role WHERE deptId=#{deptId} AND roleState='未删除'
+	</select>
+	
+	<insert id="addEmployee" parameterType="MainEmployee">
+		insert into main_employee(empName,empAge,empSex,empTel,headUrl,joinTime,studyUndergo,roleId,deptId)
+		values(#{empName},#{empAge},#{empSex},#{empTel},#{headUrl},#{joinTime},#{studyUndergo},#{roleId},#{deptId})
+	</insert>
+	
+	<select id="queryAllEmp" resultType="MainEmployee">
+		select * from (
+			SELECT e.*,d.deptName,r.roleName FROM main_employee e 
+			LEFT JOIN main_department d
+			ON e.deptId=d.deptId
+			LEFT JOIN main_role r
+			ON e.roleId=r.roleId 
+			<where>
+			    empState='未删除'
+				<if test="empName !=null and empName !=''">
+					and empName LIKE concat("%",#{empName},"%")
+				</if>
+			</where>
+			order by empId desc
+		)e 
+		limit #{page},#{limit}    
+	</select>
+	
+	<select id="getCountEmp" resultType="Integer">
+		SELECT COUNT(*) FROM main_employee where empState='未删除' 
+	</select>
+	
+	<update id="updateEmployeeById" parameterType="MainEmployee">
+		update main_employee set
+		empName=#{empName},
+		empAge=#{empAge},
+		empSex=#{empSex},
+		empTel=#{empTel},
+		headUrl=#{headUrl},
+		joinTime=#{joinTime},
+		studyUndergo=#{studyUndergo},
+		roleId=#{roleId},
+		deptId=#{deptId}
+		where empId=#{empId}
+	</update>
+	
+	<update id="updateHeadquartersPersonNum">
+		update main_headquarters set 
+		<if test="flag=='jia'">
+			empNumber=empNumber+1
+		</if>
+		<if test="flag=='jian'">
+			empNumber=empNumber-1
+		</if>
+	</update>
+	
+	<update id="updateDeptPersonNum" parameterType="Map">
+		update main_department set 
+		<if test="flag=='jia'">
+			personNumber=personNumber+1 
+		</if>
+		<if test="flag=='jian'">
+			personNumber=personNumber-1 
+		</if>
+		where deptId=#{deptId}
+	</update>
+	
+	<update id="deletEmpById" parameterType="Integer">
+		update main_employee set empState='已删除' where empId=#{empId}
+	</update>
+</mapper>

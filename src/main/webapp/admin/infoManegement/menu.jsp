@@ -4,73 +4,76 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>菜单</title>
-  <link rel="stylesheet" href="${APP_PATH }/layui/css/layui.css">
-  <script src="${APP_PATH }/layui/layui.js"></script>
-  <script type="text/javascript" src="${APP_PATH }/js/jquery-3.4.1.min.js"></script>          
+  <title>layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="${APP_PATH }/layui/css/layui.css"  media="all">
   <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
-<body style="margin:0;padding:0;">         
-<table class="layui-hide" id="test" lay-filter="test"></table>         
-<style>
-.layui-table, .layui-table-view {
-    margin: 0px 0;
-}
-</style>
+<body>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+  <legend>菜单管理</legend>
+</fieldset>
+ 
+<div id="test9" class="demo-tree demo-tree-box" style="width: 100%; height: 300px; "></div>
+        
+<script src="${APP_PATH }/layui/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
-layui.use('table', function(){
-  var table = layui.table;
+layui.use(['tree', 'util','jquery'], function(){
+  var tree = layui.tree
+  ,layer = layui.layer
+  ,util = layui.util
+  ,$ = layui.jquery
   
-  table.render({
-    elem: '#test'
-	,url: '../queryMenu.do'//数据接口
-    ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-    ,cols: [[
-      {field:'menuId', title: '菜单ID', align:'center'}
-      ,{field:'menuName', title: '菜单名称',edit: 'text',templet:function(d){
-    	  var left = (d.menuType-1)*40;
-    	  
-    	  var num = "";
-    	  if(d.menuType == 1){
-    		  num = "bold";
-    	  }else{
-    		  num = "normal";
-    	  }
-    	  return '<span style="margin-left:'+left+'px;font-weight:'+num+';">'+d.menuName+'</span>'
-      }}
-      ,{field:'menuParent',title: '父级菜单ID',align:'center'}
-      ,{field:'menuIcon',title: '菜单Icon',edit: 'text',align:'center'}
-      ,{field:'menuType',title: '菜单类型',align:'center',templet:function(d){
-    	  switch(d.menuType){
-    	  	case 1: 
-    	  		return '<span class="layui-badge layui-bg-blue">一级目录</span>'
-    	  	case 2:
-    	  		return '<span class="layui-badge">二级目录</span>'
-    	  }
-      }}
-      ,{field:'menuType',title: '类型',edit: 'text',align:'center',hide:true}
-      ,{field:'menuURL',edit: 'text',title: '菜单URL',align:'center'}
-    ]]
-
-  });
   
-  //监听单元格编辑
-  table.on('edit(test)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
-	  $.ajax({
-		  url:'../updateMenu.do',
-		  data:obj.data,
-		  type:'post',
-		  dataType:'html',
-		  success:function(data){
-			if(data == '1'){
-				layer.msg('修改成功');
-			}else{
-				layer.msg('修改失败');
-			}
+//加载树
+	$.ajax({
+		  type:"post",
+		  url:"${APP_PATH}/queryModelTree.do",
+		  dataType:"json",
+		  success:function(result){
+			//开启节点操作图标
+			  tree.render({
+			    elem: '#test9'
+			    ,data: result
+			    ,id: 'demoId1'
+			    ,edit: [/* 'add',  */'update'/* , 'del' */] //操作节点的图标
+			    ,operate: function(obj){
+				    var type = obj.type; //得到操作类型：add、edit、del
+				    var data = obj.data; //得到当前节点的数据
+				    var elem = obj.elem; //得到当前节点元素
+				    //Ajax 操作
+				    var id = data.id; //得到节点索引
+				    if(type === 'update'){ //修改节点
+				      var modelName=elem.find('.layui-tree-txt').html(); //得到修改后的内容
+				      var modelId=data.id;
+				      $.ajax({
+				    	  type:"post",
+				    	  url:"${APP_PATH}/updateModelNameById.do",
+				    	  data:{
+				    		  "id":modelId,
+				    		  "title":modelName
+				    	  },
+				    	  success:function(result){
+					    		if(result==false){
+									layer.msg("修改失败", {time:3000, icon:5, shift:6});
+								}else{
+									layer.msg("修改成功", {time:3000, icon:1, shift:3});
+								}
+				    	  }
+				    	  
+				      });
+				    } 
+				  }
+			  });
 		  }
 	  });
-	});
+	//其中：layero是弹层的DOM对象
+  
 });
 </script>
+
 </body>
 </html>

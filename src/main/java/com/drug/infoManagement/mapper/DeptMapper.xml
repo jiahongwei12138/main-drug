@@ -7,9 +7,9 @@
 		select * from 
 		(
 			select * from main_department where deptState='未删除'
-			limit #{page},#{limit}
+			order by deptId desc
 		)dept 
-		order by dept.deptId desc
+		limit #{page},#{limit}
 	</select>
 	
 	<!-- 统计部门 -->
@@ -36,14 +36,20 @@
 	</insert>
 	
 	<!-- 删除部门 -->
-	<delete id="deletDeptById" parameterType="String">
+	<update id="deletDeptById" parameterType="String">
+		update main_department set deptState='已删除',personNumber=0 where deptId=#{deptId}
+	</update>
+	<!-- <delete id="deletDeptById" parameterType="String">
 		delete from main_department where deptId=#{deptId}
-	</delete>
+	</delete> -->
 	
 	<!-- 通过部门Id修改员工表的部门Id -->
 	<update id="updateEmpByDeptId" parameterType="String">
-		update main_employee set deptId=0 where deptId=#{deptId}
+		update main_employee set deptId=0,roleId=0 where deptId=#{deptId}
 	</update>
 	
+	<update id="updateRoleByDeptId"  parameterType="String">
+		update main_role set deptId=0,roleState='已删除' where deptId=#{deptId}
+	</update>
 	
 </mapper>

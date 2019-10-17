@@ -11,4 +11,6 @@ public interface AdminIndexService {
 
 	MainHeadquarters queryHeadquarter();
 
+	void updateModelNameById(MainModel mainModel);
+
 }

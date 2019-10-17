@@ -55,6 +55,7 @@ layui.use(['table','laydate','form','tree', 'util'], function(){
       }
     ]]
     ,page: true
+    ,limit:5
     ,limits:[5,10,20,30,40,50,60,70,80,90]
   });
   

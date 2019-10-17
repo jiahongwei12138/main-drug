@@ -73,8 +73,7 @@ layui.use(['table','laydate','form','tree', 'util'], function(){
   
   
   
-  
-  table.render({
+  table.render({ 
     elem: '#test'
     ,url:'${APP_PATH}/queryAllRole.do'
     ,toolbar: '#toolbarDemo'
@@ -93,6 +92,7 @@ layui.use(['table','laydate','form','tree', 'util'], function(){
       }
     ]]
     ,page: true
+    ,limit:5
     ,limits:[5,10,20,30,40,50,60,70,80,90]
   });
   
@@ -164,7 +164,6 @@ layui.use(['table','laydate','form','tree', 'util'], function(){
 						      layer.msg('状态：'+ obj.state + '<br>节点数据：' + JSON.stringify(data));
 						    }  */
 						  });
-						  modelArr=result;
 						  //alert(modelArr[0].children[0].title);
 						 //console.log(modelArr);
 					  }
@@ -271,7 +270,7 @@ layui.use(['table','laydate','form','tree', 'util'], function(){
 					if(roleName.trim()==""){
 						layer.msg("请输入名称！", {time:3000, icon:5, shift:6});
 					}else if(deptId==""){
-						layer.msg("请选择部门！", {time:3000, icon:5, shift:6});
+						layer.msg("请选择部门或添加部门！", {time:3000, icon:5, shift:6});
 					}else{
 						$.ajax({
 							type:"post",

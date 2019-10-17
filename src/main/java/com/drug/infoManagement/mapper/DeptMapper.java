@@ -23,7 +23,9 @@ public interface DeptMapper {
 
 	int queryCountDept();
 	
-	@Select("select * from main_department")
+	@Select("select * from main_department where deptState='未删除'")
 	List<MainDepartment> queryDeptGiveOption();
+
+	void updateRoleByDeptId(String deptId);
 
 }

@@ -25,4 +25,9 @@ public class AdminIndexServiceImpl implements AdminIndexService {
 		return adminIndexMapper.queryHeadquarter();
 	}
 
+	@Override
+	public void updateModelNameById(MainModel mainModel) {
+		adminIndexMapper.updateModelNameById(mainModel);
+	}
+
 }

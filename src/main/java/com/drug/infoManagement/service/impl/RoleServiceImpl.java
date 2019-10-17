@@ -24,6 +24,7 @@ public class RoleServiceImpl implements RoleService{
 		if (role!=null && "未删除".equals(role.getRoleState())) {
 			return "该角色已经存在";
 		}else if(role!=null && "已删除".equals(role.getRoleState())) {
+			role.setDeptId(mainRole.getDeptId());
 			roleMapper.updateRoleById(role);
 			return "添加成功";
 		}else {

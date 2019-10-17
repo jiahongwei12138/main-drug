@@ -59,6 +59,7 @@ public class DeptServiceImpl implements DeptService {
 	@Override
 	public void deletDeptById(String deptId) {
 		DeptMapper.updateEmpByDeptId(deptId);
+		DeptMapper.updateRoleByDeptId(deptId);
 		DeptMapper.deletDeptById(deptId);
 	}
 
