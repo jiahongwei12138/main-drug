@@ -24,5 +24,7 @@ public interface EmployeeMapper {
 
 	void deletEmpById(Integer empId);
 
+	void addMoreEmp(List<MainEmployee> empList);
+
 
 }

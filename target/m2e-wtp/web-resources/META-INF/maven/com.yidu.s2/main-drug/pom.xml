@@ -6,27 +6,35 @@
 	<artifactId>main-drug</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<!-- <build>
-		<plugins>
-			<plugin>
-	    		<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1<ersion>
-				<configuration>
-					源码的编译器版本
-					<source>1.8</source>
-					class的编译器版本
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build> -->
+	
 
 	<properties>
 		<spring.version>4.1.0.RELEASE</spring.version>
 	</properties>
 
 	<dependencies>
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi</artifactId>
+		    <version>3.17</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml</artifactId>
+		    <version>3.17</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml-schemas</artifactId>
+		    <version>3.17</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.xmlbeans</groupId>
+		    <artifactId>xmlbeans</artifactId>
+		    <version>2.6.0</version>
+		</dependency>
+		
+	
 		<!--spring -->
 		<dependency>
 			<groupId>junit</groupId>

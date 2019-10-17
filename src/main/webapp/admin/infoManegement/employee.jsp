@@ -15,7 +15,10 @@
 </head>
 <body>
 
- 
+ <div class="layui-upload">
+  		<button type="button" class="layui-btn layui-btn-normal" id="test8">导入员工</button>
+ 		<button type="button" class="layui-btn" id="test9">确认导入</button>
+	</div>
 <table class="layui-hide" id="test" lay-filter="test"></table>
 
 	<script type="text/html" id="toolbarDemo">
@@ -23,7 +26,8 @@
     <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="getCheckData"><i class="layui-icon layui-icon-add-1"></i>新增员工 </button>
 	<input type="text" placeholder="请输入用户" class="layui-text"  id="search" style="width:150px;height:30px;">
 	<button class="layui-btn layui-btn-sm  layui-btn-normal" lay-event="search"><i class="layui-icon layui-icon-search"></i>搜索</button>
-  </div>
+ 	
+ </div>
 	
 </script>
 <script type="text/html" id="barDemo">
@@ -44,7 +48,26 @@ layui.use(['table','laydate','form','tree','jquery', 'util','upload','laydate'],
   ,$ = layui.jquery;
   
   
-  
+  //选完文件后不自动上传
+  upload.render({
+    elem: '#test8'
+    ,url: '${APP_PATH}/addMoreEmp.do'
+    ,auto: false
+    ,accept:'file'
+    //,multiple: true
+    ,bindAction: '#test9'
+    ,done: function(res){
+    	if(res==false){
+			layer.msg("添加失败", {time:2000, icon:5, shift:6});
+		}else{
+			layer.msg("添加成功", {time:2000, icon:1, shift:3},function(){
+				table.reload('test', {
+					  url:'${APP_PATH}/queryAllEmp.do'
+				});
+			});
+		}
+    }
+  });
   
   
   table.render({
@@ -387,10 +410,11 @@ layui.use(['table','laydate','form','tree','jquery', 'util','upload','laydate'],
 					       <img src="" style="width: 100px;height: 100px" class="layui-upload-img" id="demo1">
 					  </div>
 					</div>   
+					
     			</div>
 			</div>
 			</form>
 		</div>
-
+	
 </body>
 </html>

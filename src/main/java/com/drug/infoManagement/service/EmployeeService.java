@@ -2,6 +2,8 @@ package com.drug.infoManagement.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.drug.entity.MainEmployee;
 import com.drug.entity.MainRole;
 
@@ -18,5 +20,7 @@ public interface EmployeeService {
 	void updateEmployeeById(MainEmployee mainEmployee);
 
 	void deletEmpById(Integer empId,Integer deptId);
+
+	boolean addMoreEmp(MultipartFile file);
 
 }

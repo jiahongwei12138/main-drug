@@ -36,6 +36,14 @@ public class EmployeeController {
 		List<MainRole> roleList=employeeService.queryRolesByDeptId(deptId);
 		return roleList;
 	}
+	
+	@RequestMapping("/addMoreEmp")
+	@ResponseBody
+	public boolean addMoreEmp(@RequestParam(required=false) MultipartFile file) {
+		boolean result = employeeService.addMoreEmp(file);
+		return result;
+	}
+	
 	@RequestMapping("/queryAllEmp")
 	@ResponseBody
 	public Map<String, Object> queryAllEmp(Integer page,Integer limit,String empName) {
@@ -63,7 +71,7 @@ public class EmployeeController {
 			HttpSession session) {
 		try {
 			Properties properties=new Properties();
-			InputStream in = this.getClass().getClassLoader().getResourceAsStream("fileUploadDir.properties");
+			InputStream in = this.getClass().getClassLoader().getResourceAsStream("system.properties");
 			properties.load(in);
 			String path = properties.getProperty("directory");
 			//获取上传的文件名

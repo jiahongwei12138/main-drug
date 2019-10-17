@@ -71,4 +71,12 @@
 	<update id="deletEmpById" parameterType="Integer">
 		update main_employee set empState='已删除' where empId=#{empId}
 	</update>
+	
+	<insert id="addMoreEmp" parameterType="MainEmployee">
+		insert into main_employee(empName,empAge,empSex,empTel,joinTime,studyUndergo)
+		values
+		<foreach collection="list" item="emp" separator=",">
+			(#{emp.empName},#{emp.empAge},#{emp.empSex},#{emp.empTel},#{emp.joinTime},#{emp.studyUndergo})
+		</foreach>
+	</insert>
 </mapper>
