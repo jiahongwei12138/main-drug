@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drug.production.mapper.MonthPlanMapper">
+	<select id="selectMProductionPlan" resultType="com.drug.entity.MProductionPlan">
+		select m.mPlanId,e.empName as mProposerName,m.mApplyDate,d.mPlanQuantity,d.mPracticalQuantity,
+		em.empName as mAuditorName,m.mStatus,m.mAuditingDate,m.mEnddate
+		from mPlan m 
+		join mian_employee e
+		on m.mProposerId=e.empId
+		join mian_employee em
+		on em.empId=m.mAuditorId
+		join mplanDetails d
+		on d.mPlanId=m.mPlanId
+		join mian_product p
+		on p.proId=d.proId
+	</select>
+</mapper>
