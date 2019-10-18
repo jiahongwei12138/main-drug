@@ -101,7 +101,7 @@ public class EmployeeController {
 			HttpSession session) {
 		try {
 			Properties properties=new Properties();
-			InputStream in = this.getClass().getClassLoader().getResourceAsStream("fileUploadDir.properties");
+			InputStream in = this.getClass().getClassLoader().getResourceAsStream("system.properties");
 			properties.load(in);
 			String path = properties.getProperty("directory");
 			//获取上传的文件名
