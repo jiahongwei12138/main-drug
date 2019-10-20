@@ -18,4 +18,7 @@ public interface AdminIndexMapper {
 	@Update("update main_model set modelName=#{title} where modelId=#{id}")
 	void updateModelNameById(MainModel mainModel);
 
+	@Update("update main_headquarters set empNumber=#{countEmp} where hqtId=1")
+	void updateHeadquarterPersonNum(int countEmp);
+
 }

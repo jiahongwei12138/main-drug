@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.drug.entity.MainDepartment;
+import com.drug.entity.MainEmployee;
 import com.drug.infoManagement.mapper.DeptMapper;
 import com.drug.infoManagement.service.DeptService;
 @Service
@@ -32,20 +33,13 @@ public class DeptServiceImpl implements DeptService {
 
 	
 	@Override
-	public List<MainDepartment> queryAllDept(String page,String limit) {
-		int pageIndex=0;
-		if (page!=null) {
-			pageIndex=Integer.parseInt(page);
-		}
-		int currentLimit=0;
-		if (limit!=null) {
-			currentLimit=Integer.parseInt(limit);
-		}
-		int currentPage=(pageIndex-1)*currentLimit;
+	public List<MainDepartment> queryAllDept(Integer page,Integer limit) {
+		int currentPage=(page-1)*limit;
 		Map<String, Integer> map=new HashMap<String, Integer>();
 		map.put("page", currentPage);
-		map.put("limit", currentLimit);
-		
+		map.put("limit", limit);
+		List<MainEmployee> list=DeptMapper.queryDeptPersonNumFromEmp();
+		DeptMapper.updateDeptPersonNumById(list);
 		return DeptMapper.queryAllDept(map);
 	}
 

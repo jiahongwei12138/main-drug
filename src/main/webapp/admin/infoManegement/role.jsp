@@ -108,7 +108,7 @@ layui.use(['table','laydate','form','tree', 'util'], function(){
       }else{
     	  var modelIds=[];
     	  getModelIds(modelIds,checkedData);
-    	  console.log(modelIds);
+    	  //console.log(modelIds);
     	  $.ajax({
     		  type:"post",
     		  url:"${APP_PATH}/assignAuthority.do",

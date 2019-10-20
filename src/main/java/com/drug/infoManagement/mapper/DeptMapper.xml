@@ -52,4 +52,16 @@
 		update main_role set deptId=0,roleState='已删除' where deptId=#{deptId}
 	</update>
 	
+	 
+	<select id="queryDeptPersonNumFromEmp" resultType="MainEmployee">
+		SELECT COUNT(*) deptPersonNum,deptId FROM main_employee 
+		WHERE empState='未删除' GROUP BY deptId
+	</select>
+	
+	<update id="updateDeptPersonNumById" parameterType="List">
+		<foreach collection="list" item="emp" separator=";">
+			UPDATE main_department SET personNumber=#{emp.deptPersonNum} where deptId=#{emp.deptId}
+		</foreach>
+		
+	</update>
 </mapper>

@@ -41,7 +41,7 @@ public class DeptController {
 	 */
 	@RequestMapping("/queryAllDept")
 	@ResponseBody
-	public Map<String,Object> queryAllDept(String page,String limit) {
+	public Map<String,Object> queryAllDept(Integer page,Integer limit) {
 		List<MainDepartment> departments=deptService.queryAllDept(page,limit);
 		int count=deptService.queryCountDept();
 		Map<String, Object> map = ToolClass.responseByData(departments,count);

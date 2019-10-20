@@ -35,13 +35,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public void addEmployee(MainEmployee mainEmployee) {
 		employeeMapper.addEmployee(mainEmployee);
-		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("flag", "jia");
-		map.put("deptId", mainEmployee.getDeptId());
-		//修改总体人数
-		employeeMapper.updateHeadquartersPersonNum(map);
-		//根据部门id修改部门人数
-		employeeMapper.updateDeptPersonNum(map);
 	}
 
 	@Override
@@ -68,13 +61,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public void deletEmpById(Integer empId,Integer deptId) {
 		employeeMapper.deletEmpById(empId);
-		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("flag", "jian");
-		map.put("deptId", deptId);
-		//修改总体人数
-		employeeMapper.updateHeadquartersPersonNum(map);
-		//根据员工id修改部门人数
-		employeeMapper.updateDeptPersonNum(map);
 	}
 
 	@Override

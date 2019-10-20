@@ -17,7 +17,14 @@ public class MainEmployee {
 	 private String field2;
 	 private String deptName;
 	 private String roleName;
+	 private Integer deptPersonNum; 
 	 
+	public Integer getDeptPersonNum() {
+		return deptPersonNum;
+	}
+	public void setDeptPersonNum(Integer deptPersonNum) {
+		this.deptPersonNum = deptPersonNum;
+	}
 	public String getDeptName() {
 		return deptName;
 	}

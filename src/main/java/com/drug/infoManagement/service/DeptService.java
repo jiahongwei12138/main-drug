@@ -8,7 +8,7 @@ public interface DeptService {
 
 	String addDept(MainDepartment department);
 
-	List<MainDepartment> queryAllDept(String page,String limit);
+	List<MainDepartment> queryAllDept(Integer page,Integer limit);
 
 	void updateDeptById(MainDepartment department);
 

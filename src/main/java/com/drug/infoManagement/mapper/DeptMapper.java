@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Select;
 
 import com.drug.entity.MainDepartment;
+import com.drug.entity.MainEmployee;
 
 public interface DeptMapper {
 
@@ -27,5 +28,9 @@ public interface DeptMapper {
 	List<MainDepartment> queryDeptGiveOption();
 
 	void updateRoleByDeptId(String deptId);
+
+	List<MainEmployee> queryDeptPersonNumFromEmp();
+
+	void updateDeptPersonNumById(List<MainEmployee> list);
 
 }

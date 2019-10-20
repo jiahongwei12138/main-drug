@@ -18,9 +18,6 @@ public interface EmployeeMapper {
 
 	void updateEmployeeById(MainEmployee mainEmployee);
 
-	void updateHeadquartersPersonNum(Map<String, Object> map);
-
-	void updateDeptPersonNum(Map<String, Object> map);
 
 	void deletEmpById(Integer empId);
 

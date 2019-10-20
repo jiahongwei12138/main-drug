@@ -47,26 +47,7 @@
 		where empId=#{empId}
 	</update>
 	
-	<update id="updateHeadquartersPersonNum">
-		update main_headquarters set 
-		<if test="flag=='jia'">
-			empNumber=empNumber+1
-		</if>
-		<if test="flag=='jian'">
-			empNumber=empNumber-1
-		</if>
-	</update>
 	
-	<update id="updateDeptPersonNum" parameterType="Map">
-		update main_department set 
-		<if test="flag=='jia'">
-			personNumber=personNumber+1 
-		</if>
-		<if test="flag=='jian'">
-			personNumber=personNumber-1 
-		</if>
-		where deptId=#{deptId}
-	</update>
 	
 	<update id="deletEmpById" parameterType="Integer">
 		update main_employee set empState='已删除' where empId=#{empId}
