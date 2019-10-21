@@ -2,9 +2,12 @@ package com.drug.infoManagement.service.impl;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.drug.entity.MainEmployee;
 import com.drug.entity.MainHeadquarters;
 import com.drug.entity.MainModel;
 import com.drug.infoManagement.mapper.AdminIndexMapper;
@@ -34,6 +37,18 @@ public class AdminIndexServiceImpl implements AdminIndexService {
 	@Override
 	public void updateModelNameById(MainModel mainModel) {
 		adminIndexMapper.updateModelNameById(mainModel);
+	}
+
+	@Override
+	public MainEmployee login(MainEmployee mainEmployee,HttpSession session) {
+		MainEmployee employee = adminIndexMapper.login(mainEmployee);
+		session.setAttribute("employee", employee);
+		return employee;
+	}
+
+	@Override
+	public List<MainModel> queryByMenuByRoleId(Integer roleId) {
+		return adminIndexMapper.queryByMenuByRoleId(roleId);
 	}
 
 }

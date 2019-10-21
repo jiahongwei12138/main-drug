@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.drug.entity.MainEmployee;
 import com.drug.entity.MainHeadquarters;
 import com.drug.entity.MainModel;
 
@@ -20,5 +21,9 @@ public interface AdminIndexMapper {
 
 	@Update("update main_headquarters set empNumber=#{countEmp} where hqtId=1")
 	void updateHeadquarterPersonNum(int countEmp);
+
+	MainEmployee login(MainEmployee mainEmployee);
+
+	List<MainModel> queryByMenuByRoleId(Integer roleId);
 
 }
