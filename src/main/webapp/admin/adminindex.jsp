@@ -8,6 +8,7 @@
   <title>layout 后台大布局 - Layui</title>
   <link rel="stylesheet" href="${APP_PATH }/layui/css/layui.css">
   <script type="text/javascript" src="${APP_PATH }/js/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="${APP_PATH }/js/ajaxRequest.js"></script>
   <script>
 			var delay=400;             //文字出现的时间间隔
 			var text="医药ERP";  //预定文字
@@ -317,6 +318,7 @@ layui.use('element', function(){
 		type:'POST',
 		dataType:'json',
 		success:function(back){
+			console.log(back);
 			var str = "";
 			var jack = back.data;
 			for(var i = 0;i < jack.length;i++){
