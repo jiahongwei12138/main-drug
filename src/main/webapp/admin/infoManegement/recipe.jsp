@@ -13,7 +13,7 @@
 <body>    
 		<table class="layui-hide" id="demo" lay-filter="test"></table>
 		<div style="display: none" id="divTable">
-			<table class="layui-hide" id="detailsTable" lay-filter="test"></table>
+			<table class="layui-hide" id="detailsTable" lay-filter="detailsTable"></table>
 		</div>
 
 				<script type="text/html" id="toolbarDemo">
@@ -39,7 +39,7 @@
 	<div class="layui-input-inline">
 		 <input type="text" name="username" lay-verify="number" placeholder="请输入" autocomplete="off" class="layui-input">
 	</div>
-	<button type="button" class="layui-btn layui-btn-normal">添加</button>
+	<button type="button" lay-event="addRecipe" class="layui-btn layui-btn-normal">添加</button>
   </div>
 	
 </script>
@@ -59,9 +59,6 @@
 				var laydate = layui.laydate;
 				var form = layui.form;
 				laydate.render({
-					elem: '#test1', //指定元素
-				});
-				laydate.render({
 					elem: '#test5', //指定元素
 				});
 				laydate.render({
@@ -70,45 +67,63 @@
 				//执行一个 table 实例
 				table.render({
 					elem: '#demo',
-					url: '../json/demo1.json', //数据接口
+					url: '${APP_PATH}/queryProduct.do', //数据接口
 					title: '药品表',
 					toolbar: '#toolbarDemo', //开启工具栏
 					totalRow: false, //开启合计行
 					cols: [
 						
 						[ //表头
-								{
+							{
 								type: 'checkbox',
+								field: 'proId',
 								fixed: 'left',
 							}, {
-								field: 'id',
-								title: '药品编号',
+								field: 'proBatchNumber',
+								title: '条码编号',
 								unresize : true
 							}, {
-								field: 'username',
+								field: 'proName',
 								title: '药品名称',
 								unresize : true
 							}, {
-								field: 'experience',
-								title: '药品审核状态',
+								field: 'enlishName',
+								title: '英文名称',
 								unresize : true
 							}, {
-								field: 'sex',
-								title: '有无配方',
+								field: 'proState',
+								title: '药品审核',
 								unresize : true
 							}, {
-								field: 'sex',
-								title: '配方审核状态',
+								field: 'retailPrice',
+								title: '出厂价',
 								unresize : true
 							}, {
-								field: 'sex',
-								title: '制定人',
+								field: 'hqtName',
+								title: '生产商',
 								unresize : true
-							}, {
-								field: 'sex',
-								title: '药品制定时间',
-								unresize : true
-							}, {
+							},{
+								field: 'hqtName',
+								title: '配方名',
+								unresize : true,
+								templet: function(d){
+							        return '<font>'+d.mainRecipe.recipeName+'</font>';
+							    }
+							},{
+								field: 'hqtName',
+								title: '配方审核',
+								unresize : true,
+								templet: function(d){
+							        return '<font>'+d.mainRecipe.recipeState+'</font>';
+							    }
+							},{
+								field: 'hqtName',
+								title: '负责人',
+								unresize : true,
+								templet: function(d){
+							        return '<font>'+d.mainRecipe.empName+'</font>';
+							    }
+							},{
 								title: '操作',
 								width : 178,
 								align: 'center',
@@ -134,7 +149,25 @@
 								closeBtn: 0,
 								btn: ['确定', '关闭'], //可以无限个按钮
 								yes: function(index, layero) {
-									layer.close(index);
+									$.ajax({
+										type:"post",
+										url:"${APP_PATH}/addProduct.do",
+										data:$("#formIdOne").serialize(),
+										success:function(result){
+											if(result==false){
+												layer.msg("添加失败", {time:2000, icon:5, shift:6});
+											}else{
+												layer.msg("添加成功", {time:2000, icon:1, shift:3},function(){
+													 layer.close(index);
+													/* table.reload('test', {
+														  url: '${APP_PATH}/queryAllEmp.do'
+													}); */
+												});
+											}
+										}
+									});
+									
+									/* layer.close(index);
 									//执行清空
 									$("#warehouseOperator").empty();
 									$("#storageWarehouse").empty();
@@ -142,16 +175,25 @@
 									if(index > 0){
 										//添加
 										layer.msg('添加成功');
-									}
+									} */
 								},
 								content: $("#addDetails"),
-								success: function(layero, index){
+								/* success: function(layero, index){
 									  form.render();
-									  }
+									  } */
 							});
 							break;
 						case 'updateDetails':	//新增配方
 						if(data.length == 1){
+							/* //监听事件
+							table.on('toolbar(detailsTable)', function(obj){
+							  var checkStatus = table.checkStatus(obj.config.id);
+							  switch(obj.event){
+							    case 'addRecipe':
+							      layer.msg('添加');
+							    break;
+							  };
+							}); */
 							table.render({
 								elem: '#detailsTable',
 								url: '../json/demo1.json', //数据接口
@@ -238,15 +280,34 @@
 						case "removeWarehouse":	//审核药品
 							if(data.length == 1){
 								//判断月计划审核状态
-								if(data[0].sex == '男'){
+								console.log(data);
+								if(data[0].proState == '未审核'){
 									var index2 = layer.confirm('你确认审核该药品？', {
 										  btn: ['确认', '取消'] //可以无限个按钮
 										  ,btn2: function(index, layero){
 										    layer.close(index2);
 										  }
 										}, function(layero){
-											layer.close(index2);
-											var index88 = layer.open({
+											$.ajax({
+												type:"post",
+												url:"${APP_PATH}/updateProStateById.do",
+												data:{
+													"proId":data[0].proId
+												},
+												success:function(result){
+													if(result==false){
+														layer.msg("药品审核失败", {time:2000, icon:5, shift:6});
+													}else{
+														layer.msg("药品审核成功", {time:2000, icon:1, shift:3},function(){
+															layer.close(index2);
+															table.reload('demo', {
+																  url: '${APP_PATH}/queryProduct.do'
+															});
+														});
+													}
+												}
+											});
+											/* var index88 = layer.open({
 												  type: 1,
 												  shade: 0.25,
 												  area: ['400px', '350px'],
@@ -263,7 +324,7 @@
 												  ,btn2: function(index, layero){
 														  layer.close(index88);
 													}
-											});
+											}); */
 											
 										});
 								}else{
@@ -279,15 +340,33 @@
 						case "capacityWarning":	//审核配方
 							if(data.length == 1){
 								//判断月计划审核状态
-								if(data[0].sex == '男'){
+								if(data[0].mainRecipe.recipeState == '未审核'){
 									var index2 = layer.confirm('你确认审核该配方？', {
 										  btn: ['确认', '取消'] //可以无限个按钮
 										  ,btn2: function(index, layero){
 										    layer.close(index2);
 										  }
 										}, function(layero){
-											layer.close(index2);
-											var index88 = layer.open({
+											$.ajax({
+												type:"post",
+												url:"${APP_PATH}/updateRecipeStateById.do",
+												data:{
+													"recipeId":data[0].mainRecipe.recipeId
+												},
+												success:function(result){
+													if(result==false){
+														layer.msg("配方审核失败", {time:2000, icon:5, shift:6});
+													}else{
+														layer.msg("配方审核成功", {time:2000, icon:1, shift:3},function(){
+															layer.close(index2);
+															table.reload('demo', {
+																  url: '${APP_PATH}/queryProduct.do'
+															});
+														});
+													}
+												}
+											});
+											/* var index88 = layer.open({
 												  type: 1,
 												  shade: 0.25,
 												  area: ['400px', '350px'],
@@ -297,14 +376,14 @@
 													  },
 												  btn: ['确认', '取消'],
 												  yes: function(layero){
-													  layer.close(index);
+													  layer.close(index); 
 													  layer.close(index88);
 													  layer.msg('审核成功');
 													}
 												  ,btn2: function(index, layero){
 														  layer.close(index88);
-													}
-											});
+													} 
+											});*/
 											
 										});
 								}else{
@@ -328,13 +407,14 @@
 						//管理药品
 					if (layEvent === 'manageMe') {
 						form.val("formAuthority", {
-					    	  "id": "21321321" // "name": "value"
-					    	  ,"name": "销售部门"
-					    	  ,"specification": "克"
-					    	  ,"price": "99"
-					    	  ,"time": "2018-12-11"
-					    	  ,"staffName": "2"
-					    	  ,"time2": "2018-12-11"
+					    	  "proName": data.proName // "name": "value"
+					    	  ,"enlishName": data.enlishName
+					    	  ,"methodOfApplication": data.methodOfApplication
+					    	  ,"expirationdate": data.expirationdate
+					    	  ,"proForbidden": data.proForbidden
+					    	  ,"proCure": data.proCure
+					    	  ,"proBadness": data.proBadness
+					    	  ,"retailPrice": data.retailPrice
 					    	});
 						
 						var index = layer.open({
@@ -388,6 +468,7 @@
 								]
 							]
 						});
+						
 						layer.open({
 							title: '原料配方',
 							type: 1, //Page层类型
@@ -403,50 +484,57 @@
 		
 		<div class="site-text" style="margin: 5%; display: none" id="addDetails" target="test123">
 		<form class="layui-form" lay-filter="formAuthority" id="formIdOne">
-			<div class="layui-input-inline">
-				<label style="margin:0 10px 0 20px;font-size:13px;">药品编号</label>
-				<div class="layui-input-inline">
-      				<input type="text" name="id" lay-verify="required"  disabled placeholder="自动生成" autocomplete="off" class="layui-input">
-    			</div>
-			</div>
 			<div class="layui-input-inline" style="margin-top:10px;">
 				<label style="margin:0 10px 0 20px;font-size:13px;">药品名称</label>
 				<div class="layui-input-inline">
-      				<input type="text" name="name" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+      				<input type="text" name="proName" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
     			</div>
 			</div>
 			<div class="layui-input-inline" style="margin-top:10px;">
-				<label style="margin:0 10px 0 20px;font-size:13px;">药品规格</label>
+				<label style="margin:0 10px 0 20px;font-size:13px;">英文名称</label>
 				<div class="layui-input-inline">
-      				<input type="text" name="specification" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+      				<input type="text" name="enlishName" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
     			</div>
 			</div>
 			<div class="layui-input-inline" style="margin-top:10px;">
-				<label style="margin:0 10px 0 20px;font-size:13px;">药品价格</label>
+				<label style="margin:0 10px 0 20px;font-size:13px;">用法用量</label>
 				<div class="layui-input-inline">
-      				<input type="text" name="price" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+      				<input type="text" name="methodOfApplication" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
     			</div>
 			</div>
 			<div class="layui-input-inline" style="margin-top:10px;">
 				<label style="margin:0 10px 0 20px;font-size:13px;">质保日期</label>
-				<div class="layui-input-inline">
-      				<input type="text" name="time" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-    			</div>
-			</div>
-			<div class="layui-input-inline" style="margin-top:10px;">
-				<label style="margin:0 10px 0 20px;font-size:13px;">制定员工</label>
-				<div class="layui-input-inline">
-					<select name="staffName" lay-verify="required" lay-search="">
+				<div class="layui-input-inline" style="width:193px">
+					<select name="expirationdate" lay-verify="required" lay-search="">
           				<option value="">请选择</option>
-         			 	<option value="1">张三</option>
-          				<option value="2">王五</option>
+          				<option value="三个月">三个月</option>
+         			 	<option value="半年">半年</option>
+          				<option value="一年">一年</option>
         			</select>
 				</div>
 			</div>
 			<div class="layui-input-inline" style="margin-top:10px;">
-				<label style="margin:0 10px 0 20px;font-size:13px;">制定时间</label>
+				<label style="margin:0 10px 0 20px;font-size:13px;">禁用描述</label>
 				<div class="layui-input-inline">
-					<input type="text" class="layui-input" id="test1" name="time2" placeholder="yyyy-MM-dd">
+					<input type="text" class="layui-input"  name="proForbidden" placeholder="请输入" >
+				</div>
+			</div>
+			<div class="layui-input-inline" style="margin-top:10px;">
+				<label style="margin:0 10px 0 20px;font-size:13px;">功效描述</label>
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input"  name="proCure" placeholder="请输入" >
+				</div>
+			</div>
+			<div class="layui-input-inline" style="margin-top:10px;">
+				<label style="margin:0 10px 0 20px;font-size:13px;">不良反应</label>
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input" placeholder="请输入"  name="proBadness">
+				</div>
+			</div>
+			<div class="layui-input-inline" style="margin-top:10px;">
+				<label style="margin:0 10px 0 20px;font-size:13px;">出厂价格</label>
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input" placeholder="请输入"  name="retailPrice">
 				</div>
 			</div>
 			</form>

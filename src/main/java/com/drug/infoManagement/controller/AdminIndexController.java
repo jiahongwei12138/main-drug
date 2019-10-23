@@ -37,8 +37,11 @@ public class AdminIndexController {
 	
 	@RequestMapping("/queryHeadquarter")
 	@ResponseBody
-	public Map<String,Object> queryHeadquarter(){
+	public Map<String,Object> queryHeadquarter(HttpSession session){
 		MainHeadquarters headquarter = adminIndexService.queryHeadquarter();
+		if (headquarter!=null) {
+			session.setAttribute("headquarter", headquarter);
+		}
 		Map<String,Object> map = ToolClass.responseByData(headquarter,0);
 		return map;
 	} 

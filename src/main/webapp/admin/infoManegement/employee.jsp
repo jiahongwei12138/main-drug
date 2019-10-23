@@ -21,7 +21,7 @@
 	</div>
 <table class="layui-hide" id="test" lay-filter="test"></table>
 
-	<script type="text/html" id="toolbarDemo">
+	<script type="text/html" id="toolbarDemo"> 
   <div class="layui-btn-container" style="padding-left:20px;">
     <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="getCheckData"><i class="layui-icon layui-icon-add-1"></i>新增员工 </button>
 	<input type="text" placeholder="请输入用户" class="layui-text"  id="search" style="width:150px;height:30px;">
