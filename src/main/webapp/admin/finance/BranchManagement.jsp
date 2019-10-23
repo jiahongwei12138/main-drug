@@ -52,10 +52,11 @@ function allProvince(){
 
 window.onload = allProvince;
 //注册table，form
-layui.use(['table','form','laydate'], function(){
+layui.use(['table','form','laydate','jquery'], function(){
   var table = layui.table;
   var form = layui.form;
  var laydate = layui.laydate;
+ var $ = layui.jquery;
   
   //常规用法
   laydate.render({
@@ -177,7 +178,9 @@ layui.use(['table','form','laydate'], function(){
     }
   });
   
-  
+  $("#btn").click(function(){
+	 console.log($("#form2").serialize());
+  });
   
 });
 
@@ -203,19 +206,24 @@ layui.use(['table','form','laydate'], function(){
           <div class="layui-form-item">
     <label class="layui-form-label">分店名称</label>
     <div class="layui-input-inline">
-      <input type="text" name="username" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
+      <input type="text" name="bsfName" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
     </div>
   </div>
-  
   <div class="layui-form-item">
-    <label class="layui-form-label">请选择地区</label>
+    <label class="layui-form-label">联系电话</label>
     <div class="layui-input-inline">
-     <select  id="province123"  onchange="changeCity()" lay-filter="cs">
+      <input type="text" name="bsfTel" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">选择地区</label>
+    <div class="layui-input-inline">
+     <select name="bbbb"  id="province123"  onchange="changeCity()" lay-filter="cs">
         <option>请选择省/城市</option>
-      </select> 
+      </select>
     </div>
     <div class="layui-input-inline">
-      <select  id="city123">
+      <select name="ssss" id="city123">
         <option>请选择城市/地区</option>
       </select>
     </div>
@@ -223,14 +231,14 @@ layui.use(['table','form','laydate'], function(){
    <div class="layui-form-item">
    <label class="layui-form-label">详细地址</label>
     <div class="layui-input-inline">
-      <input type="text" name="username" style="width:300px;" lay-verify="required" placeholder="地址" autocomplete="off" class="layui-input">
+      <input type="text" name="bsfAddress" style="width:300px;" lay-verify="required" placeholder="地址" autocomplete="off" class="layui-input">
     </div>
   </div>
   <div class="layui-form-item">
     <label class="layui-form-label">签订合同</label>
     <div class="layui-input-inline">
-      <select name="quiz1">
-        <option value="">是否签订</option>
+      <select name="pactState">
+        <option value="未签订">是否签订</option>
         <option value="签订">签订</option>
         <option value="不签订">不签订</option>
       </select>
@@ -239,7 +247,7 @@ layui.use(['table','form','laydate'], function(){
    <div class="layui-form-item">
     <br>
     <div class="layui-input-block">
-     <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" style="position:absolute;left:110px;" onclick="gitAudit();" >提交</button>
+     <button type="button" id="btn" class="layui-btn layui-btn-sm layui-btn-normal" style="position:absolute;left:110px;" onclick="gitAudit();" >提交</button>
     </div>
   </div>
    
