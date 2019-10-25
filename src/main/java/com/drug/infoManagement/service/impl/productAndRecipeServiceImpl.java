@@ -8,8 +8,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.drug.entity.MainEmployee;
 import com.drug.entity.MainHeadquarters;
 import com.drug.entity.MainProduct;
+import com.drug.entity.MainRawMaterial;
+import com.drug.entity.MainRecipe;
+import com.drug.entity.MainRecipedetail;
 import com.drug.infoManagement.mapper.ProductAndRecipeMapper;
 import com.drug.infoManagement.service.ProductAndRecipeService;
 /**
@@ -61,6 +65,46 @@ public class productAndRecipeServiceImpl implements ProductAndRecipeService{
 	@Override
 	public void updateRecipeStateById(Integer recipeId) {
 		productAndRecipeMapper.updateRecipeStateById(recipeId);
+	}
+	/**
+	 * 方法功能：查询原 材料
+	 * @return List<MainRawMaterial> 原材料集合
+	 */
+	@Override
+	public List<MainRawMaterial> queryRawMaterial() {
+		return productAndRecipeMapper.queryRawMaterial();
+	}
+	/**
+	 * 方法功能：添加配方详情
+	 * @param mainRecipedetail 配方详情对象
+	 */
+	@Override
+	public void addRecipedetail(MainRecipedetail mainRecipedetail) {
+		productAndRecipeMapper.addRecipedetail(mainRecipedetail);
+	}
+	/**
+	 * 方法功能：查询配方详情中配方id为0
+	 * @return List<MainRecipedetail> 配方详情集合
+	 */
+	@Override
+	public List<MainRecipedetail> queryRecipedetail() {
+		return productAndRecipeMapper.queryRecipedetail();
+	}
+	/**
+	 * 方法功能：查询员工id和姓名
+	 * @return List<MainEmployee> 员工集合
+	 */
+	@Override
+	public List<MainEmployee> queryEmpIdAndName() {
+		return productAndRecipeMapper.queryEmpIdAndName();
+	}
+	/**
+	 * 方法功能：添加配方
+	*/
+	@Override
+	public void addRecipe(MainRecipe recipe) {
+		productAndRecipeMapper.addRecipe(recipe);
+		productAndRecipeMapper.updateRecipeDetailRecipeId(recipe.getRecipeId());
 	}
 
 }

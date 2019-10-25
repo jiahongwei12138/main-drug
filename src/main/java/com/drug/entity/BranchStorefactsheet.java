@@ -6,7 +6,7 @@ public class BranchStorefactsheet {
 	private String bsfAddress;
 	private String bsfTel;
 	private Double RegisiterMoney;
-	private Integer staffId;
+	private String staffName;
 	private String pactState;
 	private String filed1;
 	private String filed2;
@@ -40,11 +40,12 @@ public class BranchStorefactsheet {
 	public void setRegisiterMoney(Double regisiterMoney) {
 		RegisiterMoney = regisiterMoney;
 	}
-	public Integer getStaffId() {
-		return staffId;
+	
+	public String getStaffName() {
+		return staffName;
 	}
-	public void setStaffId(Integer staffId) {
-		this.staffId = staffId;
+	public void setStaffName(String staffName) {
+		this.staffName = staffName;
 	}
 	public String getPactState() {
 		return pactState;

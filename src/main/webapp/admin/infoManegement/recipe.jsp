@@ -30,18 +30,22 @@
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 0px;">
   <legend>添加原料配方</legend>
 </fieldset>
-	<label width="120px" style="margin:0 5px 0 0px;font-size:13px;">请输入原料名</label>
+	<label width="120px" style="margin:0 5px 0 0px;font-size:13px;">原料名</label>
       <div class="layui-input-inline">
-        <input type="text" name="username" lay-verify="number" placeholder="请输入" autocomplete="off" class="layui-input">
+       <select id="rawMaterialId"  lay-filter="deptCheck" name="rawMaterialId" lay-verify="">
+		</select>
       </div>
 	
-	<label width="120px" style="margin:0 5px 0 20px;font-size:13px;">原料克重</label>
+	<label width="120px" style="margin:0 5px 0 20px;font-size:13px;">净用量（g）</label>
 	<div class="layui-input-inline">
-		 <input type="text" name="username" lay-verify="number" placeholder="请输入" autocomplete="off" class="layui-input">
+		 <input type="text" id="realityDosage" name="realityDosage" lay-verify="number" placeholder="请输入" autocomplete="off" class="layui-input">
+	</div>
+	<label width="120px" style="margin:0 5px 0 20px;font-size:13px;">单位（g）</label>
+	<div class="layui-input-inline">
+		 <input type="text" id="unit" name="unit" lay-verify="number" placeholder="请输入" autocomplete="off" class="layui-input">
 	</div>
 	<button type="button" lay-event="addRecipe" class="layui-btn layui-btn-normal">添加</button>
   </div>
-	
 </script>
 
 		<script type="text/html" id="barDemo">
@@ -159,9 +163,7 @@
 											}else{
 												layer.msg("添加成功", {time:2000, icon:1, shift:3},function(){
 													 layer.close(index);
-													/* table.reload('test', {
-														  url: '${APP_PATH}/queryAllEmp.do'
-													}); */
+													 table.reload('demo'); 
 												});
 											}
 										}
@@ -185,18 +187,49 @@
 							break;
 						case 'updateDetails':	//新增配方
 						if(data.length == 1){
-							/* //监听事件
+							$.ajax({
+								type:"post",
+								url:"${APP_PATH}/queryRawMaterial.do",
+								success:function(result){
+									var content='<option value="">请选择原材料</option>';
+									$.each(result,function(index,item){
+					    				content+='<option id="opt'+item.rawMaterialId+'" value="'+item.rawMaterialId+'">'+item.rawMaterialName+'</option>';
+					    			});
+					    			$("#rawMaterialId").html(content);
+					    			//form.render('select'); 
+								}
+							});
+							 //监听事件
 							table.on('toolbar(detailsTable)', function(obj){
 							  var checkStatus = table.checkStatus(obj.config.id);
 							  switch(obj.event){
 							    case 'addRecipe':
-							      layer.msg('添加');
+							      var rawMaterialId=$("#rawMaterialId").val();
+							      var realityDosage=$("#realityDosage").val();
+							      var unit=$("#unit").val();
+							      $.ajax({
+							    	  type:"post",
+							    	  url:"${APP_PATH}/addRecipedetail.do",
+							    	  data:{
+							    		  "rawMaterialId":rawMaterialId,
+							    		  "realityDosage":realityDosage,
+							    				   "unit":unit,
+							    	  },
+							    	  success:function(result){
+							    		    if(result==false){
+												layer.msg("添加失败", {time:3000, icon:5, shift:6});
+											}else{
+												table.reload('detailsTable');
+											}
+							    	  }
+							    	  
+							      });
 							    break;
 							  };
-							}); */
+							});
 							table.render({
 								elem: '#detailsTable',
-								url: '../json/demo1.json', //数据接口
+								url: '${APP_PATH}/queryRecipedetail.do', //数据接口
 								title: '用户表',
 								totalRow: false, //开启合计行
 								toolbar :"#toolbarDemo2",
@@ -204,22 +237,19 @@
 									[ //表头
 										{
 											type: 'checkbox',
+											field: 'reDetailId',
 											fixed: 'left'
 										}, {
-											field: 'id',
-											title: '原料编号',
-											sort: true,
-										}, {
-											field: 'username',
+											field: 'rawMaterialName',
 											title: '原料名称',
 											sort: true
 										}, {
-											field: 'experience',
-											title: '原料量',
+											field: 'realityDosage',
+											title: '禁用量',
 											sort: true,
 										}, {
-											field: 'sex',
-											title: '仓库剩余量',
+											field: 'unit',
+											title: '单位',
 											sort: true
 										}, {
 											title: '操作',
@@ -244,6 +274,19 @@
 											  }
 											}, function(layero){
 												layer.close(index2);
+												console.log($("#empId"));
+												$.ajax({
+													type:"post",
+													url:"${APP_PATH}/queryEmpIdAndName.do",
+													success:function(result){
+														var content='<option value="">制定人</option>';
+														$.each(result,function(index,item){
+										    				content+='<option id="opt'+item.empId+'" value="'+item.empId+'">'+item.empName+'</option>';
+										    			});
+										    			$("#empId").html(content);
+										    			form.render('select');
+													}
+												});
 												var index88 = layer.open({
 													  type: 1,
 													  shade: 0.25,
@@ -254,9 +297,26 @@
 														  },
 													  btn: ['确认', '取消'],
 													  yes: function(layero){
-														  layer.close(index);
-														  layer.close(index88);
-														  layer.msg('配方制定成功');
+														  var proId=data[0].proId;
+														  $.ajax({
+															  type:"post",
+															  url:"${APP_PATH}/addRecipe.do",
+															  data:$("#formIdOne2").serialize()+"&proId="+proId,
+															  success:function(result){
+																  if(result==false){
+																		layer.msg("制定失败", {time:3000, icon:5, shift:6});
+																	}else{
+																		layer.msg("制定成功", {time:3000, icon:1, shift:3});
+																	}
+																  table.reload('demo',{
+																	  url:"${APP_PATH}/queryProduct.do"
+																  });
+																  layer.close(index);
+																  layer.close(index88);
+															  }
+														  });
+														  /* 
+														  layer.msg('配方制定成功'); */
 														}
 													  ,btn2: function(index, layero){
 															  layer.close(index88);
@@ -547,25 +607,28 @@
 
 <form class="layui-form" lay-filter="formAuthority2" id="formIdOne2">	  
 <div class="layui-inline" style="padding-left:0px;margin-top:20px;">
+	<label width="120px" style="margin:0 5px 0 20px;font-size:13px;">制定配方</label>
+	<div class="layui-input-inline">
+		<input type="text" name="recipeName" class="layui-input" placeholder="请输入名称">
+	</div>
+</div>
+<div class="layui-inline" style="padding-left:0px;margin-top:20px;">
 	<label width="120px" style="margin:0 5px 0 20px;font-size:13px;">制定日期</label>
 	<div class="layui-input-inline">
-		<input type="text" class="layui-input" id="test66" placeholder="yyyy-MM-dd">
+		<input type="text" name="createTime" class="layui-input" id="test66" placeholder="yyyy-MM-dd">
 	</div>
 </div>
 <div style="padding-left:0px;margin-top:15px;">
 <label width="120px" style="margin:0 5px 0 20px;font-size:13px;">制定人员</label>
 	<div class="layui-input-inline">
-		<select name="city" lay-verify="" lay-search="">
-  			<option value="">制定人</option>
-  			<option value="010">张三</option>
-  			<option value="021">李四</option>
- 			<option value="0571">王五</option>
+		<select name="empId" id="empId" lay-verify="" lay-search="">
+  			
 		</select>  
 	</div>
 <div class="layui-input-inline" style="margin-top:10px;">
-				<label style="margin:0 10px 0 20px;font-size:13px;">计划描述</label>
+				<label style="margin:0 10px 0 20px;font-size:13px;">配方描述</label>
 				<div class="layui-input-inline" style="margin-left:-5px;">
-      				<textarea name="des" required lay-verify="required" cols="35px" rows="4px" placeholder="请输入计划描述" class="layui-textarea"></textarea>
+      				<textarea name="recipeDesc" required lay-verify="required" cols="35px" rows="4px" placeholder="请输入计划描述" class="layui-textarea"></textarea>
     			</div>
 			</div>	
 </div>
@@ -587,7 +650,7 @@
 <div style="padding-left:0px;margin-top:15px;">
 <label width="120px" style="margin:0 5px 0 20px;font-size:13px;">审核人员</label>
 	<div class="layui-input-inline">
-		<select name="city" lay-verify="" lay-search="">
+		<select name="city"  lay-verify="" lay-search="">
   			<option value="">制定人</option>
   			<option value="010">张三</option>
   			<option value="021">李四</option>
