@@ -55,7 +55,7 @@
 
 
 		<script type="text/html" id="barDemo2">
-			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="">删除</a>
+			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="deleteRecipe">删除</a>
 		</script>
 		<script>
 			layui.use(['table', 'laydate', 'form'], function() {
@@ -259,6 +259,29 @@
 										]
 									]
 								});
+							//监听工具条
+							  table.on('tool(detailsTable)', function(obj){
+							    var data = obj.data;
+							   if(obj.event === 'deleteRecipe'){
+								   layer.confirm('确认删除该原料吗？', function(index){
+								    	  $.ajax({
+												type:"post",
+												url:"${APP_PATH}/deletRecipeById.do",
+												data:{
+													"reDetailId":data.reDetailId
+												},
+												success:function(result){
+													if(result==false){
+														layer.msg("删除失败", {time:3000, icon:5, shift:6});
+													}else{
+														layer.msg("删除成功", {time:3000, icon:1, shift:3});
+														table.reload('detailsTable');
+													}
+												}
+											});
+							    });
+							   }
+							  });
 								var index = layer.open({
 									title: '新增原料配方',
 									type: 1, //Page层类型
@@ -493,9 +516,51 @@
 						});
 						
 					}else if(layEvent === 'manageAe') {	//管理配方
+						 $.ajax({
+							type:"post",
+							url:"${APP_PATH}/queryRawMaterial.do",
+							success:function(result){
+								var content='<option value="">请选择原材料</option>';
+								$.each(result,function(index,item){
+				    				content+='<option id="opt'+item.rawMaterialId+'" value="'+item.rawMaterialId+'">'+item.rawMaterialName+'</option>';
+				    			});
+				    			$("#rawMaterialId").html(content);
+				    			//form.render('select'); 
+							}
+						});
+						 //监听事件
+							table.on('toolbar(detailsTable)', function(obj){
+							  var checkStatus = table.checkStatus(obj.config.id);
+							  switch(obj.event){
+							    case 'addRecipe':
+							      var rawMaterialId=$("#rawMaterialId").val();
+							      var realityDosage=$("#realityDosage").val();
+							      var unit=$("#unit").val();
+							      $.ajax({
+							    	  type:"post",
+							    	  url:"${APP_PATH}/addRecipedetail.do",
+							    	  data:{
+							    		  "rawMaterialId":rawMaterialId,
+							    		  "realityDosage":realityDosage,
+							    				   "unit":unit,
+							    				   "recipeId":data.mainRecipe.recipeId
+							    	  },
+							    	  success:function(result){
+							    		    if(result==false){
+												layer.msg("添加失败", {time:3000, icon:5, shift:6});
+											}else{
+												table.reload('detailsTable');
+											}
+							    	  }
+							    	  
+							      });
+							    break;
+							  };
+							});
+						 
 						table.render({
 							elem: '#detailsTable',
-							url: '../json/demo1.json', //数据接口
+							url: '${APP_PATH}/queryRecipedetail.do?recipeId='+data.mainRecipe.recipeId, //数据接口
 							title: '用户表',
 							totalRow: true, //开启合计行
 							toolbar :"#toolbarDemo2",
@@ -503,31 +568,30 @@
 								[ //表头
 									{
 										type: 'checkbox',
+										field: 'reDetailId',
 										fixed: 'left'
 									}, {
-										field: 'id',
-										title: '原料编号',
-										sort: true,
-									}, {
-										field: 'username',
+										field: 'rawMaterialName',
 										title: '原料名称',
 										sort: true
 									}, {
-										field: 'experience',
-										title: '原料量',
+										field: 'realityDosage',
+										title: '禁用量',
 										sort: true,
 									}, {
-										field: 'sex',
-										title: '仓库剩余量',
+										field: 'unit',
+										title: '单位',
 										sort: true
 									}, {
 										title: '操作',
 										align: 'center',
 										toolbar: '#barDemo2'
 									}
+									]
 								]
-							]
 						});
+						
+						
 						
 						layer.open({
 							title: '原料配方',

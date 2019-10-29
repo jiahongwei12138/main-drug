@@ -85,10 +85,11 @@ public class productAndRecipeServiceImpl implements ProductAndRecipeService{
 	/**
 	 * 方法功能：查询配方详情中配方id为0
 	 * @return List<MainRecipedetail> 配方详情集合
+	 * @param recipeId配方id
 	 */
 	@Override
-	public List<MainRecipedetail> queryRecipedetail() {
-		return productAndRecipeMapper.queryRecipedetail();
+	public List<MainRecipedetail> queryRecipedetail(Integer recipeId) {
+		return productAndRecipeMapper.queryRecipedetail(recipeId);
 	}
 	/**
 	 * 方法功能：查询员工id和姓名
@@ -105,6 +106,14 @@ public class productAndRecipeServiceImpl implements ProductAndRecipeService{
 	public void addRecipe(MainRecipe recipe) {
 		productAndRecipeMapper.addRecipe(recipe);
 		productAndRecipeMapper.updateRecipeDetailRecipeId(recipe.getRecipeId());
+	}
+	/**
+	 * 方法功能：删除配方详情
+	 * @param reDetailId 配方详情id
+	 */
+	@Override
+	public void deletRecipeById(Integer reDetailId) {
+		productAndRecipeMapper.deletRecipeById(reDetailId);
 	}
 
 }

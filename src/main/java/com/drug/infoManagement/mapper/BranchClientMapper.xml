@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.drug.infoManagement.mapper.BranchClientMapper">
+
+	<select id="getProduct" resultType="MainProduct">
+		SELECT p.*,h.`hqtId`,h.`hqtName` FROM main_product p 
+		INNER JOIN main_headquarters h
+		ON p.`hqtId`=h.`hqtId`
+	</select>
+</mapper>

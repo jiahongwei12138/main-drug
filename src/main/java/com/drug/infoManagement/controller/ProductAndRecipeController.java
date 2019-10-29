@@ -107,6 +107,9 @@ public class ProductAndRecipeController {
 	@ResponseBody
 	public boolean addRecipedetail(MainRecipedetail mainRecipedetail) {
 		try {
+			if (mainRecipedetail.getRecipeId()==null) {
+				mainRecipedetail.setRecipeId(0);
+			}
 			productAndRecipeService.addRecipedetail(mainRecipedetail);
 			return true;
 		} catch (Exception e) {
@@ -117,11 +120,15 @@ public class ProductAndRecipeController {
 	/**
 	 * 方法功能：查询配方详情中配方id为0
 	 * @return Map<String, Object> 配方详情集合
+	 * @param recipeId配方id
 	 */
 	@RequestMapping("/queryRecipedetail")
 	@ResponseBody
-	public Map<String, Object> queryRecipedetail() {
-		List<MainRecipedetail> recipedetails=productAndRecipeService.queryRecipedetail();
+	public Map<String, Object> queryRecipedetail(Integer recipeId) {
+		if (recipeId==null) {
+			recipeId=0;
+		}
+		List<MainRecipedetail> recipedetails=productAndRecipeService.queryRecipedetail(recipeId);
 		Map<String, Object> map = ToolClass.responseByData(recipedetails, recipedetails.size());
 		return map;
 	}
@@ -144,6 +151,22 @@ public class ProductAndRecipeController {
 	public boolean addRecipe(MainRecipe recipe) {
 		try {
 			productAndRecipeService.addRecipe(recipe);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	/**
+	 * 方法功能：删除配方详情
+	 * @param reDetailId 配方详情id
+	 * @return boolean 删除结果  true：删除成功  false:删除失败
+	 */
+	@RequestMapping("/deletRecipeById")
+	@ResponseBody
+	public boolean deletRecipeById(Integer reDetailId) {
+		try {
+			productAndRecipeService.deletRecipeById(reDetailId);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -50,8 +50,9 @@ public interface ProductAndRecipeMapper {
 	/**
 	 * 方法功能：查询配方详情中配方id为0
 	 * @return List<MainRecipedetail> 配方详情集合
+	 * @param recipeId配方id
 	 */
-	List<MainRecipedetail> queryRecipedetail();
+	List<MainRecipedetail> queryRecipedetail(Integer recipeId);
 	/**
 	 * 方法功能：查询员工id和姓名
 	 * @return List<MainEmployee> 员工集合
@@ -67,5 +68,10 @@ public interface ProductAndRecipeMapper {
 	 * @param recipeId 配方id
 	 */
 	void updateRecipeDetailRecipeId(Integer recipeId);
+	/**
+	 * 方法功能：删除配方详情
+	 * @param reDetailId 配方详情id
+	 */
+	void deletRecipeById(Integer reDetailId);
 
 }
