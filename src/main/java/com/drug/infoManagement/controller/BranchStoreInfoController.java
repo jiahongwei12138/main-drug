@@ -5,18 +5,19 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-/**
- * 类描述：分店信息管理
- * @author jhw
- * @dateTime 2019年10月24日上午9:55:03
- * @version 1.0
- */
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.drug.entity.BranchStorefactsheet;
 import com.drug.infoManagement.service.BranchStoreInfoService;
 import com.drug.util.ToolClass;
+/**
+ * 类描述：分店信息管理
+ * @author jhw
+ * @dateTime 2019年10月24日上午9:55:03
+ * @version 1.0
+ */
 @Controller
 public class BranchStoreInfoController {
 
