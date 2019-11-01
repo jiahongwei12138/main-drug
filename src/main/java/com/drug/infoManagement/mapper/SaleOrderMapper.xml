@@ -18,14 +18,13 @@
 				AND b.`bsfName`=#{branchStoreName}
 			</if>
 		</where>
-		
 	</select>
 	<!-- 销售订单详情查询 -->
 	<select id="querySaleOrderDetail" parameterType="Integer" resultType="MainSaleOrderdetail">
 		SELECT p.`proBatchNumber`,p.`proName`,p.`retailPrice`,s.* 
 		FROM main_saleorderdetail s
 		INNER JOIN main_product p
-		ON s.`proId`=p.`proId` WHERE orderId=1
+		ON s.`proId`=p.`proId` WHERE orderId=#{orderId}
 	</select>
 	<!-- 根据订单id删除订单详情 -->
 	<delete id="deleteSaleOrderDetailById" parameterType="Integer">

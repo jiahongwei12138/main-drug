@@ -21,6 +21,6 @@ public interface BranchStoreInfoMapper {
 	 * 方法功能：查询分店
 	 * @return List<BranchStorefactsheet> 分店集合
 	 */
-	List<BranchStorefactsheet> queryBranchStorefactsheet();
+	List<BranchStorefactsheet> queryBranchStorefactsheet(String pactState);
 
 }

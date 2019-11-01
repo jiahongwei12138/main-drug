@@ -49,8 +49,8 @@ public class BranchStoreInfoController {
 	 */
 	@RequestMapping("/queryBranchStorefactsheet")
 	@ResponseBody
-	public Map<String, Object> queryBranchStorefactsheet() {
-		List<BranchStorefactsheet> branchStores=branchStoreInfoService.queryBranchStorefactsheet();
+	public Map<String, Object> queryBranchStorefactsheet(String pactState) {
+		List<BranchStorefactsheet> branchStores=branchStoreInfoService.queryBranchStorefactsheet(pactState);
 		Map<String, Object> map = ToolClass.responseByData(branchStores, branchStores.size());
 		return map;
 	}

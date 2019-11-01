@@ -20,6 +20,6 @@ public interface BranchStoreInfoService {
 	 * 方法功能：查询分店
 	 * @return List<BranchStorefactsheet> 分店集合
 	 */
-	public List<BranchStorefactsheet> queryBranchStorefactsheet();
+	public List<BranchStorefactsheet> queryBranchStorefactsheet(String pactState);
 
 }

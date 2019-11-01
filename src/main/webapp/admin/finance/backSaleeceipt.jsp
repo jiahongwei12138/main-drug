@@ -59,22 +59,22 @@ label{
 		 	table2 =  table.render({
 		    elem: '#demo'
 		    ,height:563
-		    ,url:  '${APP_PATH}/querySaleOrder.do'//数据接口
-		    ,title: '总店销售单'
+		    ,url:  '${APP_PATH}/queryBranchBackSaleOrder.do'//数据接口
+		    ,title: '分店退货单'
 		    ,page: true //开启分页
 		    ,toolbar: '#toolbarDemo' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
 		    ,totalRow: true //开启合计行
 		    ,cols: [[ //表头
-		    	{type:'checkbox',field: 'orderId', fixed: 'left'}
-		        ,{field: 'orderNum', title: '订单编号', width:150, sort: true,unresize:true}
-		        ,{field: 'payTime', title: '下单日期', unresize:true}
-		        ,{field: 'getMoneyState', title: '收款状态', unresize:true}
-		        ,{field: 'sendTime', title: '发货时间', unresize:true}
-		        ,{field: 'receiveTime', title: '收货时间', unresize:true}
+		    	{type:'checkbox',field: 'backSaleId', fixed: 'left'}
+		        ,{field: 'backOrderNum', title: '订单编号', width:150, sort: true,unresize:true}
+		        ,{field: 'backTime', title: '退货日期', unresize:true}
+		        ,{field: 'payMoneyState', title: '退款状态', unresize:true}
+		        ,{field: 'backReason', title: '退货原因', unresize:true}
+		        ,{field: 'inStoreCheckState', title: '质检状态', unresize:true}
 		        ,{field: 'checkState', title: '审核状态', unresize:true}
-		        ,{field: 'outStoreState', title: '出库状态', unresize:true}
+		        ,{field: 'inStoreState', title: '入库状态', unresize:true}
 		        ,{field: 'bsfName', title: '分店名称', unresize:true}
-		        ,{field: 'payrMoney', title: '付款金额', unresize:true}
+		        ,{field: 'backMoney', title: '退款金额', unresize:true}
 		        ,{
 		    		fixed: 'right', title:'操作',width:178, align:'center', toolbar: '#barDemo',unresize:true
 		          }
@@ -120,7 +120,6 @@ label{
 		 	    switch(obj.event){
 		 	      case 'getCheckData':
 		 	        var data = checkStatus.data;
-		 	        console.log(data);
 		 	        if(data.length==0){
 		 	        	layer.msg("请选择要审核的订单", {time:3000, icon:2, shift:6});
 		 	        }else if(data.length>1){
@@ -130,10 +129,9 @@ label{
 		 	        }else{
 		 	        	$.ajax({
 		 	        		type:"post",
-		 	        		url:"${APP_PATH}/checkOrder.do",
+		 	        		url:"${APP_PATH}/checkbackOrder.do",
 		 	        		data:{
-		 	        			"orderId":data[0].orderId,
-		 	        			"bpoId":data[0].bpoId
+		 	        			"backSaleId":data[0].backSaleId
 		 	        		},
 		 	        		success:function(result){
 		 	        			if(result==false){
@@ -152,14 +150,41 @@ label{
 		 	    	  var branchStoreName=$("#branchStore").val();
 		 	    	  var checkState=$("#checkState").val();
 		 	    	  table.reload('demo', {
-							url: '${APP_PATH}/querySaleOrder.do',
+							url: '${APP_PATH}/queryBranchBackSaleOrder.do',
 						  	where: { //设定异步数据接口的额外参数，任意设
-						    	"payTime": payTime,
-						    	"branchStoreName": branchStoreName,
+						    	"backTime": payTime,
+						    	"bsfName": branchStoreName,
 						    	"checkState": checkState
 						  	}
 					  }); //只重载数据
 		 	    	  break;
+		 	      case 'getCheckOrder':
+		 	    	 var data = checkStatus.data;
+			 	        if(data.length==0){
+			 	        	layer.msg("请选择要质检的订单", {time:3000, icon:2, shift:6});
+			 	        }else if(data.length>1){
+			 	        	layer.msg("请选择一条订单", {time:3000, icon:2, shift:6});
+			 	        }else if(data[0].inStoreCheckState=='已质检'){
+			 	        	layer.msg("该订单已质检，请重新选择！", {time:3000, icon:2, shift:6});
+			 	        }else{
+			 	        	$.ajax({
+			 	        		type:"post",
+			 	        		url:"${APP_PATH}/checkOrderInStoreCheckState.do",
+			 	        		data:{
+			 	        			"backSaleId":data[0].backSaleId
+			 	        		},
+			 	        		success:function(result){
+			 	        			if(result==false){
+										layer.msg("质检失败", {time:3000, icon:5, shift:6});
+									}else{ 
+										layer.msg("质检成功", {time:3000, icon:1, shift:3},function(){
+											table.reload('demo');
+										});
+									}
+			 	        		}
+			 	        	});
+			 	        }
+		 	          break;
 		 	    };
 		 	  });
 	 	//监听头工具栏事件
@@ -182,9 +207,9 @@ label{
 				layer.confirm('真的删除行么',function(index) {
 					$.ajax({
 						type:"post",
-						url:"${APP_PATH}/deleteSaleOrder.do",
+						url:"${APP_PATH}/deleteBackSaleOrder.do",
 						data:{
-							"orderId":data.orderId
+							"backSaleId":data.backSaleId
 						},
 						success:function(result){
 							if(result==false){
@@ -210,6 +235,7 @@ label{
 				});
 			} else if (layEvent === 'edit') { //编辑
 				var data = obj.data;//行数据、
+				console.log(data);
 				//console.log(data);
 				//iframe层
 				layer.open({
@@ -222,7 +248,7 @@ label{
 					success: function(layero, index){
 						table.render({
 							elem: '#detailsTable',
-							url: '${APP_PATH}/querySaleOrderDetail.do?orderId='+data.orderId, //数据接口
+							url: '${APP_PATH}/queryBackSaleOrderDetail.do?backSaleId='+data.backSaleId , //数据接口
 							title: '用户表',
 							totalRow: false, //开启合计行
 							cols: [[ //表头
@@ -230,7 +256,7 @@ label{
 						        , */{field: 'proBatchNumber', title: '药品编号', width:150, sort: true,unresize:true}
 						        ,{field: 'proName', title: '药品名称', unresize:true}
 						        ,{field: 'retailPrice', title: '药品单价', unresize:true}
-						        ,{field: 'proNum', title: '购买数量', unresize:true}
+						        ,{field: 'proNum', title: '退货数量', unresize:true}
 						        ,{field: 'proPrice', title: '价格小计', unresize:true}
 						        /* ,{
 						    		fixed: 'right', title:'操作',width:178, align:'center', toolbar: '#barDemo',unresize:true
@@ -253,7 +279,7 @@ label{
 
  <script type="text/html" id="toolbarDemo">
 <div class="layui-inline" style="margin-left:20px;">
-					<label >下单日期：</label>
+					<label >退货日期：</label>
 				<div class="layui-input-inline" style="margin-left:5px;">
 					<input type="text"  class="layui-input" id="test5" placeholder="年--月--日 ">
 				</div>
@@ -282,6 +308,7 @@ label{
 		<div class="layui-inline" >
 			<button class="layui-btn layui-btn-normal" lay-event="searchOrder">搜索</button>	
  	<button class="layui-btn layui-btn-normal" lay-event="getCheckData">审核</button>	
+ 	<button class="layui-btn layui-btn-normal" lay-event="getCheckOrder">质检</button>	
 		</div>    
 
       </div>

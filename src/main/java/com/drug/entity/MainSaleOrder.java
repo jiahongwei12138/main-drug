@@ -15,7 +15,7 @@ public class MainSaleOrder {
 	private Integer empId;//销售员id（总店员工id）
 	private Integer bsfId;//分店id（分店下单显示分店名称）
 	private String bsfName;//分店名称
-	private Integer field1;//字段1
+	private String bpoId;//采购订单id
 	private Integer field2;//字段2
 	
 	
@@ -97,11 +97,12 @@ public class MainSaleOrder {
 	public void setBsfId(Integer bsfId) {
 		this.bsfId = bsfId;
 	}
-	public Integer getField1() {
-		return field1;
+	
+	public String getBpoId() {
+		return bpoId;
 	}
-	public void setField1(Integer field1) {
-		this.field1 = field1;
+	public void setBpoId(String bpoId) {
+		this.bpoId = bpoId;
 	}
 	public Integer getField2() {
 		return field2;

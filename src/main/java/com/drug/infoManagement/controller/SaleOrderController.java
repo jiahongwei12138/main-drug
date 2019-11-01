@@ -13,6 +13,7 @@ import com.drug.entity.MainSaleOrder;
 import com.drug.entity.MainSaleOrderdetail;
 import com.drug.infoManagement.service.BranchStoreInfoService;
 import com.drug.infoManagement.service.SaleOrderService;
+import com.drug.util.HttpClientUtil;
 import com.drug.util.ToolClass;
 /**
  * 类描述：总店销售订单
@@ -71,9 +72,9 @@ public class SaleOrderController {
 	 */
 	@RequestMapping("/checkOrder")
 	@ResponseBody
-	public Object checkOrder(Integer orderId) {
+	public Object checkOrder(Integer orderId,String bpoId) {
 		try {
-			saleOrderService.checkOrder(orderId);
+			saleOrderService.checkOrder(orderId,bpoId);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

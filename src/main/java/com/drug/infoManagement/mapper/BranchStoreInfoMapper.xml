@@ -8,6 +8,11 @@
 	</insert>
 	
 	<select id="queryBranchStorefactsheet" resultType="BranchStorefactsheet">
-		select * from branch_storefactsheet
+		SELECT * FROM branch_storefactsheet 
+		<where>
+			<if test="_parameter!=null and _parameter!=''">
+				pactState=#{pactState}
+			</if>
+		</where>
 	</select>
 </mapper>

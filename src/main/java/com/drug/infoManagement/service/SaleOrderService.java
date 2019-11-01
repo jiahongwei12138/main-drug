@@ -32,6 +32,6 @@ public interface SaleOrderService {
 	 * 方法功能：审核订单
 	 * @param orderId 订单id
 	 */
-	void checkOrder(Integer orderId);
+	void checkOrder(Integer orderId,String bpoId);
 
 }

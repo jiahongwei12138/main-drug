@@ -33,8 +33,8 @@ public class BranchStoreInfoServiceImpl implements BranchStoreInfoService{
 	 * @return List<BranchStorefactsheet> 分店集合
 	 */
 	@Override
-	public List<BranchStorefactsheet> queryBranchStorefactsheet() {
-		return branchStoreInfoMapper.queryBranchStorefactsheet();
+	public List<BranchStorefactsheet> queryBranchStorefactsheet(String pactState) {
+		return branchStoreInfoMapper.queryBranchStorefactsheet(pactState);
 	}
 
 

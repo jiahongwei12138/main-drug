@@ -1,8 +1,11 @@
 package com.drug.infoManagement.service.impl;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +14,7 @@ import com.drug.entity.MainSaleOrder;
 import com.drug.entity.MainSaleOrderdetail;
 import com.drug.infoManagement.mapper.SaleOrderMapper;
 import com.drug.infoManagement.service.SaleOrderService;
+import com.drug.util.HttpClientUtil;
 /**
  * 类描述：总店销售管理
  * @author jhw
@@ -56,8 +60,19 @@ public class SaleOrderServiceImpl implements SaleOrderService {
 	 * @param orderId 订单id
 	 */
 	@Override
-	public void checkOrder(Integer orderId) {
-		saleOrderMapper.checkOrder(orderId);
+	public void checkOrder(Integer orderId,String bpoId) {
+		try {
+			//修改订单审核状态
+			saleOrderMapper.checkOrder(orderId);
+			//回应分店采购订单申请
+			Properties prop=new Properties();
+			InputStream in = this.getClass().getClassLoader().getResourceAsStream("system.properties");
+			prop.load(in);
+			String url = prop.getProperty("branchStoreCheckStateUrl");
+			HttpClientUtil.PostOneParam(url, bpoId);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

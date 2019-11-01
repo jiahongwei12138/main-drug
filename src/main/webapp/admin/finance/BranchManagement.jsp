@@ -260,8 +260,8 @@ layui.use(['table','form','laydate','jquery'], function(){
     <div class="layui-input-inline">
       <select name="pactState">
         <option value="未签订">是否签订</option>
-        <option value="签订">签订</option>
-        <option value="不签订">不签订</option>
+        <option value="签订">未签订</option>
+        <option value="不签订">已签订</option>
       </select>
     </div>
     </div>
