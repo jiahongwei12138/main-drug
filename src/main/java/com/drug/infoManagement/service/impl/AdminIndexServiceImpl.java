@@ -13,6 +13,7 @@ import com.drug.entity.MainModel;
 import com.drug.infoManagement.mapper.AdminIndexMapper;
 import com.drug.infoManagement.mapper.EmployeeMapper;
 import com.drug.infoManagement.service.AdminIndexService;
+import com.drug.util.MD5Util;
 /**
  * 类描述：后台首页
  * @author jhw
@@ -63,6 +64,10 @@ public class AdminIndexServiceImpl implements AdminIndexService {
 	 */
 	@Override
 	public MainEmployee login(MainEmployee mainEmployee,HttpSession session) {
+		//修改员工中的明文密码
+		String empPwd = mainEmployee.getEmpPwd();
+		//加密
+		mainEmployee.setEmpPwd(MD5Util.digest(empPwd));
 		//根据员工对象中的账号和密码查询员工对象
 		MainEmployee employee = adminIndexMapper.login(mainEmployee);
 		//将员工对象保存在会话域中

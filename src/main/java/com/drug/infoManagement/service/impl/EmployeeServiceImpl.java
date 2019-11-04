@@ -21,6 +21,7 @@ import com.drug.entity.MainEmployee;
 import com.drug.entity.MainRole;
 import com.drug.infoManagement.mapper.EmployeeMapper;
 import com.drug.infoManagement.service.EmployeeService;
+import com.drug.util.MD5Util;
 /**
  * 类描述：员工管理
  * @author jhw
@@ -47,6 +48,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	@Override
 	public void addEmployee(MainEmployee mainEmployee) {
+		//设置员工初始密码为123456并加密
+		String pwd = MD5Util.digest("123456");
+		mainEmployee.setEmpPwd(pwd);
 		employeeMapper.addEmployee(mainEmployee);
 	}
 	/**
@@ -118,6 +122,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 			for (int i = 1; i <= sheet.getLastRowNum(); i++) {
 				//创建员工对象
 				MainEmployee mainEmployee=new MainEmployee();
+				//设置初始密码并加密
+				mainEmployee.setEmpPwd(MD5Util.digest("123456"));
 				for (int j = 0; j < row.getLastCellNum(); j++) {
 					//获取第i行第j列的内容并转换为字符串
 					String value=sheet.getRow(i).getCell(j).toString();

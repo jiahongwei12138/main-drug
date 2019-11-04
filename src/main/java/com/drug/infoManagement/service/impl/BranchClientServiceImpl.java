@@ -43,7 +43,7 @@ public class BranchClientServiceImpl implements BranchClientService{
 	 */
 	@Override
 	public void addSaleOrder(Integer bsfId, List<BranchPurchaseOrderDetails> branchPurchaseOrderDetails) {
-		if (branchPurchaseOrderDetails!=null) {
+		if (branchPurchaseOrderDetails!=null &&branchPurchaseOrderDetails.size()>0) {
 			//付款金额
 			double payrMoney=0;
 			//采购订单id
@@ -87,14 +87,14 @@ public class BranchClientServiceImpl implements BranchClientService{
 	 */
 	@Override
 	public void addBackSale(Integer bsfId, List<BranchPurchaseReturnDetails> branchPurchaseReturnDetails) {
-		if (branchPurchaseReturnDetails!=null) {
+		if (branchPurchaseReturnDetails!=null && branchPurchaseReturnDetails.size()>0) {
 			//退款金额
 			double backMoney=0;
 			//采购退货订单id
 			Integer bprId=0;
 			for (BranchPurchaseReturnDetails b : branchPurchaseReturnDetails) {
 				//累加退款总金额
-				backMoney+=b.getProPrice();
+				backMoney+=b.getBprdSubtotal();
 				//获取采购退货单id
 				bprId=b.getBprId();
 			}

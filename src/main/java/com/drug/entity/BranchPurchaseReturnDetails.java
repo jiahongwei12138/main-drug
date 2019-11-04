@@ -10,9 +10,17 @@ public class BranchPurchaseReturnDetails {
 	private Integer bprdId;//退货详情主键id
 	private Integer proId;//商品id(商品表主键id)
 	private String proName;//商品名称
-	private Double proPrice;//商品价格小计
+	private Double proPrice;//商品价格
+	private Double bprdSubtotal;//商品价格
 	private Integer bprdQuantity;//商品数量
 	private Integer bprId;//退货单ID(退货订单表主键id)
+	
+	public Double getBprdSubtotal() {
+		return bprdSubtotal;
+	}
+	public void setBprdSubtotal(Double bprdSubtotal) {
+		this.bprdSubtotal = bprdSubtotal;
+	}
 	public Integer getBprdId() {
 		return bprdId;
 	}
