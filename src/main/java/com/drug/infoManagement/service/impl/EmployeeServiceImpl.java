@@ -171,5 +171,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 			return false;
 		}
 	}
+	/**
+	 *方法功能：重置员工密码
+	 * @param empId 员工id
+	 */
+	@Override
+	public void resetEmpPwd(Integer empId) {
+		String pwd = MD5Util.digest("123456");
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("pwd", pwd);
+		map.put("empId", empId);
+		employeeMapper.resetEmpPwd(map);
+	}
 
 }

@@ -38,5 +38,10 @@ public interface BranchBackSaleMapper {
 	 * @return List<MainBranchbacksaledetail> 退货单详情集合
 	 */
 	List<MainBranchbacksaledetail> queryBackSaleOrderDetail(Integer backSaleId);
+	/**
+	 * 方法功能：删除退货单详情
+	 * @param backSaleId 退货单id
+	 */
+	void deleteBackSaleOrderDetial(Integer backSaleId);
 
 }

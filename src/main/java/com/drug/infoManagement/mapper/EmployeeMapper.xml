@@ -60,4 +60,8 @@
 			(#{emp.empName},#{emp.empPwd},#{emp.empAge},#{emp.empSex},#{emp.empTel},#{emp.joinTime},#{emp.studyUndergo})
 		</foreach>
 	</insert>
+	
+	<update id="resetEmpPwd" parameterType="Map">
+		update main_employee set empPwd=#{pwd} where empId=#{empId}
+	</update>
 </mapper>

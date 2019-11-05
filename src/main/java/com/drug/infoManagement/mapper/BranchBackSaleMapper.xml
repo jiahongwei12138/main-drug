@@ -31,6 +31,10 @@
 	<delete id="deleteBackSaleOrder">
 		delete from main_branchbacksale where backSaleId=#{backSaleId}
 	</delete>
+	<!-- 根据退货单id删除订单详情 -->
+	<delete id="deleteBackSaleOrderDetial" parameterType="Integer">
+		delete from main_branchbacksaledetail where backSaleId=#{backSaleId}
+	</delete>
 	<!-- 查询退货单详情 -->
 	<select id="queryBackSaleOrderDetail" parameterType="Integer" resultType="MainBranchbacksaledetail">
 		SELECT p.`proBatchNumber`,p.`proName`,p.`retailPrice`,s.* 

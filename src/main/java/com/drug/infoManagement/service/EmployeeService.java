@@ -50,5 +50,10 @@ public interface EmployeeService {
 	 * @return boolean 添加结果 true：添加成功  false：添加失败
 	 */
 	boolean addMoreEmp(MultipartFile file);
+	/**
+	 *方法功能：重置员工密码
+	 * @param empId 员工id
+	 */
+	void resetEmpPwd(Integer empId);
 
 }

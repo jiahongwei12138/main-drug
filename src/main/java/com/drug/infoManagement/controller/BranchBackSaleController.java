@@ -50,13 +50,14 @@ public class BranchBackSaleController {
 	/**
 	 * 方法功能：审核退货单
 	 * @param backSaleId 退货单id
+	 * @param bprId 分店退货单id
 	 * @return Object true：审核成功   false:审核失败
 	 */
 	@RequestMapping("/checkbackOrder")
 	@ResponseBody
-	public Object checkbackOrder(Integer backSaleId) {
+	public Object checkbackOrder(Integer backSaleId,Integer bprId) {
 		try {
-			branchBackSaleService.checkbackOrder(backSaleId);
+			branchBackSaleService.checkbackOrder(backSaleId,bprId);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -38,4 +38,22 @@
 	<update id="checkOrder" parameterType="Integer">
 		update main_saleorder set checkState='已审核' where orderId=#{orderId}
 	</update>
+	
+	<!-- 查询今年的每个月 -->
+	<select id="querySaleReportGroupByMonth" resultType="String">
+		SELECT SUBSTR(paytime,1, 7)FROM main_saleorder
+		where SUBSTR(paytime,1, 4) = date_format(now(),'%Y')
+		GROUP BY SUBSTR(paytime,1, 7)
+		order by SUBSTR(paytime,1, 7)
+	</select>
+	
+	<!-- 查询每个月的订单 -->
+	<select id="querySaleReportOrderNumberByMonth" resultType="Integer">
+		SELECT COUNT(*) FROM main_saleorder
+		where SUBSTR(paytime,1, 4) = date_format(now(),'%Y')
+		GROUP BY SUBSTR(paytime,1, 7)
+		order by SUBSTR(paytime,1, 7)
+	</select>
+	
+	
 </mapper>

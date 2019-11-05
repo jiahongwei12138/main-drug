@@ -1,6 +1,8 @@
 package com.drug.infoManagement.service.impl;
 
+import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import com.drug.entity.MainBranchbacksale;
 import com.drug.entity.MainBranchbacksaledetail;
 import com.drug.infoManagement.mapper.BranchBackSaleMapper;
 import com.drug.infoManagement.service.BranchBackSaleService;
+import com.drug.util.HttpClientUtil;
 /**
  * 类描述：分店退货订单
  * @author jhw
@@ -34,8 +37,18 @@ public class BranchBackSaleServiceImpl implements BranchBackSaleService {
 	 * @param backSaleId 退货单id
 	 */
 	@Override
-	public void checkbackOrder(Integer backSaleId) {
-		branchBackSaleMapper.checkbackOrder(backSaleId);
+	public void checkbackOrder(Integer backSaleId,Integer bprId) {
+		try {
+			branchBackSaleMapper.checkbackOrder(backSaleId);
+			//回应分店采购订单申请
+			Properties prop=new Properties();
+			InputStream in = this.getClass().getClassLoader().getResourceAsStream("system.properties");
+			prop.load(in);
+			String url = prop.getProperty("branchStoreBackCheckStateUrl");
+			HttpClientUtil.PostOneParamInt(url, bprId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * 方法功能：质检退货单
@@ -51,6 +64,7 @@ public class BranchBackSaleServiceImpl implements BranchBackSaleService {
 	 */
 	@Override
 	public void deleteBackSaleOrder(Integer backSaleId) {
+		branchBackSaleMapper.deleteBackSaleOrderDetial(backSaleId);
 		branchBackSaleMapper.deleteBackSaleOrder(backSaleId);
 	}
 	/**

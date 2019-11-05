@@ -38,5 +38,15 @@ public interface SaleOrderMapper {
 	 * @param orderId 订单id
 	 */
 	void checkOrder(Integer orderId);
+	/**
+	 * 方法功能：查询今年的每个月
+	 * @return List<String> 月份集合
+	 */
+	List<String> querySaleReportGroupByMonth();
+	/**
+	 * 方法功能：查询每个月的订单
+	 * @return List<Integer> 订单数集合
+	 */
+	List<Integer> querySaleReportOrderNumberByMonth();
 
 }

@@ -1,6 +1,7 @@
 package com.drug.infoManagement.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.drug.entity.MainSaleOrder;
 import com.drug.entity.MainSaleOrderdetail;
@@ -33,5 +34,10 @@ public interface SaleOrderService {
 	 * @param orderId 订单id
 	 */
 	void checkOrder(Integer orderId,String bpoId);
+	/**
+	 * 方法功能：查询销售报表
+	 * @return Map<String,Object> 
+	 */
+	Map<String, Object> querySaleReport();
 
 }
