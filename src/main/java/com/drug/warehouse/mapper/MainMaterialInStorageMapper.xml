@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drug.warehouse.mapper.MainMaterialInStorageMapper">
+
+	<!-- 根据入库状态,财务审核,质检状态查询数据 -->
+	<select id="AllMainPurchasePlan" parameterType="Map" resultType="MainPurchasePlan">
+		select * from main_purchase_plan 
+		where 
+			inStoregState = #{inStoregState} 
+			and checkState = #{checkState} 
+			and rawMaterialTheQualityStatus = #{rawMaterialTheQualityStatus} 
+	</select>
+	
+	<!-- 根据入库状态,财务审核,质检状态查询采购订单行数 -->
+	<select id="countMainPurchasePlan" parameterType="Map" resultType="Integer">
+		select count(*) from main_purchase_plan 
+		where 
+			inStoregState = #{inStoregState}
+			and checkState = #{checkState} 
+			and rawMaterialTheQualityStatus = #{rawMaterialTheQualityStatus}  
+	</select>
+	
+	<!-- 根据id删除数据 -->
+	<delete id="delMainPurchasePlan" parameterType="Integer">
+		delete from main_purchase_plan where planId = #{planId}
+	</delete>
+	
+	<!-- 根据采购订单id查询订单详情 -->
+	<select id="getMainPurchaseDetails" parameterType="Integer" resultType="MainPurchaseDetails">
+		select * from main_purchase_details where planId = #{planId}
+	</select>
+	
+	<!-- 根据采购订单id查询采购订单详情行数 -->
+	<select id="countMainPurchaseDetails" parameterType="Integer" resultType="Integer">
+		select count(*) from main_purchase_details where planId = #{planId}
+	</select>
+	
+	<!-- 根据质检状态与采购订单id查询采购原料订单详情 -->
+	<select id="getDetailsqualitystatus" parameterType="Map" resultType="MainPurchaseDetails">
+		select * from main_purchase_details 
+		where
+			 detailsqualitystatus = #{detailsqualitystatus}
+			 and
+			 planId = #{planId}
+	</select>
+	
+	<!-- 根据质检状态查询采购订单详情行数 -->
+	<select id="countDetailsqualitystatus" parameterType="Map" resultType="Integer">
+		select count(*) from main_purchase_details 
+		where 
+			detailsqualitystatus = #{detailsqualitystatus}
+			and
+			planId = #{planId}
+	</select>
+	
+	<!-- 根据原料名称查询数据 -->
+	<select id="getDetailsName" parameterType="String" resultType="MainPurchaseDetails">
+		select * from main_purchase_details where detailsName = #{detailsName}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</mapper>
