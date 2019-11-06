@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drug.warehouse.mapper.MainStorageMapper">
+
+	<!-- 查询所有仓库类型 -->
+	<select id="AllMainStorage" resultType="MainStorage">
+		select * from main_storage
+	</select>
+	
+	<!-- 仓库总行数 -->
+	<select id="countMainStorage" resultType="Integer">
+		select count(*) from main_storage
+	</select>
+	
+	<!-- 根据id删除数据 -->
+	<delete id="delMainStorage" parameterType="Integer">
+		delete from main_storage where storageId = #{storageId}
+	</delete>
+	
+	<!-- 根据id查询数据 -->
+	<select id="getMainStorage" parameterType="Integer" resultType="MainStorage">
+		select * from mian_storage where storageId = #{storageId}
+	</select>
+	
+	<!-- 修改 -->
+	<update id="editMainStorage" parameterType="MainStorage">
+		update main_storage set sname=#{sname},storageType=#{storageType},
+		createTime=#{createTime},storageState=#{storageState},storageAddr=#{storageAddr}
+		where storageId=#{storageId}
+	</update>
+	
+	<!-- 新增 -->
+	<insert id="newStorage" parameterType="MainStorage">
+		insert into main_storage values(#{storageId},#{sname},#{storageType},#{createTime},#{storageState},#{storageAddr})
+	</insert>
+	
+	<!-- 根据仓库类型查询数据 -->
+	<select id="vagueMainStorage" parameterType="String" resultType="MainStorage">
+		select * from main_storage where storageType = #{storageType}
+	</select>
+	
+	<!-- 根据仓库类型查询出行数 -->
+	<select id="countStorageType" parameterType="String" resultType="Integer">
+		select count(*) from main_storage where storageType = #{storageType}
+	</select>
+	
+	
+</mapper>

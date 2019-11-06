@@ -1,21 +1,18 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
-<title>layui</title>
-<meta name="renderer" content="webkit">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>菜单</title>
 <link rel="stylesheet" href="../layui/css/layui.css">
 <script src="../layui/layui.js"></script>
 <script type="text/javascript" src="../../js/jquery-3.4.1.min.js"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 <body>
-
 	<table class="layui-hide" id="test" lay-filter="test"></table>
-	<div id="v6" style="display: none;">
+	<div style="display: none;" id="v1">
 		<form class="layui-form" action="">
 			<div class="layui-form-item">
 
@@ -24,7 +21,6 @@
 					<div class="layui-input-inline">
 						<select name="city" lay-verify="">
 							<option value="">审核人</option>
-							<option value="010" selected></option>
 							<option value="021">张三</option>
 							<option value="0571">李四</option>
 						</select>
@@ -47,8 +43,8 @@
 					<div class="layui-input-inline">
 						<select name="city" lay-verify="">
 							<option value="">仓库选择</option>
-							<option value="021">原材料入库1</option>
-							<option value="0571">原材料仓库2</option>
+							<option value="021">成品入库1</option>
+							<option value="0571">成品仓库2</option>
 						</select>
 					</div>
 				</div>
@@ -81,7 +77,8 @@
 	</div>
 
 
-	<div style="display: none;" id="div13">
+
+	<div style="display: none;" id="div3">
 		<select name="city" lay-verify="">
 			<option value="010" selected>审核中</option>
 			<option value="021">审核通过</option>
@@ -89,127 +86,116 @@
 		</select>
 		<button type="button" class="layui-btn layui-btn-normal">提交</button>
 	</div>
-
-	<div style="display: none;" id="div14">
+	<div id="div4" style="display: none;">
 		<form class="layui-form" action="">
 			<div class="layui-form-item">
 				<div class="layui-inline">
 					<label class="layui-form-label">入库编号</label>
 					<div class="layui-input-inline"">
 						<input type=" tel" name="phone" lay-verify="required|phone"
-							autocomplete="off" class="layui-input" placeholder="保存后自动添加"
-							disabled="disabled">
+							autocomplete="off" class="layui-input" disabled="disabled"
+							value="">
 					</div>
 				</div>
 				<div class="layui-inline">
 					<label class="layui-form-label">入库主题</label>
 					<div class="layui-input-inline">
 						<input type="text" name="email" lay-verify="email"
-							autocomplete="off" class="layui-input">
+							autocomplete="off" class="layui-input" disabled="disabled"
+							value="">
 					</div>
 				</div>
 				<div class="layui-inline">
 					<label class="layui-form-label">制单人</label>
 					<div class="layui-input-inline">
 						<input type="text" name="email" lay-verify="email"
-							autocomplete="off" class="layui-input">
+							autocomplete="off" class="layui-input" disabled="disabled"
+							value="">
 					</div>
 				</div>
 			</div>
 
-
-
 			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">加工单位</label>
+					<div class="layui-input-inline">
+						<input type="tel" name="phone" lay-verify="required|phone"
+							autocomplete="off" class="layui-input" disabled="disabled"
+							value="">
+					</div>
+				</div>
 				<div class="layui-inline">
 					<label class="layui-form-label">货物名称</label>
 					<div class="layui-input-inline">
 						<input type="tel" name="phone" lay-verify="required|phone"
-							autocomplete="off" class="layui-input">
+							autocomplete="off" class="layui-input" disabled="disabled"
+							value="">
 					</div>
 				</div>
 				<div class="layui-inline">
 					<label class="layui-form-label">货物数量</label>
 					<div class="layui-input-inline">
 						<input type="text" name="email" lay-verify="email"
-							autocomplete="off" class="layui-input">
-					</div>
-				</div>
-				<div class="layui-inline">
-					<label class="layui-form-label">采购员 </label>
-					<div class="layui-input-inline">
-						<input type="text" name="number" lay-verify="required|number"
-							autocomplete="off" class="layui-input">
+							autocomplete="off" class="layui-input" disabled="disabled"
+							value="">
 					</div>
 				</div>
 			</div>
 
 			<div class="layui-form-item">
 				<div class="layui-inline">
-					<label class="layui-form-label">货物金额</label>
+					<label class="layui-form-label">货物批次</label>
 					<div class="layui-input-inline">
 						<input type="text" name="number" lay-verify="required|number"
-							autocomplete="off" class="layui-input">
+							autocomplete="off" class="layui-input" disabled="disabled"
+							value="">
 					</div>
 				</div>
 				<div class="layui-inline">
 					<label class="layui-form-label">入库时间</label>
 					<div class="layui-input-inline">
-						<input type="text" name="date" id="date" lay-verify="date"
-							placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
-					</div>
-				</div>
-				<div class="layui-inline">
-					<label class="layui-form-label">供应商</label>
-					<div class="layui-input-inline">
-						<input type="tel" name="url" lay-verify="url" autocomplete="off"
-							class="layui-input" disabled="disabled">
-					</div>
-				</div>
-			</div>
-
-			<div class="layui-form-item">
-				<div class="layui-inline">
-					<label class="layui-form-label">采购部门</label>
-					<div class="layui-input-inline">
-						<input type="tel" name="phone" lay-verify="required|phone"
-							autocomplete="off" class="layui-input">
-					</div>
-				</div>
-				<div class="layui-inline">
-					<label class="layui-form-label">交货人</label>
-					<div class="layui-input-inline">
-						<input type="text" name="email" lay-verify="email"
-							autocomplete="off" class="layui-input">
-					</div>
-				</div>
-				<div class="layui-inline">
-					<label class="layui-form-label">验收人 </label>
-					<div class="layui-input-inline">
 						<input type="text" name="number" lay-verify="required|number"
-							autocomplete="off" class="layui-input">
+							autocomplete="off" class="layui-input" disabled="disabled"
+							value="">
 					</div>
 				</div>
-			</div>
+
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">交货人</label>
+						<div class="layui-input-inline">
+							<input type="text" name="email" lay-verify="email"
+								autocomplete="off" class="layui-input" disabled="disabled"
+								value="">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">验收人 </label>
+						<div class="layui-input-inline">
+							<input type="text" name="email" lay-verify="email"
+								autocomplete="off" class="layui-input" disabled="disabled"
+								value="">
+						</div>
+					</div>
+				</div>
 		</form>
-
 	</div>
-
 
 	<script type="text/html" id="toolbarDemo">
 			<div class="layui-form-item">
 				<div class="layui-input-inline">
-					<select name="city" lay-verify="">
-						<option value="">审核状态</option>
-						<option value="010" selected>未审核</option>
-						<option value="021">审核未通过</option>
-						<option value="0571">审核通过</option>
+					<select name="city" layui-verify="" style="font-size:13px;">
+						<option value="000"> 审核状态 </option>
+						<option value="010" selected> 未审核 </option>
+						<option value="021"> 审核未通过 </option>
+						<option value="0571"> 审核通过 </option>
 					</select>  
 				</div>
 				<div class="layui-inline">
 					<div class="layui-input-inline">
-						  <a href="http://www.layui.com" class="layui-btn layui-btn-sm layui-btn-normal">搜索</a>
+						  <a href="http://www.layui.com" class="layui-btn layui-btn-sm layui-btn-normal" style="font-size:13px;">搜索</a>
 					</div>
-	 			</div>
+				</div>
 				<div class="layui-inline">
 					<div class="layui-input-inline">
 						<input type="text" name="title" required lay-verify="required" placeholder="请输入订单编号" autocomplete="off" class="layui-input">
@@ -222,21 +208,17 @@
 				</div>
 				<div class="layui-inline">
 					<div class="layui-input-inline">
-						   <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="getCheckData" >入库审核</button>
+						   <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="getCheckData" style="font-size:13px;"> 入库审核 </button>
 					</div>
 				</div>
 			</div>
 </script>
 
 	<script type="text/html" id="barDemo">
-			<a class="layui-btn layui-btn-xs" lay-event="edit">详情</a>
-			<a class="layui-btn layui-btn-xs" lay-event="shenhe">审核</a>
-            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+			<a class="layui-btn layui-btn-xs" lay-event="edit"> 详情 </a>
+			<a class="layui-btn layui-btn-xs" lay-event="shenhe"> 审核 </a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"> 删除   </a>
 </script>
-
-
-	<script src="../layui/layui.js" charset="utf-8"></script>
-	<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 
 	<script>
 		layui.use('table', function() {
@@ -253,17 +235,13 @@
 				}, {
 					field : 'Id',
 					title : 'ID',
-					width : 80,
 					fixed : 'left',
-					unresize : true
+					unresize : true,
 				}, {
-					field : 'Serial',
+					field : 'Theme',
 					title : '入库编号'
 				}, {
-					field : 'Quantity',
-					title : '货物类型'
-				}, {
-					field : 'Quantity',
+					field : 'Serial',
 					title : '货物类型'
 				}, {
 					field : 'Serial',
@@ -277,7 +255,7 @@
 				}, {
 					fixed : 'right',
 					title : '操作',
-					toolbar : '#barDemo'
+					toolbar : '#barDemo',
 				} ] ],
 				page : true
 			});
@@ -290,7 +268,7 @@
 					var data = checkStatus.data;
 					layer.open({
 						type : 1,
-						content : $('#v6')
+						content : $('#v1')
 					});
 					break;
 				}
@@ -309,19 +287,18 @@
 				} else if (obj.event === 'edit') {
 					layer.open({
 						type : 1,
-						content : $('#div14')
+						content : $('#div4')
 					});
 				} else if (obj.event === 'shenhe') {
 					layer.open({
 						type : 1,
 						area : [ '500px', '300px' ],
-						content : $('#div13')
+						content : $('#div3')
 					});
 				}
 			});
 		});
 	</script>
-
 
 	<script>
 		layui
@@ -374,7 +351,6 @@
 
 						});
 	</script>
-
 
 </body>
 </html>
