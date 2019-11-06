@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.drug.infoManagement.mapper.SaleOrderMapper">
+
+	<!-- 销售订单查询 -->
+	<select id="querySaleOrder" resultType="MainSaleOrder" parameterType="Map">
+		SELECT s.*,b.`bsfName` FROM main_saleorder s 
+		INNER JOIN branch_storefactsheet b
+		ON s.`bsfId`=b.`bsfId` 
+		<where>
+			<if test="payTime!=null and payTime!=''">
+				s.`payTime` LIKE concat("%",#{payTime},"%")
+			</if>
+			<if test="checkState!=null and checkState!=''">
+				AND s.`checkState`=#{checkState}
+			</if>
+			<if test="branchStoreName!=null and branchStoreName!=''">
+				AND b.`bsfName`=#{branchStoreName}
+			</if>
+		</where>
+	</select>
+	<!-- 销售订单详情查询 -->
+	<select id="querySaleOrderDetail" parameterType="Integer" resultType="MainSaleOrderdetail">
+		SELECT p.`proBatchNumber`,p.`proName`,p.`retailPrice`,s.* 
+		FROM main_saleorderdetail s
+		INNER JOIN main_product p
+		ON s.`proId`=p.`proId` WHERE orderId=#{orderId}
+	</select>
+	<!-- 根据订单id删除订单详情 -->
+	<delete id="deleteSaleOrderDetailById" parameterType="Integer">
+		delete from main_saleorderdetail where orderId=#{orderId}
+	</delete>
+	<!-- 根据订单id删除订单 -->
+	<delete id="deleteSaleOrder" parameterType="Integer">
+		delete from main_saleorder where orderId=#{orderId}
+	</delete>
+	<!-- 审核订单 -->
+	<update id="checkOrder" parameterType="Integer">
+		update main_saleorder set checkState='已审核' where orderId=#{orderId}
+	</update>
+	
+	<!-- 查询今年的每个月 -->
+	<select id="querySaleReportGroupByMonth" resultType="String">
+		SELECT SUBSTR(paytime,1, 7)FROM main_saleorder
+		where SUBSTR(paytime,1, 4) = date_format(now(),'%Y')
+		GROUP BY SUBSTR(paytime,1, 7)
+		order by SUBSTR(paytime,1, 7)
+	</select>
+	
+	<!-- 查询每个月的订单 -->
+	<select id="querySaleReportOrderNumberByMonth" resultType="Integer">
+		SELECT COUNT(*) FROM main_saleorder
+		where SUBSTR(paytime,1, 4) = date_format(now(),'%Y')
+		GROUP BY SUBSTR(paytime,1, 7)
+		order by SUBSTR(paytime,1, 7)
+	</select>
+	
+	
+</mapper>

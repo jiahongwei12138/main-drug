@@ -52,9 +52,38 @@
 	<update id="updateProStateById" parameterType="Integer">
 		update main_product set proState='已审核'  where proId=#{proId}
 	</update>
+	
 	<update id="updateRecipeStateById" parameterType="Integer">
 		update main_recipe set recipeState='已审核'  where recipeId=#{recipeId}
 	</update>
+	
+	<select id="queryRawMaterial" resultType="MainRawMaterial">
+		SELECT rawMaterialId,rawMaterialName FROM main_rawMaterial
+	</select>
+	
+	<insert id="addRecipedetail" parameterType="MainRecipedetail">
+		insert into main_recipedetail(rawMaterialId,realityDosage,unit,recipeId)
+		values(#{rawMaterialId},#{realityDosage},#{unit},#{recipeId})					    		  
+	</insert>
+	
+	<select id="queryRecipedetail" resultType="MainRecipedetail">
+		SELECT * FROM main_recipedetail r 
+		INNER JOIN main_rawmaterial a
+		ON r.`rawMaterialId`=a.`rawMaterialId` WHERE r.`recipeId`=#{recipeId}
+	</select>
+	
+	<insert id="addRecipe" parameterType="MainRecipe" useGeneratedKeys="true" keyProperty="recipeId">
+		insert into main_recipe(recipeName,createTime,recipeDesc,empId,proId)
+		values(#{recipeName},#{createTime},#{recipeDesc},#{empId},#{proId})                               
+	</insert>
+	
+	<update id="updateRecipeDetailRecipeId" parameterType="Integer">
+		update main_recipedetail set recipeId=#{recipeId} where recipeId=0
+	</update>
+	
+	<delete id="deletRecipeById" parameterType="Integer">
+		delete from main_recipedetail where reDetailId=#{reDetailId}
+	</delete>
 </mapper>
    
     

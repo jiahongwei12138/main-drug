@@ -39,7 +39,7 @@ layui.use(['tree', 'util','jquery'], function(){
 			    elem: '#test9'
 			    ,data: result
 			    ,id: 'demoId1'
-			    ,edit: [/* 'add',  */'update'/* , 'del' */] //操作节点的图标
+			    ,edit: [ 'add', 'update' , 'del' ] //操作节点的图标
 			    ,operate: function(obj){
 				    var type = obj.type; //得到操作类型：add、edit、del
 				    var data = obj.data; //得到当前节点的数据

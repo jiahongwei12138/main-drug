@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.drug.infoManagement.mapper.BranchStoreInfoMapper">
+
+	<insert id="addBranchStorefactsheet" parameterType="BranchStorefactsheet">
+		insert into branch_storefactsheet(bsfName,bsfAddress,bsfTel,pactState,staffName)
+		values(#{bsfName},#{bsfAddress},#{bsfTel},#{pactState},#{staffName})
+	</insert>
+	
+	<select id="queryBranchStorefactsheet" resultType="BranchStorefactsheet">
+		SELECT * FROM branch_storefactsheet 
+		<where>
+			<if test="_parameter!=null and _parameter!=''">
+				pactState=#{pactState}
+			</if>
+		</where>
+	</select>
+</mapper>

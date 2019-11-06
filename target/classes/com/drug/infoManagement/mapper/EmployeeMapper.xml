@@ -7,8 +7,8 @@
 	</select>
 	
 	<insert id="addEmployee" parameterType="MainEmployee">
-		insert into main_employee(empName,empAge,empSex,empTel,headUrl,joinTime,studyUndergo,roleId,deptId)
-		values(#{empName},#{empAge},#{empSex},#{empTel},#{headUrl},#{joinTime},#{studyUndergo},#{roleId},#{deptId})
+		insert into main_employee(empName,empPwd,empAge,empSex,empTel,headUrl,joinTime,studyUndergo,roleId,deptId)
+		values(#{empName},#{empPwd},#{empAge},#{empSex},#{empTel},#{headUrl},#{joinTime},#{studyUndergo},#{roleId},#{deptId})
 	</insert>
 	
 	<select id="queryAllEmp" resultType="MainEmployee">
@@ -54,10 +54,14 @@
 	</update>
 	
 	<insert id="addMoreEmp" parameterType="MainEmployee">
-		insert into main_employee(empName,empAge,empSex,empTel,joinTime,studyUndergo)
+		insert into main_employee(empName,empPwd,empAge,empSex,empTel,joinTime,studyUndergo)
 		values
 		<foreach collection="list" item="emp" separator=",">
-			(#{emp.empName},#{emp.empAge},#{emp.empSex},#{emp.empTel},#{emp.joinTime},#{emp.studyUndergo})
+			(#{emp.empName},#{emp.empPwd},#{emp.empAge},#{emp.empSex},#{emp.empTel},#{emp.joinTime},#{emp.studyUndergo})
 		</foreach>
 	</insert>
+	
+	<update id="resetEmpPwd" parameterType="Map">
+		update main_employee set empPwd=#{pwd} where empId=#{empId}
+	</update>
 </mapper>

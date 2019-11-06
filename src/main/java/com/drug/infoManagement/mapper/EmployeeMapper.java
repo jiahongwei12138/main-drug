@@ -3,6 +3,8 @@ package com.drug.infoManagement.mapper;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Update;
+
 import com.drug.entity.MainEmployee;
 import com.drug.entity.MainRole;
 /**
@@ -54,6 +56,11 @@ public interface EmployeeMapper {
 	 * @return boolean 添加结果 true：添加成功  false：添加失败
 	 */
 	void addMoreEmp(List<MainEmployee> empList);
+	/**
+	 *方法功能：重置员工密码
+	 * @param empId 员工id
+	 */
+	void resetEmpPwd(Map<String, Object> map);
 
 
 }
