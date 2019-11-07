@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drug.warehouse.mapper.MainProductStorageMapper">
+
+<select id="getProductInf" parameterType="Map" resultType="MainProductStorage">
+	select productSId,proId,proName,productNumber,whID,sname  from main_ProductStorage s join main_product p 
+	on s.productId = p.proId
+	join main_Storage ms
+	on ms.storageId = s.whID
+	where whID = #{whID}
+	limit #{page},#{limit}
+</select>
+<select id="getCount"  resultType="int">
+	select count(*)  from main_ProductStorage s join main_product p 
+	on s.productId = p.proId
+	join main_Storage ms
+	on ms.storageId = s.whID
+	where whID = #{whID}
+</select>
+
+<insert id="insInfToProStore1" parameterType="int">
+	insert main_ProductStorage (productId,productNumber,whID) values(#{proId},0,1);
+</insert>
+
+<insert id="insInfToProStore2" parameterType="int">
+	insert main_ProductStorage (productId,productNumber,whID) values(#{proId},0,2);
+</insert>
+</mapper>

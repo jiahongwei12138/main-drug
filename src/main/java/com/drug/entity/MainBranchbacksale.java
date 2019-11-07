@@ -89,6 +89,7 @@ public class MainBranchbacksale {
 		this.empId = empId;
 	}
 	
+	
 	public Integer getBprId() {
 		return bprId;
 	}

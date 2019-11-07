@@ -74,5 +74,18 @@ public class SaleOrderServiceImpl implements SaleOrderService {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * 方法功能：查询销售报表
+	 * @return Map<String,Object> 
+	 */
+	@Override
+	public Map<String, Object> querySaleReport() {
+		Map<String, Object> map=new HashMap<String, Object>();
+		List<String> monthList=saleOrderMapper.querySaleReportGroupByMonth();
+		List<Integer> orderNumList=saleOrderMapper.querySaleReportOrderNumberByMonth();
+		map.put("monthList", monthList);
+		map.put("orderNumList", orderNumList);
+		return map;
+	}
 
 }

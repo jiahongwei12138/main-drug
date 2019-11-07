@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drug.production.mapper.ProductManagementMapper">
+	<select id="selectMainProductAll" resultType="com.drug.entity.ProductManagement">
+		SELECT mp.proId,mp.proName,pod.proPassQuantity,dp.dAuditingDate,pod.qualitystatus FROM main_product mp 
+		JOIN productionOrderDetails pod ON mp.proId=pod.proId
+		JOIN dPlanDetails dpd ON pod.proId=dpd.proId
+		JOIN dPlan dp ON dpd.dPlanId=dp.dPlanId
+
+	
+	</select>
+
+	<delete id="deleteMainProductById" parameterType="Integer">
+		DELETE FROM main_product WHERE proId=#{proId}
+	</delete>
+	
+	<update id="checkMainProduct" parameterType="Integer">
+		UPDATE productionOrderDetails SET qualitystatus='已质检' WHERE proId=#{proId}
+		
+	</update>
+	
+</mapper>

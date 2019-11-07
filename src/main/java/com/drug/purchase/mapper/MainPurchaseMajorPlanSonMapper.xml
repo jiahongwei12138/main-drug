@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drug.purchase.mapper.MainPurchaseMajorPlanSonMapper">
+	
+	<select id="getMainPurchaseMajorPlanInfo" resultType="com.drug.entity.MainPurchaseMajorPlanSon">
+		SELECT majorPlanId,majorPlanName,majorPlanSubmissionTime,majorPlanRemark
+		,majorPlanTotalPrices,majorPlanRealTotalPrices,empName,createName FROM main_purchase_majorPlan
+ 		INNER JOIN main_employee ON main_employee.empId=main_purchase_majorPlan.createName
+	</select>
+	
+	<insert id="insertMajorPlan" parameterType="com.drug.entity.MainPurchaseMajorPlanSon">
+		INSERT INTO main_purchase_majorPlan(majorPlanName,majorPlanSubmissionTime,
+		majorPlanTotalPrices,createName)
+ 		VALUES(#{majorPlanName},#{majorPlanSubmissionTime},#{majorPlanTotalPrices},#{createName});
+	</insert>
+	
+	<update id="updateMajorPlan" parameterType="com.drug.entity.MainPurchaseMajorPlanSon">
+		UPDATE main_purchase_majorPlan SET majorPlanName=#{majorPlanName},majorPlanSubmissionTime=#{majorPlanSubmissionTime},
+		majorPlanTotalPrices=#{majorPlanTotalPrices},majorPlanRealTotalPrices=#{majorPlanRealTotalPrices}
+		,createName=#{createName} WHERE majorPlanId=#{majorPlanId}
+	</update>
+	
+</mapper>

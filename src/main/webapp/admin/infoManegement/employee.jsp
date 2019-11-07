@@ -32,6 +32,7 @@
 </script>
 <script type="text/html" id="barDemo">
   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-xs" lay-event="resetPwd">重置密码</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
@@ -81,9 +82,9 @@ layui.use(['table','laydate','form','tree','jquery', 'util','upload','laydate'],
         return '<img style="width: 200px;height: 400px"  src="/pic/'+d.headUrl+'">';
       }
       }
-      ,{field:'empId', title:'编号', unresize:true}
+      ,{field:'empId',title:'编号', unresize:true}
       ,{field:'empName', title:'用户',unresize:true}
-      ,{field:'empPwd', title:'密码', unresize:true}
+      /* ,{field:'empPwd', title:'密码', unresize:true} */
       ,{field:'empAge', title:'年龄', unresize:true}
       ,{field:'empSex', title:'性别', unresize:true}
       ,{field:'empTel', title:'电话', unresize:true}
@@ -210,6 +211,23 @@ layui.use(['table','laydate','form','tree','jquery', 'util','upload','laydate'],
 			},
 			content :$("#branch"),
 		});
+    }else if(obj.event === 'resetPwd'){
+    	layer.confirm("重置该员工的密码为123456",function(){
+    		$.ajax({
+    			type:"post",
+    			url:"${APP_PATH}/resetEmpPwd.do",
+    			data:{
+    				"empId":data.empId
+    			},
+    			success:function(result){
+    				if(result==false){
+						layer.msg("重置失败", {time:2000, icon:5, shift:6});
+					}else{
+						layer.msg("重置成功", {time:2000, icon:1, shift:3});
+					}
+    			}
+    		});
+    	});
     }
   });
   

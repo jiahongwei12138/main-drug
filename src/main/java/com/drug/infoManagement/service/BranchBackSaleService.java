@@ -22,7 +22,7 @@ public interface BranchBackSaleService {
 	 * 方法功能：审核退货单
 	 * @param backSaleId 退货单id
 	 */
-	void checkbackOrder(Integer backSaleId);
+	void checkbackOrder(Integer backSaleId,Integer bprId);
 	/**
 	 * 方法功能：质检退货单
 	 * @param backSaleId 退货单id

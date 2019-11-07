@@ -17,6 +17,7 @@ import com.drug.entity.MainProduct;
 import com.drug.entity.MainSaleOrder;
 import com.drug.infoManagement.mapper.BranchClientMapper;
 import com.drug.infoManagement.service.BranchClientService;
+import com.drug.warehouse.mapper.MainProductOutStorageMapper;
 /**
  * 类描述：分店销售退货接口
  * @author jhw
@@ -28,6 +29,8 @@ public class BranchClientServiceImpl implements BranchClientService{
 
 	@Autowired
 	private BranchClientMapper branchClientMapper;
+	@Autowired
+	private MainProductOutStorageMapper  mainProductOutStorageMapper;
 	/**
 	 * 方法功能：查询药品
 	 * @return Object 药品集合
@@ -43,7 +46,7 @@ public class BranchClientServiceImpl implements BranchClientService{
 	 */
 	@Override
 	public void addSaleOrder(Integer bsfId, List<BranchPurchaseOrderDetails> branchPurchaseOrderDetails) {
-		if (branchPurchaseOrderDetails!=null) {
+		if (branchPurchaseOrderDetails!=null &&branchPurchaseOrderDetails.size()>0) {
 			//付款金额
 			double payrMoney=0;
 			//采购订单id
@@ -69,7 +72,8 @@ public class BranchClientServiceImpl implements BranchClientService{
 			saleOrder.setBpoId(bpoId);
 			//1.生成销售订单
 			branchClientMapper.addSaleOrder(saleOrder);
-			
+			//同时向出库仓添加未出库信息
+			mainProductOutStorageMapper.saleOrderInfInOutStore(saleOrder.getOrderId());
 			//2.生成销售订单详情
 			//获取销售订单生成后的主键id
 			int orderId=saleOrder.getOrderId();
@@ -87,14 +91,14 @@ public class BranchClientServiceImpl implements BranchClientService{
 	 */
 	@Override
 	public void addBackSale(Integer bsfId, List<BranchPurchaseReturnDetails> branchPurchaseReturnDetails) {
-		if (branchPurchaseReturnDetails!=null) {
+		if (branchPurchaseReturnDetails!=null && branchPurchaseReturnDetails.size()>0) {
 			//退款金额
 			double backMoney=0;
 			//采购退货订单id
 			Integer bprId=0;
 			for (BranchPurchaseReturnDetails b : branchPurchaseReturnDetails) {
 				//累加退款总金额
-				backMoney+=b.getProPrice();
+				backMoney+=b.getBprdSubtotal();
 				//获取采购退货单id
 				bprId=b.getBprId();
 			}

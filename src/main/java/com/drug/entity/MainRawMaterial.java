@@ -1,14 +1,18 @@
 package com.drug.entity;
-
+/**
+ * 
+ * @ClassName: MainRawMaterial 
+ * @Description: 原材料实体类 
+ * @author lxl
+ * @date 2019年10月22日
+ *
+ */
 public class MainRawMaterial {
 	private Integer rawMaterialId;
 	private String rawMaterialName;
 	private String rawMaterialStandard;
 	private String rawMaterialUnit;
-	private Double rawMaterialUnitPrice;
-	private String rawMaterialOne;
-	private String rawMaterialTwo;
-	private String rawMaterialThree;
+	private double rawMaterialUnitPrice;
 	public Integer getRawMaterialId() {
 		return rawMaterialId;
 	}
@@ -33,29 +37,12 @@ public class MainRawMaterial {
 	public void setRawMaterialUnit(String rawMaterialUnit) {
 		this.rawMaterialUnit = rawMaterialUnit;
 	}
-	public Double getRawMaterialUnitPrice() {
+	public double getRawMaterialUnitPrice() {
 		return rawMaterialUnitPrice;
 	}
-	public void setRawMaterialUnitPrice(Double rawMaterialUnitPrice) {
+	public void setRawMaterialUnitPrice(double rawMaterialUnitPrice) {
 		this.rawMaterialUnitPrice = rawMaterialUnitPrice;
 	}
-	public String getRawMaterialOne() {
-		return rawMaterialOne;
-	}
-	public void setRawMaterialOne(String rawMaterialOne) {
-		this.rawMaterialOne = rawMaterialOne;
-	}
-	public String getRawMaterialTwo() {
-		return rawMaterialTwo;
-	}
-	public void setRawMaterialTwo(String rawMaterialTwo) {
-		this.rawMaterialTwo = rawMaterialTwo;
-	}
-	public String getRawMaterialThree() {
-		return rawMaterialThree;
-	}
-	public void setRawMaterialThree(String rawMaterialThree) {
-		this.rawMaterialThree = rawMaterialThree;
-	}
+	
 	
 }

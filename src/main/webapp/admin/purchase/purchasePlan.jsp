@@ -20,50 +20,176 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 <body>
-<div>
-<form class="layui-form" >
-<table style="width: 100%">
- 	<tr>
- 		<td><label class="layui-form-label" style="margin-top: -5px;font-size:13px;">采购计划编号：</label>
+<div style="display: none;" id="material">
+ 	<table class="layui-table" id="demo" lay-filter="demo" lay-data="{id: 'idTest'}"></table>
+ </div>
+
+<!-- 采购计划增加 -->
+<div id="addPlan" style="display: none;">
+<h2 align="center"><b>采购计划</b></h2>
+<form class="layui-form" lay-filter="dataform" id="dataform" method="post">
+  <table class="layui-table">
+  	<tr>
+  	<div class="layui-form-item" style="display: none;">
+    <label class="layui-form-label" style="font-size:13px;">采购计划id：</label>
+    <div class="layui-input-block">
+      <input name="planId" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required ">
+    </div>
+    
+  	</div>
+  		<td>
+  			<label class="layui-form-label" style="font-size:13px;">采购制定人编号</label>
    			<div class="layui-input-block">
-      			<input name="a" class="layui-input" type="text" autocomplete="off" lay-verify="title" style="width: 200px;height: 30px">
-    		</div></td>
-    	<td><label class="layui-form-label" style="margin-top: -10px;font-size:13px;">计划员：</label>
-   			<div class="layui-input-block">
-      			<input name="a" class="layui-input" type="text" autocomplete="off" lay-verify="title" style="width: 200px;height: 30px">
-    		</div></td>
-		<td><label class="layui-form-label" style="margin-top: -10px;font-size:13px;">采购部门：</label>
-   			<div class="layui-input-block">
-      			<input name="a" class="layui-input" type="text" autocomplete="off" lay-verify="title" style="width: 200px;height: 30px">
-    		</div></td>
- 	</tr>
- 	<tr>
- 		<td><label class="layui-form-label" style="margin-top: -20px;font-size:13px;">采购员：</label>
-   			<div class="layui-input-block">
-      			<input name="a" class="layui-input" type="text" autocomplete="off" lay-verify="title" style="width: 200px;height: 30px ;margin-top: -20px">
-    		</div></td>
- 		<td>
-			<label class="layui-form-label" style="margin-top: -20px;font-size:13px;">审核状态：</label>
-      <div class="layui-input-inline" style="width: 200px;height: 30px;margin-top: -20px">
-       <select name="interest" lay-filter="aihao">
-        <option value="">全部状态</option>
-        <option value="0">写作</option>
-        <option value="1">阅读</option>
-      </select>
-      </div>
-			
+      			<input name="createName" class="layui-input" type="text" autocomplete="off" lay-verify="title">
+    		</div>
 		</td>
-		<td>
-			<label class="layui-form-label" style="margin-top: -20px;font-size:13px;">计划制定日期：</label>
+		
+  		<td>
+  			<label class="layui-form-label" style="font-size:13px;">预计金额</label>
+    			<div class="layui-input-block">
+      				<input name="planTotalPrices" class="layui-input" type="text" autocomplete="off" lay-verify="title">
+    			</div>
+    	</td>
+    	<td>
+  			<label class="layui-form-label" style="font-size:13px;">实际金额</label>
+    			<div class="layui-input-block">
+      				<input name="planRealTotalPrices" class="layui-input" type="text" autocomplete="off" lay-verify="title">
+    			</div>
+    	</td>
+    	
+  	</tr>
+  	<tr>
+  		<td>
+    		<label class="layui-form-label" style="font-size:13px;">采购计划类型</label>
    			<div class="layui-input-block">
-      			<input name="date" class="layui-input" id="date" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="date" style="width: 200px;height: 30px"/>
+      			<select name="interest" lay-filter="aihao">
+        			<option value="0">分计划</option>
+      			</select>
+    		</div>
+    	</td>
+  		<td>
+  			<label class="layui-form-label" style="font-size:13px;">计划制定时间</label>
+   			<div class="layui-input-block">
+      			<input name="planSubmissionTime" class="layui-input" id="date" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="date"/>
+    		</div>
+  		</td>
+  		<td>
+  			<label class="layui-form-label" style="font-size:13px;">计划名</label>
+   			<div class="layui-input-block">
+      			<input name="planName" class="layui-input" type="text" autocomplete="off" lay-verify="title">
+    		</div>
+  		</td>
+  	</tr>
+  	
+  	<tr>
+  	<td>
+  	<div class="layui-form-item">
+    <label class="layui-form-label" style="font-size:13px;">采购月计划id：</label>
+    <div class="layui-input-block">
+      <input name="majorPlanId" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required ">
+    </div>
+    </div>
+  		</td>
+  		<td colspan="3"> 
+  		<div class="layui-form-item">
+   		 <div class="layui-input-block">
+   		   <button class="layui-btn" lay-filter=demo1 lay-submit="">立即提交</button>
+   		   <button class="layui-btn layui-btn-primary" type="reset">重置</button>
+   		 </div>
+  		</div>
+		</td>
+  	</tr>
+  	
+  </table>
+</form>
+</div>
+
+<!-- 报价单审核 -->
+<div id="planState" style="display: none;">
+
+	
+	
+	<form class="layui-form" lay-filter="dataform3" id="dataform3" method="post">
+	<div class="layui-form-item" style="display: none;">
+    <label class="layui-form-label" style="font-size:13px;">采购计划id：</label>
+    <div class="layui-input-block">
+      <input name="planId" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required ">
+    </div>
+    </div>
+    
+    <div class="layui-form-item" style="display: none;">
+    <label class="layui-form-label" style="font-size:13px;">采购月计划id：</label>
+    <div class="layui-input-block">
+      <input name="majorPlanId" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required ">
+    </div>
+	</div>
+	
+	<label class="layui-form-label" style="font-size:13px;">报价单审核状态</label>
+   			<div class="layui-input-block">
+      			<select name="planState" lay-filter="aihao">
+        			<option value="通过">通过</option>
+        			<option value="未通过">未通过</option>
+      			</select>
+    		</div>
+    		<div class="layui-form-item">
+   			 <div class="layui-input-block">
+   			   <button class="layui-btn" lay-filter=demo1 lay-submit="">立即提交</button>
+   			 </div>
+  			</div>
+	</form>
+</div>
+
+
+<!-- 采购计划详情 -->
+<div id="addPlan2" style="display: none;">
+<h2 align="center"><b>采购计划</b></h2>
+<form class="layui-form" lay-filter="dataform2" id="dataform2" method="post">
+
+  	<label class="layui-form-label" style="font-size:13px;">月计划ID：</label>
+    <div class="layui-input-block">
+      <input name="detailsReservedOne" class="layui-input" type="text" placeholder="" autocomplete="off" lay-verify="required ">
+    </div>
+  	
+    <label class="layui-form-label" style="font-size:13px;">分计划ID：</label>
+    <div class="layui-input-block">
+      <input name="planId" class="layui-input" type="text" placeholder="" autocomplete="off" lay-verify="required ">
+    </div>
+  			
+  			<label class="layui-form-label" style="font-size:13px;">原材料名称</label>
+   			<div class="layui-input-block">
+      			<input name="detailsName" class="layui-input" type="text" autocomplete="off" lay-verify="title">
     		</div>
     		
-		</td>
- 	</tr>
- </table>
+  			<label class="layui-form-label" style="font-size:13px;">采购量</label>
+    			<div class="layui-input-block">
+      				<input name="detailsQuantity" class="layui-input" type="text" autocomplete="off" lay-verify="title">
+    			</div>
+    			
+  			<label class="layui-form-label" style="font-size:13px;">原材料单位</label>
+    			<div class="layui-input-block">
+      				<input name="detailsCategory" class="layui-input" type="text" autocomplete="off" lay-verify="title">
+    			</div>
+    			
+  			<label class="layui-form-label" style="font-size:13px;">原材料单价</label>
+   			<div class="layui-input-block">
+      			<input name="detailsUnitPrice" class="layui-input" type="text" autocomplete="off" lay-verify="title">
+    		</div>
+    		<!-- 
+    		<label class="layui-form-label" style="font-size:13px;">小计</label>
+   			<div class="layui-input-block">
+      			<input name="detailsPrice" class="layui-input" type="text" autocomplete="off" lay-verify="title">
+    		</div>
+    		 -->
+   			<div class="layui-form-item">
+    <div class="layui-input-block">
+      <button class="layui-btn" lay-filter=demo2 lay-submit="">立即提交</button>
+      <button class="layui-btn layui-btn-primary" type="reset">重置</button>
+    </div>
+  	</div>
 </form>
- </div>
+</div>
+
+ 
 <table class="layui-hida" id="test" lay-filter="test"></table>
 
 
@@ -74,7 +200,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <script id="toolbarDemo" type="text/html">
 	<div class="layui-inline">
-		<button class="layui-btn layui-btn-sm" lay-event="select"><i class="layui-icon layui-icon-search"></i>查询</button>
 		<button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-add-1"></i>新增</button>
 	<div>
 		
@@ -83,6 +208,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script id="barDemo" type="text/html">
   <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+  <a class="layui-btn layui-btn-xs" lay-event="state">报价单审核</a>
 </script>
               
           
@@ -90,38 +216,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 --> 
  
 <script>
-layui.use('table', function(){
+
+layui.use(['table','form', 'layedit', 'laydate','layer'], function(){
   var table = layui.table;
+  var form = layui.form
+  ,layer = layui.layer
+  ,layedit = layui.layedit
+  ,laydate = layui.laydate;
+  var urls;
+  var tanOne;
+  var tableIns;
   
-  table.render({
+  //日期
+  laydate.render({
+    elem: '#date'
+  });
+  
+  tableIns=table.render({
     elem: '#test'
-    ,url:'admin/json/demo1.json'
+    ,url:'getPurchasePlan.do'
     ,toolbar: '#toolbarDemo'
-    /* ,title: '用户数据表'
-    	,parseData:function(res){
-        	console.log(res);
-        	return{
-        		code: 0, //解析接口状态
-        		msg:"", //解析提示文本
-        		count: 1000, //解析数据长度
-        		data: res //解析数据列表
-        	}
-        } */
     ,cols: [[
       {type: 'checkbox', fixed: 'left'}
-      ,{field:'id', title:'ID', width:80, fixed: 'left', unresize: true, sort: true}
-      ,{field:'username', title:'用户名', width:120, edit: 'text'}
-      ,{field:'email', title:'邮箱', width:150, edit: 'text', templet: function(res){
-        return '<em>'+ res.email +'</em>'
-      }}
-      ,{field:'sex', title:'性别', width:80, edit: 'text', sort: true}
-      ,{field:'city', title:'城市', width:100}
-      ,{field:'sign', title:'签名'}
-      ,{field:'experience', title:'积分', width:80, sort: true}
-      ,{field:'ip', title:'IP', width:120}
-      ,{field:'logins', title:'登入次数', width:100, sort: true}
-      ,{field:'joinTime', title:'加入时间', width:120}
-      ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+      ,{field:'planId', title:'计划ID'}
+      ,{field:'planName', title:'计划名'}
+      ,{field:'planSubmissionTime', title:'提交时间' }
+      ,{field:'planTotalPrices', title:'预计金额(万)'}
+      ,{field:'planRealTotalPrices', title:'实际金额(万)'}
+      ,{field:'createName', title:'制定人编号'}
+      ,{field:'majorPlanId', title:'采购月计划编号'}
+      ,{field:'planState', title:'报价单审核状态'}
+      ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:200}
     ]]
     ,page: true
   });
@@ -132,13 +257,18 @@ layui.use('table', function(){
     switch(obj.event){
       case 'add':
     	  var layer = layui.layer;
-  	    layer.open({
+    	  tanOne=layer.open({
   	    	type: 1, 
   	    	title:'详细信息',
   	    	offset: ['0px', '50px'],
   	    	area: ['auto', 'auto'],
-  	    	content: $('#addPurchasePlan') //这里content是一个普通的String
-  	    });
+  	    	content: $('#addPlan'), //这里content是一个普通的String
+  	    	success:function(index){
+					urls="insertPurchasePlan.do";
+				 //清空表单数据
+				 $("#dataform")[0].reset();								  
+			 }
+    	  });
     	  break;
       case 'select':
     	  
@@ -147,53 +277,246 @@ layui.use('table', function(){
     };
   });
   
+  
   //监听行工具事件
   table.on('tool(test)', function(obj){
+	  var data = obj.data;
+	  var supId = data.majorPlanId;
+    //console.log(obj)
+    if(obj.event === 'del'){
+      layer.confirm('真的删除行么', function(index){
+    	  obj.del();
+          layer.close(index);
+      });
+    } else if(obj.event === 'edit'){
+    	
+	    tanOne=layer.open({
+		  	type: 1, 
+		  	title:'修改',
+		  	area: ['auto', 'auto'],
+		  	offset: ['0px', '50px'],
+			content: $('#addPlan'),
+			success:function(index){
+				  form.val("dataform",data);
+				  urls="updatePurchasePlan.do";
+			  }
+			});
+    } else if(obj.event === 'state'){
+    	tanOne=layer.open({
+		  	type: 1, 
+		  	title:'报价单审核',
+		  	area: ['auto', 'auto'],
+		  	offset: ['0px', '50px'],
+			content: $('#planState'),
+			success:function(index){
+				  form.val("dataform3",data);
+				  urls="updatePurchasePlanState.do";
+			  }
+			});
+    }
+  });
+  
+  
+  form.on("submit(demo1)",function(obj){
+		 //序列化表单数据
+		//layui.msg(JSON.Stringify(data.field));
+		 var params=obj.field;
+		 $.ajax({
+			type: "post",
+			url: urls,
+			data: params,
+			dataType:"JSON",
+			success:function(data){
+				//关闭弹出层
+				layer.close(tanOne);
+				//刷新数据表格
+				tableIns.reload();
+				if(urls== 'insertPurchasePlan.do'){
+				if(data== '1'){
+					layer.msg("添加成功", {icon: 6});
+				}else{
+					layer.msg("添加失败", {icon: 6});
+				}
+				}else if(urls== 'updatePurchasePlan.do'){
+					if(data== '1'){
+						layer.msg("修改成功", {icon: 6});
+					}else{
+						layer.msg("修改失败", {icon: 6});
+					}
+				}
+			}
+		 });
+		 return false; //阻止表单跳转
+		 /* $.post(url,params,function(data){
+			//关闭弹出层
+			layer.close(tanIndex);
+			//刷新数据表格
+			tableIns.reload();
+			
+		 }); */
+	})
+	
+	table.on('rowDouble(test)', function(obj){
+	    var layer = layui.layer;
+	    var data=obj.data.majorPlanId;
+	    var data2=obj.data.planId;
+	    $.ajax({
+    		type:"post",
+    		url:'setPurchaseDetailsSession.do',
+    		data:"majorPlanId="+data+"&planId="+data2,
+    		success:function(){
+    			
+    		}
+    	 })
+	    layer.open({
+	    	type: 1, 
+	    	title:'详细信息',
+	    	offset: ['0px', '50px'],
+	    	area: ['1000px', '500px'],
+	    	content: $('#material'), //这里content是一个普通的String
+	    	success: function(layero, index){
+	    		       sup();
+	    		  }
+	    });
+
+	});
+  
+  function sup(){
+	  layui.use(['table','form','laydate','element','jquery','layer'], function(){
+		  var $ = layui.jquery;
+		  var table = layui.table;
+		  var form = layui.form;
+		  var laydate = layui.laydate;
+		  var element = layui.element;
+		  var layer=layui.layer;
+		  var tanOne;
+		  var tableIns;
+		  var urls;
+		  tableIns=table.reload('idTest', {
+	   url: 'getPurchaseDetails.do'
+	  ,toolbar: '#toolbarDemo'
+	  ,title: '采购计划详情'
+	  ,cols: [[
+	      {fixed: 'left',width:20}
+	      ,{field:'detailsId', title:'ID',sort: true}
+	      ,{field:'detailsName', title:'原材料名称'}
+	      ,{field:'detailsQuantity', title:'原材料采购数量'}
+	      ,{field:'detailsCategory', title:'单位'}
+	      ,{field:'detailsUnitPrice', title:'单价'}
+	      ,{field:'detailsPrice', title:'小计'}
+	      ,{field:'planId', title:'采购计划ID'}
+	      ,{field:'detailsReservedOne', title:'采购月计划ID'}
+	      ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
+	    ]]
+	});
+  	
+//详情
+  table.on('toolbar(demo)', function(obj){
+    var checkStatus = table.checkStatus(obj.config.id);
+    switch(obj.event){
+    	case 'add':
+    		tanOne=layer.open({
+  		  		type: 1, 
+  		  		title:'详情新增',
+  		  		area: ['500px', ''],
+  				content: $('#addPlan2'), 
+  				success:function(index){
+  					urls="insertPurchaseDetails.do";
+  					//清空表单数据 
+					 $("#dataform2")[0].reset();								  
+				 }
+  				});
+  	  		break;
+    	case 'select':
+    		
+      	  break;
+      	  
+    		};
+  		});
+  
+		
+//监听行工具事件
+  table.on('tool(demo)', function(obj){
     var data = obj.data;
+    var detailsId = data.detailsId
+    var majorPlanId = data.majorPlanId;
     //console.log(obj)
     if(obj.event === 'del'){
       layer.confirm('真的删除行么', function(index){
         obj.del();
         layer.close(index);
+        $.ajax({
+    		type:"post",
+    		url:'deleteSupplierOffer.do',
+    		data:"offerId="+supId+"&offerId="+offerId,
+    		success:function(){
+    			tableIns.reload();
+    		}
+    	 })
       });
     } else if(obj.event === 'edit'){
-    	
-    	var layer = layui.layer;
-	    layer.open({
-	    	type: 1, 
-	    	title:'详细信息',
-	    	area: ['auto', 'auto'],
-	    	offset: ['0px', '50px'],
-	    	content: $('#addPurchasePlan') //这里content是一个普通的String
-	    });
-    }
+    	tanOne=layer.open({
+		  	type: 1, 
+		  	title:'修改',
+		  	area: ['500px', ''],
+			content: $('#addPlan2'),
+			success:function(index){
+				  form.val("dataform2",data);
+				  urls="updatePurchaseDetails.do";
+			  }
+			});
+    } 
+    
   });
-});
-</script>
-<script>
-layui.use(['form', 'layedit', 'laydate'], function(){
-  var form = layui.form
-  ,layer = layui.layer
-  ,layedit = layui.layedit
-  ,laydate = layui.laydate;
+  //提交数据
+  form.on("submit(demo2)",function(obj){
+		 //序列化表单数据
+		//layui.msg(JSON.Stringify(data.field));
+		 var params=obj.field;
+		 $.ajax({
+			type: "post",
+			url: urls,
+			data: params,
+			dataType:"JSON",
+			success:function(data){
+				//关闭弹出层
+				layer.close(tanOne);
+				//刷新数据表格
+				tableIns.reload();
+				if(urls== 'insertPurchaseDetails.do'){
+				if(data== '1'){
+					layer.msg("添加成功，下次进入生效", {icon: 6});
+				}else{
+					layer.msg("添加失败", {icon: 6});
+				}
+				}else if(urls== 'updatePurchaseDetails.do'){
+					if(data== '1'){
+						layer.msg("修改成功，下次进入生效", {icon: 6});
+					}else{
+						layer.msg("修改失败", {icon: 6});
+					}
+				}
+			}
+		 });
+		 return false; //阻止表单跳转
+		 /* $.post(url,params,function(data){
+			//关闭弹出层
+			layer.close(tanIndex);
+			//刷新数据表格
+			tableIns.reload();
+			
+		 }); */
+	 }); 
+		
+	});
+	  
+  }
   
-  //日期
-  laydate.render({
-    elem: '#date'
-  });
+  //--
+});
 
-  
-  
- 
-  
-  
-});
-</script>
-<script type="text/javascript">
-	function checkForm(frm){
-		/* alert(frm.a.value); */
-		return false;
-	}
+
+
 </script>
 
 </body>

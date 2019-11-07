@@ -33,14 +33,16 @@ public class productAndRecipeServiceImpl implements ProductAndRecipeService{
 	 * @param session 会话对象
 	 */
 	@Override
-	public void addProduct(MainProduct mainProduct,HttpSession session) {
+	public int addProduct(MainProduct mainProduct,HttpSession session) {
 		//生成随机数
 		String string = UUID.randomUUID().toString();
 		//获取会话域中的总店信息
 		MainHeadquarters headquarter=(MainHeadquarters) session.getAttribute("headquarter");
 		mainProduct.setProBatchNumber(string);
 		mainProduct.setHqtId(headquarter.getHqtId());
-		productAndRecipeMapper.addProduct(mainProduct);
+		 int n = productAndRecipeMapper.addProduct(mainProduct);
+		 System.err.println(mainProduct.getProId()+"  " + n);
+		 return mainProduct.getProId();
 	}
 	/**
 	   *方法功能：查询药品

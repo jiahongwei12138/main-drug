@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="com.drug.infoManagement.mapper.ProductAndRecipeMapper">
 	
-	<insert id="addProduct">
+	<insert id="addProduct" > 
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="proId">select last_insert_id()</selectKey>
 		insert into main_product(proName,enlishName,methodOfApplication,proBatchNumber,expirationdate,proForbidden,proCure,proBadness,retailPrice,hqtId)
 		values(#{proName},#{enlishName},#{methodOfApplication},#{proBatchNumber},#{expirationdate},#{proForbidden},#{proCure},#{proBadness},#{retailPrice},#{hqtId})
 	</insert>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.drug.warehouse.mapper.MainProductInStorageMapper">
+	
+	<select id="getInStorageInf" parameterType="Map" resultType="MainProductInStorage">
+		select * from main_productInStorage p
+		join main_employee e
+		on p.checkStaffID = e.empId
+		join main_Storage s
+		on s.storageId = p.whId
+		where piSType like CONCAT(CONCAT('%', #{piSType}), '%')
+		and piSState like CONCAT(CONCAT('%', #{piSState}), '%')
+		limit #{page},#{limit}
+	</select>
+	<select id="getCountISI" resultType="int">
+	select count(*) from main_productInStorage p
+		join main_employee e
+		on p.checkStaffID = e.empId
+		join main_Storage s
+		on s.storageId = p.whId
+		where piSType like CONCAT(CONCAT('%', #{piSType}), '%')
+		and piSState like CONCAT(CONCAT('%', #{piSState}), '%')
+	</select>
+	
+	
+	<select id="getNotChecked" resultType="MainProductInStorage">
+		select * from main_productInStorage where  piSState like '%未入库%'
+	</select>
+	
+	<select id="getMainProductionQualityInf" resultType="MainProductionQuality">
+		select * from productionQuality where insrock = "未入库"
+	</select>
+	<select id="getProductionOrderDetailsInf" parameterType="int" resultType="ProductionOrderDetails">
+		select * from productionQualityDetails po
+		join main_product p
+		on po.proId = p.proId
+		where pqId = #{id}
+	
+	</select>
+	
+	<update id="updProStorageInf" parameterType="MainProductStorage">
+		update main_ProductStorage set productNumber = productNumber+ #{productNumber}
+		where productId =#{proId} and whID = #{whID}
+	</update>
+	
+	<update id="updProInStoInf" parameterType="Map">
+		update main_productInStorage set piSState ="已入库" , checkStates="已审核" ,piSTime = now(),checkStaffId = #{checkStaffId}
+		where piSId = #{piSId}
+	</update>
+	
+	
+	<insert id="insInfInStorage" parameterType="int">
+		insert into main_productInStorage (piSType,piSTime,whID,piSState,checkStates,checkStaffId,poOBoId)
+		values (1,now(),1,'未入库','未审核',null,#{pqId});
+	</insert>
+</mapper>

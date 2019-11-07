@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drug.purchase.mapper.MainPurchasePlanMapper">
+	
+	<select id="getPurchasePlanOrder" parameterType="String" resultType="com.drug.entity.MainPurchasePlan">
+		SELECT * FROM main_purchase_plan where planState=#{planState}
+	</select>
+	
+	<select id="getPurchasePlan" resultType="com.drug.entity.MainPurchasePlan">
+		SELECT * FROM main_purchase_plan
+	</select>
+	
+	<update id="updatePurchasePlanStateOrder" parameterType="com.drug.entity.MainPurchasePlan">
+		UPDATE main_purchase_plan SET rawMaterialTheQualityStatus=#{rawMaterialTheQualityStatus} WHERE majorPlanId=#{majorPlanId}
+	     AND planId=#{planId}
+	</update>
+	
+	<insert id="insertPurchasePlan" parameterType="com.drug.entity.MainPurchasePlan">
+		INSERT INTO main_purchase_plan(majorPlanId,createName,planTotalPrices,planSubmissionTime,planName)
+ 		VALUES(#{majorPlanId},#{createName},#{planTotalPrices},#{planSubmissionTime},#{planName});
+	</insert>
+	
+	<update id="updatePurchasePlan" parameterType="com.drug.entity.MainPurchasePlan">
+		UPDATE main_purchase_plan SET planRealTotalPrices=#{planRealTotalPrices},createName=#{createName},
+		planTotalPrices=#{planTotalPrices},planSubmissionTime=#{planSubmissionTime},planName=#{planName}
+		 WHERE majorPlanId=#{majorPlanId} AND planId=#{planId}
+	</update>
+	
+	<update id="updatePurchasePlanState" parameterType="com.drug.entity.MainPurchasePlan">
+		UPDATE main_purchase_plan SET planState=#{planState} WHERE majorPlanId=#{majorPlanId}
+			 AND planId=#{planId}
+	</update>
+	
+	<update id="updatePurchasePlanSupplier" parameterType="com.drug.entity.MainPurchasePlan">
+		UPDATE main_purchase_plan SET supplierId=#{supplierId} WHERE majorPlanId=#{majorPlanId}
+			 AND planId=#{planId}
+	</update>
+	
+</mapper>

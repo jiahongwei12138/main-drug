@@ -92,6 +92,22 @@ public class EmployeeController {
 		}
 	}
 	/**
+	 *方法功能：重置员工密码
+	 * @param empId 员工id
+	 * @return boolean 重置结果 true：重置成功  false：重置失败
+	 */
+	@RequestMapping("/resetEmpPwd")
+	@ResponseBody
+	public boolean resetEmpPwd(Integer empId) {
+		try {
+			employeeService.resetEmpPwd(empId);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	/**
 	   *方法功能：添加员工
 	 * @param mainEmployee 员工对象
 	 * @param file 员工头像图片

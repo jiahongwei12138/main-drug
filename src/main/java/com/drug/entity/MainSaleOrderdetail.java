@@ -72,5 +72,11 @@ public class MainSaleOrderdetail {
 	public void setField2(Integer field2) {
 		this.field2 = field2;
 	}
+	@Override
+	public String toString() {
+		return "MainSaleOrderdetail [detailsId=" + detailsId + ", proId=" + proId + ", orderId=" + orderId + ", proNum="
+				+ proNum + ", proPrice=" + proPrice + ", field1=" + field1 + ", field2=" + field2 + ", proBatchNumber="
+				+ proBatchNumber + ", proName=" + proName + ", retailPrice=" + retailPrice + "]";
+	}
 	
 }

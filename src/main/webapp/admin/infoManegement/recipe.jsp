@@ -162,7 +162,7 @@
 												layer.msg("添加失败", {time:2000, icon:5, shift:6});
 											}else{
 												layer.msg("添加成功", {time:2000, icon:1, shift:3},function(){
-													 layer.close(index);
+													 layer.close(layer.index);
 													 table.reload('demo'); 
 												});
 											}

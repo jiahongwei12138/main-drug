@@ -17,6 +17,7 @@ import com.drug.entity.MainRecipe;
 import com.drug.entity.MainRecipedetail;
 import com.drug.infoManagement.service.ProductAndRecipeService;
 import com.drug.util.ToolClass;
+import com.drug.warehouse.mapper.MainProductStorageMapper;
 /**
  * 类描述：药品及配方管理
  * @author jhw
@@ -28,6 +29,8 @@ public class ProductAndRecipeController {
 
 	@Autowired
 	private ProductAndRecipeService productAndRecipeService;
+	@Autowired
+	private MainProductStorageMapper mainProductStorageMapper;
 	/**
 	   *方法功能：添加药品
 	 * @param mainProduct 药品对象
@@ -38,7 +41,10 @@ public class ProductAndRecipeController {
 	@ResponseBody
 	public boolean addProduct(MainProduct mainProduct,HttpSession session) {
 		try {
-			productAndRecipeService.addProduct(mainProduct,session);
+			int proId = productAndRecipeService.addProduct(mainProduct,session);
+			System.err.println("成品Id"+proId);
+			mainProductStorageMapper.insInfToProStore1(proId);
+			mainProductStorageMapper.insInfToProStore2(proId);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -68,6 +68,7 @@ public class SaleOrderController {
 	/**
 	 * 方法功能：审核订单
 	 * @param orderId 订单id
+	 * @param bpoId 采购订单id
 	 * @return Object  true:审核成功  false：审核失败
 	 */
 	@RequestMapping("/checkOrder")
@@ -80,6 +81,16 @@ public class SaleOrderController {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	/**
+	 * 方法功能：查询销售报表
+	 * @return Map<String,Object> 
+	 */
+	@RequestMapping("/querySaleReport")
+	@ResponseBody
+	public Map<String, Object> querySaleReport() {
+		Map<String, Object> map=saleOrderService.querySaleReport();
+		return map;
 	}
 	
 	

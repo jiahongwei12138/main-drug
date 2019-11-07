@@ -23,67 +23,129 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div style="display: none;" id="purchaseOrderDetails">
  	<table class="layui-hide" id="demo" lay-filter="demo"></table>
  </div>
- <div>
-<form class="layui-form" >
-<table style="width: 100%">
- 	<tr>
- 		<td><label class="layui-form-label" style="margin-top: -5px;font-size:13px;">采购计划编号：</label>
-   			<div class="layui-input-block">
-      			<input name="a" class="layui-input" type="text" autocomplete="off" lay-verify="title" style="width: 200px;height: 30px">
-    		</div></td>
-    	<td><label class="layui-form-label" style="margin-top: -10px;font-size:13px;">计划员：</label>
-   			<div class="layui-input-block">
-      			<input name="a" class="layui-input" type="text" autocomplete="off" lay-verify="title" style="width: 200px;height: 30px">
-    		</div></td>
-		<td><label class="layui-form-label" style="margin-top: -10px;font-size:13px;">采购部门：</label>
-   			<div class="layui-input-block">
-      			<input name="a" class="layui-input" type="text" autocomplete="off" lay-verify="title" style="width: 200px;height: 30px">
-    		</div></td>
- 	</tr>
- 	<tr>
- 		<td><label class="layui-form-label" style="margin-top: -20px;font-size:13px;">采购员：</label>
-   			<div class="layui-input-block">
-      			<input name="a" class="layui-input" type="text" autocomplete="off" lay-verify="title" style="width: 200px;height: 30px ;margin-top: -20px">
-    		</div></td>
- 		<td>
-			<label class="layui-form-label" style="margin-top: -20px;font-size:13px;">审核状态：</label>
-      <div class="layui-input-inline" style="width: 200px;height: 30px;margin-top: -20px">
-       <select name="interest" lay-filter="aihao">
-        <option value="">全部状态</option>
-        <option value="0">写作</option>
-        <option value="1">阅读</option>
-      </select>
-      </div>
-			
-		</td>
-		<td>
-			<label class="layui-form-label" style="margin-top: -20px;font-size:13px;">计划制定日期：</label>
-   			<div class="layui-input-block">
-      			<input name="date" class="layui-input" id="date" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="date" style="width: 200px;height: 30px"/>
-    		</div>
-    		
-		</td>
- 	</tr>
- </table>
-</form>
- </div>
+ 
+ 
 <table class="layui-hida" id="test" lay-filter="test"></table>
 
 
 <iframe id="updatePurchase" src="admin/purchase/updatePurchase.jsp" style="display: none;" frameborder="0" width="1000px;" height="500px"></iframe>
  
  
- 
-<script id="toolbarDemo" type="text/html">
-  <div class="layui-btn-container">
-	<button class="layui-btn layui-btn-sm" lay-event="select"><i class="layui-icon layui-icon-search"></i>搜索</button>
-  </div>
-</script>
+ <!-- 质检审核 -->
+<div id="planState" style="display: none;">
+	
+	<form class="layui-form" lay-filter="dataform3" id="dataform3" method="post">
+	<div class="layui-form-item" style="display: none;">
+    <label class="layui-form-label" style="font-size:13px;">采购计划id：</label>
+    <div class="layui-input-block">
+      <input name="planId" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required ">
+    </div>
+    </div>
+    
+    <div class="layui-form-item" style="display: none;">
+    <label class="layui-form-label" style="font-size:13px;">采购月计划id：</label>
+    <div class="layui-input-block">
+      <input name="majorPlanId" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required ">
+    </div>
+	</div>
+	
+	<label class="layui-form-label" style="font-size:13px;">质检审核状态</label>
+   			<div class="layui-input-block">
+      			<select name="rawMaterialTheQualityStatus" lay-filter="aihao">
+        			<option value="通过">通过</option>
+        			<option value="未通过">未通过</option>
+      			</select>
+    		</div>
+    		<div class="layui-form-item">
+   			 <div class="layui-input-block">
+   			   <button class="layui-btn" lay-filter=demo2 lay-submit="">立即提交</button>
+   			 </div>
+  			</div>
+	</form>
+</div>
+
+<!-- 详情质检审核 -->
+<div id="planDetailsState" style="display: none;">
+	
+	<form class="layui-form" lay-filter="dataform5" id="dataform5" method="post">
+	<div class="layui-form-item" style="display: none;">
+    <label class="layui-form-label" style="font-size:13px;">采购计划id：</label>
+    <div class="layui-input-block">
+      <input name="planId" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required ">
+    </div>
+    </div>
+    
+    <div class="layui-form-item" style="display: none;">
+    <label class="layui-form-label" style="font-size:13px;">采购月计划id：</label>
+    <div class="layui-input-block">
+      <input name="detailsReservedOne" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required ">
+    </div>
+	</div>
+	
+	<div class="layui-form-item" style="display: none;">
+    <label class="layui-form-label" style="font-size:13px;">采购计划详情id：</label>
+    <div class="layui-input-block">
+      <input name="detailsId" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required ">
+    </div>
+	</div>
+	
+	<label class="layui-form-label" style="font-size:13px;">质检审核状态</label>
+   			<div class="layui-input-block">
+      			<select name="detailSqualityStatus" lay-filter="aihao">
+        			<option value="通过">通过</option>
+        			<option value="未通过">未通过</option>
+      			</select>
+    		</div>
+    		<div class="layui-form-item">
+   			 <div class="layui-input-block">
+   			   <button class="layui-btn" lay-filter=demo3 lay-submit="">立即提交</button>
+   			 </div>
+  			</div>
+	</form>
+</div>
+
+<!-- 添加供应商ID -->
+<div id="addSupplier" style="display: none;">
+	
+	<form class="layui-form" lay-filter="dataform4" id="dataform4" method="post">
+	<div class="layui-form-item" style="display: none;">
+    <label class="layui-form-label" style="font-size:13px;">采购计划id：</label>
+    <div class="layui-input-block">
+      <input name="planId" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required ">
+    </div>
+    </div>
+    
+    <div class="layui-form-item" style="display: none;">
+    <label class="layui-form-label" style="font-size:13px;">采购月计划id：</label>
+    <div class="layui-input-block">
+      <input name="majorPlanId" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required ">
+    </div>
+	</div>
+	
+	<div class="layui-form-item">
+	<label class="layui-form-label" style="font-size:13px;">供应商ID</label>
+    <div class="layui-input-block">
+      <input name="supplierId" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required ">
+    </div>
+    </div>
+    		
+    		<div class="layui-form-item">
+   			 <div class="layui-input-block">
+   			   <button class="layui-btn" lay-filter=demo2 lay-submit="">立即提交</button>
+   			 </div>
+  			</div>
+	</form>
+</div>
  
 <script id="barDemo" type="text/html">
-  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit">添加供应商ID</a>
+<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="state">质检审核</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">退货</a>
   
+</script>
+
+<script id="barDemo2" type="text/html">
+<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="state2">质检审核</a>
 </script>
               
           
@@ -91,12 +153,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 --> 
  
 <script>
-layui.use('table', function(){
-  var table = layui.table;
-  
-  table.render({
+ layui.use(['table','form', 'layedit', 'laydate','layer'], function(){
+	  var table = layui.table;
+	  var form = layui.form
+	  ,layer = layui.layer
+	  ,layedit = layui.layedit
+	  ,laydate = layui.laydate;
+	  var urls;
+	  var tanOne;
+	  var tableIns;
+	  
+	  tableIns=table.render({
     elem: '#test'
-    ,url:'admin/json/demo1.json'
+    ,url:'getPurchasePlanOrder.do'
     ,toolbar: '#toolbarDemo'
     ,title: '用户数据表'
     /* ,parseData:function(res){
@@ -109,45 +178,28 @@ layui.use('table', function(){
     	}
     } */
     ,cols: [[
-      {field:'stuid', title:'采购订单号', width:120, fixed: 'left', unresize: true}
-      ,{field:'stuName', title:'下单时间', width:120}
-      ,{field:'stuAge', title:'预计到货时间', width:150}
-      ,{field:'stuSex', title:'采购人', width:120}
-      ,{field:'claId', title:'供货商', width:120}
-      ,{field:'sign', title:'采购金额'}
-      ,{field:'experience', title:'采购状态', width:120}
-      ,{field:'ip', title:'付款状态', width:120}
-      ,{field:'logins', title:'入库状态', width:120}
-      ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+      {field:'planId', title:'采购订单号'}
+      ,{field:'majorPlanId', title:'采购月计划编号'}
+      ,{field:'planName', title:'订单名'}
+      ,{field:'planSubmissionTime', title:'下单时间'}
+      ,{field:'createName', title:'采购人'}
+      ,{field:'supplierId', title:'供货商ID'}
+      ,{field:'planRealTotalPrices', title:'采购金额'}
+      ,{field:'checkState', title:'付款状态'}
+      ,{field:'inStoregState', title:'入库状态'}
+      ,{field:'rawMaterialTheQualityStatus', title:'质检状态'}
+      ,{fixed: 'right', title:'操作', toolbar: '#barDemo',width:240}
     ]]
     ,page: true
   });
   
   //头工具栏事件
-  table.on('toolbar(test)', function(obj){
-    var checkStatus = table.checkStatus(obj.config.id);
-    switch(obj.event){
-      case 'select':
-    	  break;
-    };
-  });
   table.on('edit(test)', function(obj){
 	  console.log(obj.value); 
 	  alert(obj.value);
   });
-  table.on('rowDouble(test)', function(obj){
-	    var layer = layui.layer;
-	    layer.open({
-	    	type: 1, 
-	    	title:'详细信息',
-	    	area: ['1000px', '500px'],
-	    	offset: ['00px', '50px'],
-	    	content: $('#purchaseOrderDetails') //这里content是一个普通的String
-	    });
-
-	});
-
-  //监听行工具事件
+  
+//监听行工具事件
   table.on('tool(test)', function(obj){
     var data = obj.data;
     //console.log(obj)
@@ -159,48 +211,203 @@ layui.use('table', function(){
     }else if(obj.event==='edit'){
     	
     	var layer = layui.layer;
-	    layer.open({
+    	tanOne=layer.open({
 	    	type: 1, 
-	    	title:'详细信息',
-	    	area: ['auto', 'auto'],
+	    	title:'添加供应商',
+	    	area: ['300px', '200px'],
 	    	offset: ['00px', '50px'],
-	    	content: $('#updatePurchase') //这里content是一个普通的String
+	    	content: $('#addSupplier'), //这里content是一个普通的String
+	    	success:function(index){
+				  form.val("dataform4",data);
+				  urls="updatePurchasePlanSupplier.do";
+			  }
 	    });
+    } else if(obj.event === 'state'){
+    	var layer = layui.layer;
+    	tanOne=layer.open({
+		  	type: 1, 
+		  	title:'质检审核',
+		  	area: ['300px', '200px'],
+		  	offset: ['0px', '50px'],
+			content: $('#planState'),
+			success:function(index){
+				  form.val("dataform3",data);
+				  urls="updatePurchasePlanStateOrder.do";
+			  }
+			});
     }
   });
   
-  layui.use('table', function(){
-	  var table = layui.table;
-	  table.render({
-	    elem: '#demo'
-	    ,url:'admin/json/demo1.json'
-	    ,title: '用户数据表'
-	    /* ,parseData:function(res){
-	    	console.log(res);
-	    	return{
-	    		code: 0, //解析接口状态
-	    		msg:"", //解析提示文本
-	    		count: 1000, //解析数据长度
-	    		data: res //解析数据列表
-	    	}
-	    } */
-	    ,cols: [[
-	      {type: 'checkbox', fixed: 'left'}
-	      ,{field:'stuid', title:'ID', width:80, fixed: 'left', unresize: true, sort: true}
-	      ,{field:'stuName', title:'用户名', width:120, edit: 'text'}
-	      ,{field:'stuAge', title:'邮箱', width:150, edit: 'text'}
-	      ,{field:'stuSex', title:'性别', width:80, edit: 'text', sort: true}
-	      ,{field:'claId', title:'城市', width:100}
-	      ,{field:'sign', title:'签名'}
-	      ,{field:'experience', title:'积分', width:80, sort: true}
-	      ,{field:'ip', title:'IP', width:120}
-	      ,{field:'logins', title:'登入次数', width:100, sort: true}
-	      ,{field:'joinTime', title:'加入时间', width:120}
-	    ]]
-	    ,page: true
-	  });
-	  
+  
+  form.on("submit(demo2)",function(obj){
+		 //序列化表单数据
+		//layui.msg(JSON.Stringify(data.field));
+		 var params=obj.field;
+		 $.ajax({
+			type: "post",
+			url: urls,
+			data: params,
+			dataType:"JSON",
+			success:function(data){
+				//关闭弹出层
+				layer.close(tanOne);
+				//刷新数据表格
+				tableIns.reload();
+				if(urls== 'updatePurchasePlanSupplier.do'){
+				if(data== '1'){
+					layer.msg("添加供应商成功", {icon: 6});
+				}else{
+					layer.msg("操作失败", {icon: 6});
+				}
+				}else if(urls== 'updatePurchasePlanStateOrder.do'){
+					if(data== '1'){
+						layer.msg("质检操作成功", {icon: 6});
+					}else{
+						layer.msg("操作失败", {icon: 6});
+					}
+				}
+			}
+		 });
+		 return false; //阻止表单跳转
+		 /* $.post(url,params,function(data){
+			//关闭弹出层
+			layer.close(tanIndex);
+			//刷新数据表格
+			tableIns.reload();
+			
+		 }); */
+	})
+	
+	
+  
+  table.on('rowDouble(test)', function(obj){
+    	 var layer = layui.layer;
+	    var data=obj.data.majorPlanId;
+	    var data2=obj.data.planId;
+	    $.ajax({
+    		type:"post",
+    		url:'setPurchaseDetailsSession.do',
+    		data:"majorPlanId="+data+"&planId="+data2,
+    		success:function(){
+    			
+    		}
+    	 })
+	    layer.open({
+	    	type: 1, 
+	    	title:'详细信息',
+	    	area: ['1000px', '500px'],
+	    	offset: ['00px', '50px'],
+	    	content: $('#purchaseOrderDetails'), //这里content是一个普通的String
+	    	success:function(layero, index){
+    			plans();
+    		}
+	    });
+
 	});
+  
+  function plans(){
+	  
+	  layui.use(['table','form', 'layedit', 'laydate','layer'], function(){
+		  var table = layui.table;
+		  var form = layui.form
+		  ,layer = layui.layer
+		  ,layedit = layui.layedit
+		  ,laydate = layui.laydate;
+		  var urls;
+		  var tanOne;
+		  var tableIns;
+		  
+		  
+		  tableIns=table.render({
+		    elem: '#demo'
+		    ,url:'getPurchaseDetails.do'
+		    ,title: '用户数据表'
+		    /* ,parseData:function(res){
+		    	console.log(res);
+		    	return{
+		    		code: 0, //解析接口状态
+		    		msg:"", //解析提示文本
+		    		count: 1000, //解析数据长度
+		    		data: res //解析数据列表
+		    	}
+		    } */
+		    ,cols: [[
+		      {fixed: 'left'}
+		      ,{field:'detailsId', title:'ID'}
+		      ,{field:'detailsName', title:'原材料名称'}
+		      ,{field:'detailsQuantity', title:'原材料数量'}
+		      ,{field:'detailsCategory', title:'单位'}
+		      ,{field:'detailsUnitPrice', title:'原材料单价'}
+		      ,{field:'detailsPrice', title:'原材料小计'}
+		      ,{field:'planId', title:'采购单ID'}
+		      ,{field:'detailsReservedOne', title:'采购月计划ID'}
+		      ,{field:'detailSqualityStatus', title:'质检状态'}
+		      ,{fixed: 'right', title:'操作', toolbar: '#barDemo2'}
+		    ]]
+		    ,page: true
+		  });
+		  
+		//监听行工具事件
+		  table.on('tool(demo)', function(obj){
+		    var data = obj.data;
+		    var detailsId = data.detailsId
+		    var majorPlanId = data.majorPlanId;
+		    //console.log(obj)
+		    if(obj.event === 'state2'){
+		    	tanOne=layer.open({
+				  	type: 1, 
+				  	title:'质检审核',
+				  	area: ['500px', '300px'],
+					content: $('#planDetailsState'),
+					success:function(index){
+						  form.val("dataform5",data);
+						  urls="updatePurchaseDetailsOrderState.do";
+					  }
+					});
+		    } 
+		    
+		  });
+		  //提交数据
+		  form.on("submit(demo3)",function(obj){
+				 //序列化表单数据
+				//layui.msg(JSON.Stringify(data.field));
+				 var params=obj.field;
+				 $.ajax({
+					type: "post",
+					url: urls,
+					data: params,
+					dataType:"JSON",
+					success:function(data){
+						//关闭弹出层
+						layer.close(tanOne);
+						//刷新数据表格
+						tableIns.reload();
+						if(urls== 'updatePurchaseDetailsOrderState.do'){
+						if(data== '1'){
+							layer.msg("质检审核成功,下次进入生效", {icon: 6});
+						}else{
+							layer.msg("添加失败", {icon: 6});
+						}
+						}
+					}
+				 });
+				 return false; //阻止表单跳转
+				 /* $.post(url,params,function(data){
+					//关闭弹出层
+					layer.close(tanIndex);
+					//刷新数据表格
+					tableIns.reload();
+					
+				 }); */
+			 }); 
+		  
+		});
+	  
+	  
+	  
+  }
+  
+//-----
 
 });
 

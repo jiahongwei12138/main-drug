@@ -23,7 +23,7 @@
 	
 	<insert id="addBackSale" parameterType="MainBranchbacksale" useGeneratedKeys="true" keyProperty="backSaleId">
 		insert into main_branchbacksale(backReason,backMoney,backTime,backOrderNum,bsfId,bprId)
-		values(#{backReason},#{backMoney},#{backTime},#{backOrderNum},#{bsfId},#{bprId)})
+		values(#{backReason},#{backMoney},#{backTime},#{backOrderNum},#{bsfId},#{bprId})
 	</insert>
 	
 	<insert id="addBackSaleDetail" parameterType="Map">

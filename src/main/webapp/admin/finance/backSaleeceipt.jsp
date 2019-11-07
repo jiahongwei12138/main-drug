@@ -131,7 +131,8 @@ label{
 		 	        		type:"post",
 		 	        		url:"${APP_PATH}/checkbackOrder.do",
 		 	        		data:{
-		 	        			"backSaleId":data[0].backSaleId
+		 	        			"backSaleId":data[0].backSaleId,
+		 	        			"bprId":data[0].bprId
 		 	        		},
 		 	        		success:function(result){
 		 	        			if(result==false){

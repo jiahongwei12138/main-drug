@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drug.purchase.mapper.MainSupplierMapper">
+	<select id="getSupplierAllInfo" resultType="com.drug.entity.MainSupplier">
+		SELECT supplierId,supplierClassify,supplierName,supplierNumber,
+		supplierSite,supplierContact,createTime FROM main_supplier
+		LIMIT #{page},#{limit}
+	</select>
+	
+	<select id="fuzzySupplierAllInfo" parameterType="String" resultType="com.drug.entity.MainSupplier">
+		SELECT supplierId,supplierName,supplierNumber,
+		supplierSite,supplierContact,createTime FROM main_supplier
+		<where>
+			<if test="_parameter !=null and _parameter !=''">
+				 supplierName LIKE "%"#{moName}"%"
+			</if>
+		</where>
+		LIMIT #{page},#{limit}
+	</select>
+	
+	<select id="selectCount" parameterType="String" resultType="Integer">
+		SELECT COUNT(supplierId) FROM main_supplier
+		<where>
+			<if test="_parameter !=null and _parameter !=''">
+				 supplierName LIKE "%"#{moName}"%"
+			</if>
+		</where>
+	</select>
+	
+	<insert id="addSupplierNewInfo" parameterType="com.drug.entity.MainSupplier">
+		INSERT INTO main_supplier(supplierClassify,supplierName,supplierNumber,
+		supplierSite,supplierContact,createTime) VALUES(#{supplierClassify},
+		#{supplierName},#{supplierNumber},#{supplierSite},#{supplierContact},#{createTime});
+	</insert>
+	
+	<delete id="deleteSupplier" parameterType="Integer">
+		DELETE FROM main_supplier WHERE supplierId=#{id}
+	</delete>
+	
+	<update id="updateSupplierInfo" parameterType="com.drug.entity.MainSupplier">
+		UPDATE main_supplier SET supplierClassify=#{supplierClassify},supplierName=#{supplierName},
+		supplierNumber=#{supplierNumber},supplierSite=#{supplierSite},supplierContact=#{supplierContact},createTime=#{createTime}
+		 WHERE supplierId=#{supplierId}
+	</update>
+	
+</mapper>

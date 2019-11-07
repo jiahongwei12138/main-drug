@@ -19,142 +19,70 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>          
   <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
+
 <body>
+
  <div style="display: none;" id="material">
- 	<table class="layui-hide" id="demo" lay-filter="demo"></table>
+ 	<table class="layui-table" id="demo" lay-filter="demo" lay-data="{id: 'idTest'}"></table>
  </div>
-<table class="layui-hide" id="test" lay-filter="test"></table>
+ 
+<table class="layui-table" id="test" lay-filter="test"></table>
 
-
+<!-- 新增 -->
 <div id="div" style="display: none;">
- 	<form class="layui-form" action="">
-  <div class="layui-form-item">
-    <label class="layui-form-label" style="font-size:13px;">单行输入框</label>
+ 	<form class="layui-form"  lay-filter="dataform" id="dataform" method="post">
+  <!-- 新增供应商 -->
+  <div class="layui-form-item" style="display: none;">
+    <label class="layui-form-label" style="font-size:13px;">供应商名称：</label>
     <div class="layui-input-block">
-      <input name="title" class="layui-input" type="text" placeholder="请输入标题" autocomplete="off" lay-verify="title">
-    </div>
-  </div>
-  <div class="layui-form-item">
-    <label class="layui-form-label" style="font-size:13px;">验证必填项</label>
-    <div class="layui-input-block">
-      <input name="username" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？">
+      <input name="supplierId" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required ">
     </div>
   </div>
   
   <div class="layui-form-item">
-    <div class="layui-inline">
-      <label class="layui-form-label" style="font-size:13px;">多规则验证</label>
-      <div class="layui-input-inline">
-        <input name="number" class="layui-input" type="text" autocomplete="off" lay-verify="required|number">
-      </div>
-    </div>
-    <div class="layui-inline">
-      <label class="layui-form-label" style="font-size:13px;">验证日期</label>
-      <div class="layui-input-inline">
-        <input name="date" class="layui-input" id="date" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="date">
-      </div>
-    </div>
-    <div class="layui-inline">
-      <label class="layui-form-label" style="font-size:13px;">验证链接</label>
-      <div class="layui-input-inline">
-        <input name="url" class="layui-input" type="tel" autocomplete="off" lay-verify="url">
-      </div>
-    </div>
-  </div>
-  
-  <div class="layui-form-item">
-    <label class="layui-form-label" style="font-size:13px;">验证身份证</label>
+    <label class="layui-form-label" style="font-size:13px;">供应商名称：</label>
     <div class="layui-input-block">
-      <input name="identity" class="layui-input" type="text" placeholder="" autocomplete="off" lay-verify="identity">
+      <input name="supplierName" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required ">
     </div>
   </div>
+
   <div class="layui-form-item">
-    <label class="layui-form-label" style="font-size:13px;">自定义验证</label>
-    <div class="layui-input-inline">
-      <input name="password" class="layui-input" type="password" placeholder="请输入密码" autocomplete="off" lay-verify="pass">
-    </div>
-    <div class="layui-form-mid layui-word-aux">请填写6到12位密码</div>
-  </div>
-  
-  <div class="layui-form-item">
-    <div class="layui-inline">
-      <label class="layui-form-label" style="font-size:13px;">范围</label>
-      <div class="layui-input-inline" style="width: 100px;">
-        <input name="price_min" class="layui-input" type="text" placeholder="￥" autocomplete="off">
-      </div>
-      <div class="layui-form-mid">-</div>
-      <div class="layui-input-inline" style="width: 100px;">
-        <input name="price_max" class="layui-input" type="text" placeholder="￥" autocomplete="off">
-      </div>
-    </div>
-  </div>
-  
-  <div class="layui-form-item">
-    <label class="layui-form-label" style="font-size:13px;">单行选择框</label>
+    <label class="layui-form-label" style="font-size:13px;">供应商代码：</label>
     <div class="layui-input-block">
-      <select name="interest" lay-filter="aihao">
-        <option value=""></option>
-        <option value="0">写作</option>
-        <option value="1" selected="">阅读</option>
-        <option value="2">游戏</option>
-        <option value="3">音乐</option>
-        <option value="4">旅行</option>
+      <input name="supplierNumber" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required" lay-reqtext="设置提示文字">
+    </div>
+  </div>
+  
+  <div class="layui-form-item">
+    <label class="layui-form-label" style="font-size:13px;">供应商地址：</label>
+    <div class="layui-input-block">
+      <input name="supplierSite" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required ">
+    </div>
+  </div>
+  
+  <div class="layui-form-item">
+    <label class="layui-form-label" style="font-size:13px;">联系方式：</label>
+    <div class="layui-input-block">
+      <input name="supplierContact" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required ">
+    </div>
+  </div>
+  
+  
+  <div class="layui-form-item">
+    <label class="layui-form-label" style="font-size:13px;">供应商类型：</label>
+    <div class="layui-input-block">
+      <select name="supplierClassify" lay-filter="aihao">
+        <option value="原材料" selected="">原材料</option>
+        <option value="其他">其他</option>
       </select>
     </div>
   </div>
   
-  
-    <div class="layui-inline">
-      <label class="layui-form-label" style="font-size:13px;">分组选择框</label>
-      <div class="layui-input-inline">
-        <select name="quiz">
-          <option value="">请选择问题</option>
-          <optgroup label="城市记忆">
-            <option value="你工作的第一个城市">你工作的第一个城市</option>
-          </optgroup>
-          <optgroup label="学生时代">
-            <option value="你的工号">你的工号</option>
-            <option value="你最喜欢的老师">你最喜欢的老师</option>
-          </optgroup>
-        </select>
-      </div>
-    </div>
-  
-  <div class="layui-form-item" pane="">
-    <label class="layui-form-label" style="font-size:13px;">原始复选框</label>
-    <div class="layui-input-block">
-      <input name="like1[write]" title="写作" type="checkbox" checked="" lay-skin="primary">
-      <input name="like1[read]" title="阅读" type="checkbox" lay-skin="primary">
-      <input name="like1[game]" title="游戏" disabled="" type="checkbox" lay-skin="primary">
-    </div>
+  <label class="layui-form-label" style="font-size:13px;">加入时间：</label>
+		<div class="layui-input-block">
+  		<input name="createTime" class="layui-input" id="date1" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="date"/>
   </div>
   
-  <div class="layui-form-item">
-    <label class="layui-form-label" style="font-size:13px;">开关-默认关</label>
-    <div class="layui-input-block">
-      <input name="close" type="checkbox" lay-skin="switch" lay-text="ON|OFF">
-    </div>
-  </div>
-  <div class="layui-form-item">
-    <label class="layui-form-label" style="font-size:13px;">开关-默认开</label>
-    <div class="layui-input-block">
-      <input name="open" type="checkbox" checked="" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
-    </div>
-  </div>
-  <div class="layui-form-item">
-    <label class="layui-form-label" style="font-size:13px;">单选框</label>
-    <div class="layui-input-block">
-      <input name="sex" title="男" type="radio" checked="" value="男">
-      <input name="sex" title="女" type="radio" value="女">
-      <input name="sex" title="禁用" disabled="" type="radio" value="禁">
-    </div>
-  </div>
-  <div class="layui-form-item layui-form-text">
-    <label class="layui-form-label" style="font-size:13px;">普通文本域</label>
-    <div class="layui-input-block">
-      <textarea class="layui-textarea" placeholder="请输入内容">请输入内容</textarea>
-    </div>
-  </div>
   <div class="layui-form-item">
     <div class="layui-input-block">
       <button class="layui-btn" lay-filter="demo1" lay-submit="">立即提交</button>
@@ -163,15 +91,64 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </div>
 </form>
  </div>
+
+<!-- 供应商详情增加 -->
+ <div id="div2" style="display: none;">
+ 	<form class="layui-form"  lay-filter="dataformOff" id="dataformOff" method="post">
+ <div class="layui-form-item">
+    <label class="layui-form-label" style="font-size:13px;">供应商ID：</label>
+    <div class="layui-input-block">
+      <input name="supplierId" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required ">
+    </div>
+  </div>
  
+  <div class="layui-form-item" style="display: none;">
+    <label class="layui-form-label" style="font-size:13px;">原材料ID：</label>
+    <div class="layui-input-block">
+      <input name="offerId" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required ">
+    </div>
+  </div>
+  
+  <div class="layui-form-item">
+    <label class="layui-form-label" style="font-size:13px;">材料名称：</label>
+    <div class="layui-input-block">
+      <input name="offerName" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required ">
+    </div>
+  </div>
+
+  <div class="layui-form-item">
+    <label class="layui-form-label" style="font-size:13px;">材料价格：</label>
+    <div class="layui-input-block">
+      <input name="offerPrice" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required ">
+    </div>
+  </div>
+  
+  <div class="layui-form-item">
+    <label class="layui-form-label" style="font-size:13px;">材料产地：</label>
+    <div class="layui-input-block">
+      <input name="offerPlaceOfOrigin" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required ">
+    </div>
+  </div>
+  
+  <label class="layui-form-label" style="font-size:13px;">材料单位：</label>
+		<div class="layui-input-block">
+  		<input name="offerRemark" class="layui-input" type="text" autocomplete="off" lay-verify="required"/>
+  </div>
+  
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <button class="layui-btn" lay-filter="demo2" lay-submit="">立即提交</button>
+      <button class="layui-btn layui-btn-primary" type="reset">重置</button>
+    </div>
+  </div>
+</form>
+ </div>
  
- 
- 
- 
+ <!-- 模糊查询 -->
 <script id="toolbarDemo" type="text/html">
-  <div class="layui-btn-container">
+  <div clamo'huss="layui-btn-container">
     <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-add-1"></i>新增</button>
-	<input type="text" placeholder="请供应商姓名" class="layui-text"  id="select" style="width:150px;height:30px;">
+	<input type="text" placeholder="请输入供应商姓名" class="layui-text" name="moName" id="moName" style="width:150px;height:30px;">
 	<button class="layui-btn layui-btn-sm" lay-event="select"><i class="layui-icon layui-icon-search"></i>搜索</button>
   </div>
 </script>
@@ -180,18 +157,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
-              
-          
+
+
+<script id="supDetail" type="text/html">
+  <a class="layui-btn layui-btn-xs" lay-event="see">供应商详情</a>
+</script>
+     
 <script src="layui/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 --> 
  
 <script>
-layui.use('table', function(){
-  var table = layui.table;
+layui.use(['table','form','laydate','element','jquery','layer'], function(){
+	  var $ = layui.jquery;
+	  var table = layui.table;
+	  var form = layui.form;
+	  var laydate = layui.laydate;
+	  var element = layui.element;
+	  var layer=layui.layer;
+	  var tanOne;
+	  var tableIns;
+	  var urls;
   
-  table.render({
+ tableIns=table.render({
     elem: '#test'
-    ,url:'admin/json/demo1.json'
+    ,url:'getSupplierAllInfo.do'
     ,toolbar: '#toolbarDemo'
     ,title: '用户数据表'
     /* ,parseData:function(res){
@@ -205,18 +194,15 @@ layui.use('table', function(){
     } */
     ,cols: [[
       {type: 'checkbox'}
-      ,{field:'stuid', title:'ID', width:80,  sort: true}
-      ,{field:'stuName', title:'用户名', width:120, edit: 'text',templet:'<div><img src="{{ d.stuName}}"></div>'}
-      ,{field:'stuAge', title:'邮箱', width:150, edit: 'text'}
-      ,{field:'stuSex', title:'性别', width:80, edit: 'text', sort: true}
-      ,{field:'claId', title:'城市', width:100}
-      ,{field:'sign', title:'签名'}
-      ,{field:'experience', title:'积分', width:80, sort: true}
-      ,{field:'ip', title:'IP', width:120}
-      ,{field:'logins', title:'登入次数', width:100, sort: true}
-      ,{field:'joinTime', title:'加入时间', width:120}
-      ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
-    ]]
+      ,{field:'supplierId', title:'ID', width:'5%',  sort: true}
+      ,{field:'supplierName', title:'供应商名称'}
+      ,{field:'supplierNumber', title:'供应商代码'}
+      ,{field:'supplierSite', title:'供应商地址', width:'20%'}
+      ,{field:'supplierContact', title:'供应商联系电话' }
+      ,{field:'supplierClassify', title:'供应商类型' }
+      ,{field:'createTime', title:'加入时间', }
+      ,{fixed: 'right', title:'操作', toolbar: '#barDemo',width:'10%'}
+    ]] 
     ,page: true
   });
   
@@ -225,12 +211,16 @@ layui.use('table', function(){
     var checkStatus = table.checkStatus(obj.config.id);
     switch(obj.event){
     	case 'add':
-  	  		layer.open({
+    		tanOne=layer.open({
   		  		type: 1, 
   		  		title:'新增',
-  		  		area: ['500px', '300px'],
-  				content: $('#div') 
-  				
+  		  		area: ['500px', ''],
+  				content: $('#div'), 
+  				success:function(index){
+  					urls="addSupplierNewInfo.do";
+					 //清空表单数据
+					 $("#dataform")[0].reset();								  
+				 }
   				});
   	  		break;
     	case 'select':
@@ -240,67 +230,249 @@ layui.use('table', function(){
     };
   });
   
+  
+  
+  laydate.render({
+	    elem: '#date1'
+	  });
+  
   //监听行工具事件
   table.on('tool(test)', function(obj){
     var data = obj.data;
+    var supId = data.supplierId;
     //console.log(obj)
     if(obj.event === 'del'){
       layer.confirm('真的删除行么', function(index){
         obj.del();
         layer.close(index);
+        $.ajax({
+    		type:"post",
+    		url:'deleteSupplier.do',
+    		data:"supplierId="+supId,
+    		success:function(){
+    			tableIns.reload();
+    		}
+    	 })
       });
     } else if(obj.event === 'edit'){
-    	layer.open({
+    	tanOne=layer.open({
 		  	type: 1, 
 		  	title:'修改',
-		  	area: ['500px', '300px'],
-			content: $('#div') 
-				
+		  	area: ['500px', ''],
+			content: $('#div'),
+			success:function(index){
+				  form.val("dataform",data);
+				  urls="updateSupplierInfo.do";
+			  }
 			});
-    }
+    } 
   });
+  //提交数据
+  form.on("submit(demo1)",function(obj){
+		 //序列化表单数据
+		//layui.msg(JSON.Stringify(data.field));
+		 var params=obj.field;
+		 $.ajax({
+			type: "post",
+			url: urls,
+			data: params,
+			dataType:"JSON",
+			success:function(data){
+				//关闭弹出层
+				layer.close(tanOne);
+				//刷新数据表格
+				tableIns.reload();
+				if(urls== 'addSupplierNewInfo.do'){
+				if(data== '1'){
+					layer.msg("添加成功", {icon: 6});
+				}else{
+					layer.msg("添加失败", {icon: 6});
+				}
+				}else if(urls== 'updateSupplierInfo.do'){
+					if(data== '1'){
+						layer.msg("修改成功", {icon: 6});
+					}else{
+						layer.msg("修改失败", {icon: 6});
+					}
+				}
+			}
+		 });
+		 return false; //阻止表单跳转
+		 /* $.post(url,params,function(data){
+			//关闭弹出层
+			layer.close(tanIndex);
+			//刷新数据表格
+			tableIns.reload();
+			
+		 }); */
+	 })
+  
   table.on('rowDouble(test)', function(obj){
 	    var layer = layui.layer;
+	    var data=obj.data.supplierId;
+	    $.ajax({
+    		type:"post",
+    		url:'setSupplierSession.do',
+    		data:"supplierId="+data,
+    		success:function(){
+    			
+    		}
+    	 })
 	    layer.open({
 	    	type: 1, 
 	    	title:'详细信息',
 	    	offset: ['0px', '50px'],
 	    	area: ['1000px', '500px'],
-	    	content: $('#material') //这里content是一个普通的String
+	    	content: $('#material'), //这里content是一个普通的String
+	    	success: function(layero, index){
+	    		       sup();
+	    		  }
 	    });
 
 	});
-});
-layui.use('table', function(){
-	  var table = layui.table;
-	  table.render({
-	    elem: '#demo'
-	    ,url: 'admin/json/demo1.json'
-	    ,title: '用户数据表'
-	    /* ,parseData:function(res){
-	    	console.log(res);
-	    	return{
-	    		code: 0, //解析接口状态
-	    		msg:"", //解析提示文本
-	    		count: 1000, //解析数据长度
-	    		data: res //解析数据列表
-	    	}
+
+	  function sup(){
+		  layui.use(['table','form','laydate','element','jquery','layer'], function(){
+			  var $ = layui.jquery;
+			  var table = layui.table;
+			  var form = layui.form;
+			  var laydate = layui.laydate;
+			  var element = layui.element;
+			  var layer=layui.layer;
+			  var tanOne;
+			  var tableIns;
+			  var urls;
+			  table.reload('idTest', {
+		   url: 'getSupplierOfferAllInfo.do'
+		  ,toolbar: '#toolbarDemo'
+		  ,title: '供应商详情'
+		  ,cols: [[
+		      {fixed: 'left',width:20}
+		      ,{field:'offerId', title:'ID',sort: true}
+		      ,{field:'offerName', title:'原材料名称'}
+		      ,{field:'offerPrice', title:'原材料价格'}
+		      ,{field:'offerRemark', title:'单位'}
+		      ,{field:'offerPlaceOfOrigin', title:'原材料产地'}
+		      ,{field:'supplierId', title:'供应商ID'}
+		      ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
+		    ]]
+		});
+	  	
+	//详情
+	  table.on('toolbar(demo)', function(obj){
+	    var checkStatus = table.checkStatus(obj.config.id);
+	    switch(obj.event){
+	    	case 'add':
+	    		tanOne=layer.open({
+	  		  		type: 1, 
+	  		  		title:'详情新增',
+	  		  		area: ['500px', ''],
+	  				content: $('#div2'), 
+	  				success:function(index){
+	  					urls="addSupplierOfferInfo.do";
+	  					alert(urls); 
+	  					//清空表单数据 
+						 $("#dataformOff")[0].reset();								  
+					 }
+	  				});
+	  	  		break;
+	    	case 'select':
+	    		
+	      	  break;
+	      	  
+	    		};
+	  		});
+	  
+			
+	//监听行工具事件
+	  table.on('tool(demo)', function(obj){
+	    var data = obj.data;
+	    var supId = data.supplierId
+	    var offerId = data.offerId;
+	    //console.log(obj)
+	    if(obj.event === 'del'){
+	      layer.confirm('真的删除行么', function(index){
+	        obj.del();
+	        layer.close(index);
+	        $.ajax({
+	    		type:"post",
+	    		url:'deleteSupplierOffer.do',
+	    		data:"offerId="+supId+"&offerId="+offerId,
+	    		success:function(){
+	    			tableIns.reload();
+	    		}
+	    	 })
+	      });
+	    } else if(obj.event === 'edit'){
+	    	tanOne=layer.open({
+			  	type: 1, 
+			  	title:'修改',
+			  	area: ['500px', ''],
+				content: $('#div2'),
+				success:function(index){
+					  form.val("dataformOff",data);
+					  urls="updateSupplierOffer.do";
+				  }
+				});
+	    } 
+	    /* else if(obj.event === 'offerAdd'){
+	    	tanOne=layer.open({
+			  	type: 1, 
+			  	title:'增加',
+			  	area: ['500px', ''],
+				content: $('#div2'),
+				success:function(index){
+					  form.val("dataformOff",data);
+					  urls="updateSupplierOffer.do";
+				  }
+				});
 	    } */
-	    ,cols: [[
-	      {type: 'checkbox', fixed: 'left'}
-	      ,{field:'id', title:'ID', width:80, fixed: 'left', unresize: true, sort: true}
-	      ,{field:'username', title:'用户名', width:120, edit: 'text'}
-	      ,{field:'email', title:'邮箱', width:150, edit: 'text'}
-	      ,{field:'sex', title:'性别', width:80, edit: 'text', sort: true}
-	      ,{field:'city', title:'城市', width:100}
-	      ,{field:'sign', title:'签名'}
-	      ,{field:'experience', title:'积分', width:80, sort: true}
-	      ,{field:'ip', title:'IP', width:120}
-	      ,{field:'logins', title:'登入次数', width:100, sort: true}
-	      ,{field:'joinTime', title:'加入时间', width:120}
-	    ]]
-	    ,page: true
 	  });
+	  //提交数据
+	  form.on("submit(demo2)",function(obj){
+			 //序列化表单数据
+			//layui.msg(JSON.Stringify(data.field));
+			 var params=obj.field;
+			 alert(urls);
+			 $.ajax({
+				type: "post",
+				url: urls,
+				data: params,
+				dataType:"JSON",
+				success:function(data){
+					//关闭弹出层
+					layer.close(tanOne);
+					//刷新数据表格
+					tableIns.reload();
+					if(urls== 'addSupplierOfferInfo.do'){
+					if(data== '1'){
+						layer.msg("添加成功", {icon: 6});
+					}else{
+						layer.msg("添加失败", {icon: 6});
+					}
+					}else if(urls== 'updateSupplierOffer.do'){
+						if(data== '1'){
+							layer.msg("修改成功，下次进入生效", {icon: 6});
+						}else{
+							layer.msg("修改失败", {icon: 6});
+						}
+					}
+				}
+			 });
+			 return false; //阻止表单跳转
+			 /* $.post(url,params,function(data){
+				//关闭弹出层
+				layer.close(tanIndex);
+				//刷新数据表格
+				tableIns.reload();
+				
+			 }); */
+		 }); 
+			
+		});
+		  
+	  }
+	 //
 	  
 	});
 </script>

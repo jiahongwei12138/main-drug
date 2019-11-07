@@ -21,7 +21,8 @@ public interface ProductAndRecipeMapper {
 	 * @param mainProduct 药品对象
 	 * @param session 会话对象
 	 */
-	void addProduct(MainProduct mainProduct);
+	
+	int addProduct(MainProduct mainProduct);
 	/**
 	   *方法功能：查询药品
 	 * @return List<MainProduct> 药品集合

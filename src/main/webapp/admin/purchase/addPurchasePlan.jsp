@@ -25,6 +25,7 @@
       			<input name="a" class="layui-input" type="text" autocomplete="off" lay-verify="title">
     		</div>
 		</td>
+		
   		<td>
   			<label class="layui-form-label" style="font-size:13px;">预计金额</label>
     			<div class="layui-input-block">
