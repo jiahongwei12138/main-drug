@@ -11,6 +11,14 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
+/**
+ * 
+ * @ClassName: MainPurchasePlan 
+ * @Description: 采购计划表(采购订单)  
+ * @author lxl
+ * @date 2019年10月22日
+ *
+ */
 public class MainPurchasePlan {
 	private Integer planId;
 	private String planName;

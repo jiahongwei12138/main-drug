@@ -26,6 +26,7 @@ public class MainPurchaseDetails {
 	private String percent;
 	private String detailsReservedOne;
 	
+	
 	public String getDetailSqualityStatus() {
 		return detailSqualityStatus;
 	}

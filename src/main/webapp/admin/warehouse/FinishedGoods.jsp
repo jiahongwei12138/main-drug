@@ -4,31 +4,13 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>成品入库审核</title>
+<title>菜单</title>
 <link rel="stylesheet" href="../layui/css/layui.css">
 <script src="../layui/layui.js"></script>
 <script type="text/javascript" src="../../js/jquery-3.4.1.min.js"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 <body>
-	<div style="margin-top: 10px;margin-left: 5px">
-		<form class="layui-form">
-			<div class="layui-input-inline" style="margin-right: 20px;">
-				<select id="InStoreState" name="InStoreState" layui-verify="" lay-filter="InStoreState" style="font-size:13px;">
-					<option value="1" selected> 已入库 </option>
-					<option value="2"> 未入库</option>
-				</select> 
-				
-			</div>
-			<div class="layui-input-inline">
-				<select id="InStoreType" name="InStoreType" layui-verify="" lay-filter="InStoreType" style="font-size:13px;">
-					<option value="1" selected> 生产质检入库 </option>
-					<option value="2"> 退货质检入库</option>
-				</select>
-			</div>
-			
-		</form>
-	</div>
 	<table class="layui-hide" id="test" lay-filter="test"></table>
 	<div style="display: none;" id="v1">
 		<form class="layui-form" action="">
@@ -96,23 +78,16 @@
 
 
 
-	<!-- <div style="display: none;" id="div3">
-		<div class="layui-inline">
-					<label class="layui-form-label">审核</label>
-					<div class="layui-input-inline">
-						<select name="city" lay-verify="">
-							<option value="">审核</option>
-							<option value="021">通过</option>
-							<option value="0571">未通过</option>
-						</select>
-					</div>
-				</div>
+	<div style="display: none;" id="div3">
+		<select name="city" lay-verify="">
+			<option value="010" selected>审核中</option>
+			<option value="021">审核通过</option>
+			<option value="0571">审核没有通过</option>
+		</select>
 		<button type="button" class="layui-btn layui-btn-normal">提交</button>
-	</div> -->
-	
+	</div>
 	<div id="div4" style="display: none;">
-		<table class="layui-hide" id="layerTable" lay-filter="test"></table>
-		<!-- <form class="layui-form" action="">
+		<form class="layui-form" action="">
 			<div class="layui-form-item">
 				<div class="layui-inline">
 					<label class="layui-form-label">入库编号</label>
@@ -203,8 +178,42 @@
 						</div>
 					</div>
 				</div>
-		</form> -->
+		</form>
 	</div>
+
+	<script type="text/html" id="toolbarDemo">
+			<div class="layui-form-item">
+				<div class="layui-input-inline">
+					<select name="city" layui-verify="" style="font-size:13px;">
+						<option value="000"> 审核状态 </option>
+						<option value="010" selected> 未审核 </option>
+						<option value="021"> 审核未通过 </option>
+						<option value="0571"> 审核通过 </option>
+					</select>  
+				</div>
+				<div class="layui-inline">
+					<div class="layui-input-inline">
+						  <a href="http://www.layui.com" class="layui-btn layui-btn-sm layui-btn-normal" style="font-size:13px;">搜索</a>
+					</div>
+				</div>
+				<div class="layui-inline">
+					<div class="layui-input-inline">
+						<input type="text" name="title" required lay-verify="required" placeholder="请输入订单编号" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<div class="layui-input-inline">
+						  <a href="http://www.layui.com"class="layui-btn layui-btn-sm layui-btn-normal">搜索</a>
+					</div>
+				</div>
+				<div class="layui-inline">
+					<div class="layui-input-inline">
+						   <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="getCheckData" style="font-size:13px;"> 入库审核 </button>
+					</div>
+				</div>
+			</div>
+</script>
+
 	<script type="text/html" id="barDemo">
 			<a class="layui-btn layui-btn-xs" lay-event="edit"> 详情 </a>
 			<a class="layui-btn layui-btn-xs" lay-event="shenhe"> 审核 </a>
@@ -212,53 +221,38 @@
 </script>
 
 	<script>
-		layui.use(['table','form'], function() {
+		layui.use('table', function() {
 			var table = layui.table;
-			var form = layui.form;
-			var tableIns =table.render({
+
+			table.render({
 				elem : '#test',
-				url : '${APP_PATH}/getMainProductInStorageInf.do?piSType=1&piSState=1',
-				defaulttoolbar : [],
+				url : '../json/FinishedGoods.json',
+				toolbar : '#toolbarDemo',
 				title : '用户数据表',
 				cols : [ [ {
 					type : 'checkbox',
 					fixed : 'left'
 				}, {
+					field : 'Id',
 					title : 'ID',
 					fixed : 'left',
 					unresize : true,
-					type: 'numbers'
-				},{
-					field : 'piSId',
-					title : '隐藏Id列',
-					hide : true
-				},  {
-					field : 'piSTypeName',
-					title : '入库类型'
 				}, {
-					field : 'piSTime',
-					title : '入库时间'
-				},{
-					field : 'whID',
-					title : '仓库Id',
-					hide : true
+					field : 'Theme',
+					title : '入库编号'
 				}, {
-					field : 'sname',
-					title : '入库仓库'
+					field : 'Serial',
+					title : '货物类型'
 				}, {
-					field : 'piSState',
-					title : '入库状态'
+					field : 'Serial',
+					title : '货物数量'
 				}, {
-					field : 'checkStates',
+					field : 'Time',
+					title : '订单生成时间'
+				}, {
+					field : 'examine',
 					title : '审核状态'
-				},{
-					field : 'empName',
-					title : '审核人姓名'
-				},{
-					field : 'poOBoId',
-					title : '生产成品质检/成品退货表Id',
-					hide : true
-				},{
+				}, {
 					fixed : 'right',
 					title : '操作',
 					toolbar : '#barDemo',
@@ -266,7 +260,6 @@
 				page : true
 			});
 
-			
 			//头工具栏事件
 			table.on('toolbar(test)', function(obj) {
 				var checkStatus = table.checkStatus(obj.config.id);
@@ -281,30 +274,7 @@
 				}
 				;
 			});
-			//监听下拉框 InStoreState InStoreType
-			form.on('select(InStoreState)', function(data){
-				  var piSState = data.value; //得到被选中的值
-				  var piSType =$('#InStoreType').val();
-				  tableIns.reload({
-					  url:'${APP_PATH}/getMainProductInStorageInf.do',
-					  where :{
-						  piSState : piSState,
-						  piSType : piSType
-						  }
-					});
-				});
-			
-			form.on('select(InStoreType)', function(data){
-				  var piSType = data.value; //得到被选中的值
-				  var piSState =$('#InStoreState').val();
-				  tableIns.reload({
-					  url:'${APP_PATH}/getMainProductInStorageInf.do',
-					  where :{
-						  piSState : piSState,
-						  piSType:piSType
-						  }
-					});
-				});
+
 			//监听行工具事件
 			table.on('tool(test)', function(obj) {
 				var data = obj.data;
@@ -317,81 +287,20 @@
 				} else if (obj.event === 'edit') {
 					layer.open({
 						type : 1,
-						offset: 'auto',
-						area: ['50%', '30%'],
 						content : $('#div4')
 					});
-					var layerTable =table.render({
-						elem : '#layerTable',
-						url : '${APP_PATH}/getProductionOrderDetailsInf.do?poOBoId='+data.poOBoId+'&piSTypeName='+data.piSType,
-						defaulttoolbar : [],
-						title : '用户数据表',
-						cols : [ [ {
-							field : 'Id',
-							title : 'ID',
-							fixed : 'left',
-							unresize : true,
-							type: 'numbers'
-						},{
-							field : 'podId',
-							title : '主键',
-							hide : true
-						}, {
-							field : 'poId',
-							title : '成品生产订单id',
-							hide : true
-						}, {
-							field : 'proId',
-							title : '成品主键',
-							hide : true
-						},  {
-							field : 'proName',
-							title : '成品名称'
-						},{
-							field : 'proQuantity',
-							title : '生产数量',
-						}, {
-							field : 'proPassQuantity',
-							title : '通过数量'
-						}, {
-							field : 'percent',
-							title : '合格率'
-						} ] ],
-						page : true
-					});
 				} else if (obj.event === 'shenhe') {
-					if(data.checkStates=="已审核"){
-						layer.msg('不能重复审核',{icon: 6});
-						}else{
-							layer.confirm('是否审核并入库', {icon: 3, title:'提示'}, function(index){
-									  console.log(data);
-									  $.ajax({
-										  url:'${APP_PATH}/InProStorageCheck.do',
-										  data:{
-											  piSType : data.piSType,
-											  poOBoId : data.poOBoId,
-											  whID : data.whID,
-											  piSId : data.piSId
-											  },
-										  success : function(data){
-											  tableIns.reload();
-											  }
-										  })
-									  layer.close(index);
-								});
-							}
-					
-					/* layer.open({
+					layer.open({
 						type : 1,
 						area : [ '500px', '300px' ],
 						content : $('#div3')
-					}); */
+					});
 				}
 			});
 		});
 	</script>
 
-	<!-- <script>
+	<script>
 		layui
 				.use(
 						[ 'form', 'layedit', 'laydate' ],
@@ -441,6 +350,7 @@
 							});
 
 						});
-	</script> -->
+	</script>
+
 </body>
 </html>

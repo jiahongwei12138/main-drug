@@ -1,8 +1,4 @@
 package com.drug.entity;
-
-
-import org.springframework.stereotype.Component;
-
 /**
  * 
  * @ClassName: MainPurchaseMajorPlan 
