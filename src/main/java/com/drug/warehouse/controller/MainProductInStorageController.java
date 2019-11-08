@@ -4,10 +4,13 @@ import java.util.HashMap;
 import java.util.*;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.drug.entity.MainEmployee;
 import com.drug.entity.MainProductInStorage;
 import com.drug.entity.MainProductStorage;
 import com.drug.entity.ProductionOrderDetails;
@@ -116,7 +119,7 @@ public class MainProductInStorageController {
 	 * @param poOBoId 订单Id
 	 */
 	@RequestMapping("InProStorageCheck")
-	public int InProStorageCheck(int piSType,int poOBoId,int whID,int piSId) {
+	public int InProStorageCheck(int piSType,int poOBoId,int whID,int piSId,HttpSession session) {
 		String piSTypeName = "";
 		if(piSType==1) {
 			piSTypeName = "生产质检入库";
@@ -134,10 +137,10 @@ public class MainProductInStorageController {
 			//添加成功后修改入库表中入库状态，审核状态，入库时间，审核人姓名
 			
 			//从session中获取用户Id  暂时没有   默认1
-			
-			
+			MainEmployee employee=(MainEmployee) session.getAttribute("employee");
+			int empId = employee.getEmpId();
 			Map<String,Object> map = new HashMap<>();
-			map.put("checkStaffId",1);
+			map.put("checkStaffId",empId);
 			map.put("piSId", piSId);
 			
 			mainProductInStorageService.updProInStoInf(map);

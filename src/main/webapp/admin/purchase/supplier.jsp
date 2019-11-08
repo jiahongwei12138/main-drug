@@ -370,7 +370,6 @@ layui.use(['table','form','laydate','element','jquery','layer'], function(){
 	  				content: $('#div2'), 
 	  				success:function(index){
 	  					urls="addSupplierOfferInfo.do";
-	  					alert(urls); 
 	  					//清空表单数据 
 						 $("#dataformOff")[0].reset();								  
 					 }
@@ -433,7 +432,6 @@ layui.use(['table','form','laydate','element','jquery','layer'], function(){
 			 //序列化表单数据
 			//layui.msg(JSON.Stringify(data.field));
 			 var params=obj.field;
-			 alert(urls);
 			 $.ajax({
 				type: "post",
 				url: urls,

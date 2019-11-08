@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drug.hhy.mapper.PaymentMapper">
+
+	<!-- 查询所有 -->
+	<select id="AllMainPayment" resultType="MainPayment">
+		select * from main_payment
+	</select>
+	
+	<update id="updPurchasePlan" parameterType="int" >
+		update main_purchase_plan set checkState = '已审核'  where planId = #{planId}
+	</update>
+	
+	<insert id="insertMainPaymentInf" parameterType="Map">
+		INSERT INTO main_payment 
+	(Payment_name,Payment_time,Payment_amount,Payment_TAmount,Payment_planId) 
+	VALUES (#{name},now(),#{planRealTotalPrices},#{planRealTotalPrices},#{planId})
+		
+	</insert>
+</mapper>

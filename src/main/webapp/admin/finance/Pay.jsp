@@ -78,7 +78,7 @@ label{
 		</div>
 
 		<div class="layui-inline" >
-			<button class="layui-btn layui-btn-normal" data-type="reload">审核</button>		
+			<button class="layui-btn layui-btn-normal" data-type="reload">搜索</button>		
 		</div> 
 </form>
 
@@ -99,26 +99,23 @@ label{
  		 	table2 =  table.render({
 		    elem: '#demo'
 		    ,height:563
-		    ,url: '${APP_PATH}/getAllPurchasePlan.do' //数据接口
+		    ,url: '${APP_PATH}/getAllPaymentInf.do' //数据接口
 		    ,title: '付款单查询'
 		    ,page: true //开启分页
 		    ,toolbar: '#toolbarDemo' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
 		    ,totalRow: true //开启合计行
 		    ,cols: [[ //表头
-		    	 {type: 'checkbox', fixed: 'left'}
-		         ,{field:'planId', title:'计划ID'}
-		         ,{field:'planName', title:'计划名'}
-		         ,{field:'planSubmissionTime', title:'提交时间' }
-		         ,{field:'planTotalPrices', title:'预计金额(万)'}
-		         ,{field:'planRealTotalPrices', title:'实际金额(万)'}
-		         ,{field:'checkState', title:'财务审核状态'}
-		         ,{field:'inStoregState', title:'入库状态'}
-		         ,{field:'planState', title:'报价单审核状态'}
-		         ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:200
+		    	{type: 'checkbox', fixed: 'left'}
+		        ,{field: 'id', title: '编号', width:150, sort: true, unresize:true}
+		        ,{field: 'Payment_id', title: '订单id', unresize:true,hide:true}
+		        ,{field: 'Payment_name', title: '付款人', unresize:true}
+		        ,{field: 'Payment_time', title: '付款日期', unresize:true}
+		        ,{field: 'Payment_amount', title: '付款金额', unresize:true}
+		        ,{field: 'Payment_TAmount', title: '采购id', unresize:true},
+		    		{fixed: 'right', title:'操作',width:178, align:'center', toolbar: '#barDemo',unresize:true
 		          }
 		        ]]
 		  });
-		  
 		 	//头工具栏事件
 		 	   table.on('toolbar(test)', function(obj){
 		 	    //var checkStatus = table.checkStatus(obj.config.id);
@@ -139,7 +136,7 @@ label{
 		 	     var type = othis.data('type')
 		 	     ,text = othis.text();
 		 	     
-		 	    layer.open({
+		 	     layer.open({
 		 	        type: 1, 
 		 	        title : '付款单' //标题
 		 	       ,offset: type //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
@@ -204,26 +201,19 @@ label{
 				});
 			} else if (layEvent === 'edit') { //编辑
 				var data = obj.data;//行数据
-				if(data.checkState=="已审核"){
-					layer.msg('不能重复审核',{icon: 6});
-					}else{
-						layer.confirm('是否审核', {icon: 3, title:'提示'}, function(index){
-								  console.log(data);
-								  $.ajax({
-									  url:'${APP_PATH}/updPurchasePlan.do',
-									  data:{
-										  planId : data.planId,
-										  planTotalPrices : data.planTotalPrices,
-										  planRealTotalPrices : data.planRealTotalPrices
-										  },
-									  success : function(){
-										  layer.close(layer.index);
-										  }
-									  })
-							});
-						}
-				
-				
+				//iframe层
+				layer.open({
+					type : 2,
+					title : '修改页面',//标题
+					shadeClose : true,
+					shade : 0.3,//背景阴影
+					area : [ '50%', '60%' ],//大小
+					content : 'pages/flower/flowerFrom.jsp?id='
+							+ data.flowerId, //iframe的url
+					end : function() {
+						table2.reload();
+					}
+				});
 			}
 		});
 		
@@ -235,7 +225,7 @@ label{
 <!-- <button class="layui-btn layui-btn-sm" lay-event="getCheckData"><i class="layui-icon" ></i>付款单</button> -->
 
 <script type="text/html" id="barDemo">
-  <a class="layui-btn layui-btn-xs" lay-event="edit">审核</a>
+  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 

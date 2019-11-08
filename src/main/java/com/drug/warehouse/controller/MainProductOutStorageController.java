@@ -5,12 +5,14 @@ import java.util.*;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.drug.entity.MainEmployee;
 import com.drug.entity.MainProductOutStorage;
 import com.drug.entity.MainSaleOrderdetail;
 import com.drug.util.ToolClass;
@@ -104,7 +106,7 @@ public class MainProductOutStorageController {
 	 * @return
 	 */
 	@RequestMapping("OutProStorageCheck")
-	public Map<String, Object> OutProStorageCheck(int posId, int orderId, int whID,HttpServletRequest request) {
+	public Map<String, Object> OutProStorageCheck(int posId, int orderId, int whID,HttpSession session) {
 		//根据销售订单拿到详情信息 
 		List<MainSaleOrderdetail> list = mainProductOutStorageService.getMainSaleOrderdetailInf(orderId);
 		 Map<String, Object> map = new HashMap<>();
@@ -118,8 +120,8 @@ public class MainProductOutStorageController {
 		}
 		//根据出库Id修改出库表  出库时间  出库状态  审核状态  审核人姓名
 		//获取登录的session用户信息   得到用户Id
-		request.getSession().getAttribute("");
-		int empId = 1;
+		MainEmployee employee=(MainEmployee) session.getAttribute("employee");
+		int empId = employee.getEmpId();
 		//根据员工Id 出库表ID 修改状态
 		 Map<String, Object> map1 = new HashMap<>();
 		 map1.put("posId", posId);
