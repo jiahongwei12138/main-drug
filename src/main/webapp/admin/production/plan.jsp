@@ -281,7 +281,7 @@
 				        	var proName=obj.options[obj.selectedIndex].text;
 				        	$.ajax({
 					        	type:"post",
-					    		url:"${APP_PATH}/addProduct.do?proName="+proName,
+					    		url:"${APP_PATH}/addProductYzz.do?proName="+proName,
 					        	data:$("#myForm").serialize(),
 					    		success:function(data){
 					                table.reload('test2');

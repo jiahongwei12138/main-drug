@@ -44,7 +44,7 @@ public class SelectProductController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping("addProduct")
+	@RequestMapping("addProductYzz")
 	public Map<String,Object> addProduct(String proId,String proName,String number) throws IOException{
 		selectProductService.addMPlan(proId,proName,number);
 		List<AddPlan> list= selectProductService.selectMplanDetails();
