@@ -236,7 +236,7 @@
 								var index88 = layer.open({
 									type : 1,
 									shade : 0.25,
-									area : [ '400px', '350px' ],
+									area : [ '400px', '450px' ],
 									content : $('#nameAndTimeDiv2'), //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
 									success : function(layero, index) {
 										form.render();
@@ -294,7 +294,7 @@
 										var index88 = layer.open({
 											type : 1,
 											shade : 0.25,
-											area : [ '400px', '350px' ],
+											area : [ '400px', '450px' ],
 											content : $('#nameAndTimeDiv3'), //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
 											success : function(layero, index) {
 												form.render();
