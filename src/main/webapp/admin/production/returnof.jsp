@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>退料管理</title>
+<title>生产退料管理</title>
 <link rel="stylesheet" href="${APP_PATH }/layui/css/layui.css">
 <script src="${APP_PATH }/layui/layui.js"></script>
 

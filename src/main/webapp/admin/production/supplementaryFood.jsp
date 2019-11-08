@@ -1,9 +1,11 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<title>layout 补料管理</title>
+		<title>生产补料管理</title>
 		<link rel="stylesheet" href="../layui/css/layui.css">
 		
 	</head>
