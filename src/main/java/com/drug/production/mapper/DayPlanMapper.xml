@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drug.production.mapper.DayPlanMapper">
+
+	<!-- 日计划界面 -->
+	<select id="selectDayPalnView" resultType="DayProductionPlan">
+		select d.dPlanId,m.mPlanId,d.dApplyDate,em.empName as dProposerName,
+		d.dAuditorName,d.dStatus,d.dAuditingDate
+		from dPlan d 
+		join main_employee em
+		on em.empId=d.dProposerId
+		join mPlan m
+		on d.mPlanId=m.mPlanId
+		where d.dPlanId >1999 and d.dVisibles=1
+	</select>
+	
+	<!-- 日计划详情查看 -->
+	<select id="selectDplanDetails" parameterType="Integer" resultType="AddPlan">
+		select mp.proId,mp.proName,d.dPlanQuantity from dPlanDetails d
+		join main_product mp
+		on d.proId=mp.proId
+		where d.dPlanId=#{dPlanId}
+	</select>
+	
+	<!-- 删除日计划 -->
+	<delete id="deleteDplan" parameterType="Integer">
+		update dPlan set dVisibles=0 where dPlanId=#{dPlanId}
+	</delete>
+	
+	<!-- 修改日计划界面(查询) -->
+	<select id="selectUpdateView" parameterType="Integer" resultType="AddPlan">
+		select dd.dpdId,mp.proId,mp.proName,dd.dPlanQuantity,dd.dupdateNum as number
+		from dPlanDetails dd
+		join main_product mp
+		on dd.proId=mp.proId
+		join dPlan d
+		on dd.dPlanId=d.dPlanId
+		where d.dPlanId=#{dPlanId}
+	</select>
+	
+	<!-- 查询月计划完成总数量 -->
+	<select id="selectMplanNumber" parameterType="Integer" resultType="AddPlan">
+		select mPlanNumber as number from mPlan where mPlanId=#{mPlanId}
+	</select>
+	
+	<!-- 修改日计划详情的预留修改数量 -->
+	<update id="updatedDplanDetailsNum" parameterType="AddPlan">
+		update dPlanDetails set dupdateNum=#{number},podsSurplus=#{number} where dpdId=#{dpdId}
+	</update>
+	
+	<!-- 确认修改后把日计划详情表的计划生产数量换成预留的修改后的数量 -->
+	<update id="updateAffirmDplanDetails" parameterType="AddPlan">
+		update dPlanDetails set dPlanQuantity=#{number} where dpdId=#{dpdId}
+	</update>
+	
+	<!-- 修改数量后,把预留的字段清零 -->
+	<update id="updateDplanDetailsRes" parameterType="Integer">
+		update dPlanDetails set dupdateNum=0 where dplanId=#{dplanId}
+	</update>
+	
+	<!-- 日计划审核 -->
+	<update id="updateDplanAudit" parameterType="DayProductionPlan">
+		update dPlan set dAuditingDate=#{dAuditingDate},dAuditorName=#{dAuditorName},
+		dStatus='已审核',dplanDetailDes=#{des} where dPlanId=#{dPlanId}
+	</update>
+	
+	<!-- 制定生产订单的查询界面 -->
+	<select id="selectAddpo" parameterType="Integer" resultType="AddPlan">
+		select d.dpdId,em.proId,em.proName,d.dPlanQuantity,d.podsQuantity,d.podsSurplus 
+		from dPlanDetails d
+		join main_product em
+		on d.proId=em.proId
+		join dPlan dp
+		on dp.dPlanId=d.dPlanId
+		where d.dPlanId=#{dPlanId}
+	</select>
+	
+	<!-- 查询日计划详情中的成品日计划数量 -->
+	<select id="selectDplanQuantity" parameterType="AddPlan" resultType="AddPlan">
+		select dPlanQuantity from dPlanDetails where dpdId=#{dpdId}
+	</select>
+	
+	<!-- 修改日计划详情的预留生产数量 -->
+	<update id="updatePodsQuantity" parameterType="AddPlan">
+		update dPlanDetails set podsQuantity=#{podsQuantity} where dpdId=#{dpdId}
+	</update>
+	
+	<!-- 添加生产订单详情 -->
+	<insert id="addProductionOrderDetails" parameterType="AddPlan">
+		insert into productionOrderDetails(poId,proId,podsQuantity) values(1,#{proId},#{podsQuantity})
+	</insert>
+	
+	<!-- 查询生产订单详细是否存在该成品 -->
+	<select id="selectPoDetails" resultType="AddPlan">
+		select * from productionOrderDetails where poId=1
+	</select>
+	
+	<!-- 修改存在的成品的数量 -->
+	<update id="updatePoPodsQuantity" parameterType="AddPlan">
+		update productionOrderDetails set podsQuantity=#{podsQuantity} where podId=#{podId}
+	</update>
+	
+	<!-- 查询日计划所有成品生产总量 -->
+	<select id="selectQuantity" parameterType="AddPlan" resultType="AddPlan">
+		select sum(podsQuantity) as number 
+		from productionOrderDetails 
+		where poId=1
+	</select>
+	
+	<!-- 添加生产订单 -->
+	<insert id="addProductionOrder" parameterType="ProductionOrder" useGeneratedKeys="true" keyProperty="poId">
+		insert into productionOrder(dPlanId,poQuantity,poData,poProposerId,poplanDetailDes) 
+		values(#{dplanId},#{poQuantity},#{poData},#{poProposerId},#{poplanDetailDes})
+	</insert>
+	
+	<!-- 修改生产订单详情的生产点单id(外键)  -->
+	<update id="updatePoId" parameterType="Integer">
+		update productionOrderDetails set poId=#{poId} where poId=1
+	</update>
+	
+	<!-- 日计划表预留的生产数量字段清零 -->
+	<update id="updateResetPodsQuantity">
+		update dPlanDetails set podsQuantity=0
+	</update>
+	
+	<!-- 删除新增的生产订单详情(生产订单id为1的) -->
+	<delete id="deleteCancelPo">
+		delete from productionOrderDetails where poId=1
+	</delete>
+	
+	<!-- 修改月计划详情的剩余完成数 -->
+	<update id="updateMdetailsSurplusD" parameterType="AddPlan">
+		update dPlanDetails d
+		join dPlan p
+		on d.dPlanId=p.dPlanId
+		join mPlan m
+		on m.mPlanId=p.mPlanId
+		join mplanDetails md
+		on md.mPlanId=m.mPlanId
+		set md.mDetailsSurplus= md.mPlanQuantity-#{number} 
+		where m.mPlanId=#{mplanId} and md.proId=#{proId}
+	</update>
+	
+	<!-- 查询月计划详情的剩余完成数 -->
+	<select id="selectMplanDetailsProNum" parameterType="Integer" resultType="AddPlan">
+		select proId,mDetailsSurplus from mplanDetails where mPlanId=#{mplanId}
+	</select>
+	
+	<!-- 查询月计划详情的剩余完成数 -->
+	<select id="selectPodsSurplus" parameterType="Integer" resultType="AddPlan">
+		select * from dPlanDetails where dplanId=#{dplanId}
+	</select>
+	
+	<!-- 修改日计划详情的剩余生产数 -->
+	<update id="updatePodsSurplus" parameterType="AddPlan">
+		update dPlanDetails set podsSurplus=#{number} where dpdId=#{dpdId}
+	</update>
+</mapper>

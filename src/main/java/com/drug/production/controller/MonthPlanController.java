@@ -18,7 +18,7 @@ public class MonthPlanController {
 	@Autowired
 	private MonthPlanService monthPlanService;
 	
-	@RequestMapping("selectMonthPlan.do")
+	@RequestMapping("selectMonthPlan")
 	public @ResponseBody Map<String,Object>  selectMonthPlan() {
 		List<MProductionPlan>  list=monthPlanService.selectMProductionPlan();
 		Map<String,Object> tableData=ToolClass.responseByData(list,list.size());

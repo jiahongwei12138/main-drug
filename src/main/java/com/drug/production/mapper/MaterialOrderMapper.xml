@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drug.production.mapper.MaterialOrderMapper">
+	<select id="selectMaterialOrderView" resultType="MaterialOrder">
+		select o.moId,o.poId,e.empName as proposerName,o.applydate,o.auditorName,o.`Status`,o.outStock,o.Signfor
+		from materialOrder o
+		join main_employee e
+		on e.empId=o.proposerId and o.moVisibles=1
+	</select>
+	
+	<!-- 查询生产领料详情 -->
+	<select id="selectMorDetails" resultType="MaterialOrderDetails" parameterType="Integer">
+		select r.rawMaterialId,r.rawMaterialName,o.weight 
+		from materialOrderDetails o
+		join main_rawMaterial r
+		on o.rawMaterialId=r.rawMaterialId
+		where o.moId=#{moId}
+	</select>
+	
+	<!-- 删除领料表 -->
+	<update id="deleteMaterialOrder" parameterType="Integer">
+		update materialOrder set moVisibles =0 where moId=#{moId}
+	</update>
+	
+	<!-- 审核领料表 -->
+	<update id="updateMaterialOrderStatus" parameterType="MaterialOrder">
+		update materialOrder set `Status`='已审核',Auditingdate=#{auditingdate}, 
+		auditorName=#{auditorName} where moId=#{moId}
+	</update>
+	
+	<!-- 签收原料 -->
+	<update id="updateMoSignfor" parameterType="Integer">
+		update materialOrder set Signfor='已签收' where moId=#{moId}
+	</update>
+	
+	<!-- 签收领料后修改生产订单的领料状态 -->
+	<update id="updatePickingPoMaterialState" parameterType="Integer">
+		update productionOrder set poMaterialState ='已签收' where poId=#{poId}
+	</update>
+</mapper>

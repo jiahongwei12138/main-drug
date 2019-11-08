@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drug.production.mapper.ProductionOrderMapper">
+	<select id="selectProductionOrderView" resultType="ProductionOrder">
+		select p.poId,p.dPlanId,p.poQuantity,p.poPracticalQuantity,e.empName as poProposerName,p.poData,
+		p.poState,p.poMaterialState,p.poStatus
+		from productionOrder p
+		join main_employee e
+		on p.poProposerId=e.empId
+		where p.poId>=3000 and p.poVisibles=1
+	</select>
+	
+	<!-- 查询生产订单详情 -->
+	<select id="selectproductionOrderDetails" parameterType="Integer" resultType="AddPlan">
+		select p.proId,m.proName,p.podsQuantity,p.podsPracticalQuantity
+		from productionOrderDetails p
+		join main_product m 
+		on p.proId=m.proId
+		where poId=#{poId}
+	</select>
+	
+	<!-- 删除生产订单 -->
+	<update id="deleteProductionOrder" parameterType="Integer">
+		update productionOrder set poVisibles=0 where poId=#{poId}
+	</update>
+	
+	<!-- 审核生产订单 -->
+	<update id="updatePoStatus" parameterType="ProductionOrder">
+		update productionOrder set poStatus ='已审核',poAuditorName=#{poAuditorName},
+		poAuditingDate=#{poAuditingDate}, poplanDetailDes=#{poplanDetailDes} where poId=#{poId}
+	</update>
+	
+	<!-- 新增领料单 -->
+	<insert id="addMaterialOrder" parameterType="ProductionOrder" useGeneratedKeys="true" keyProperty="moId">
+		insert into materialOrder(poId,applydate,proposerId,materialDes) 
+		values(#{poId},#{applydate},#{proposerId},#{materialDes})
+	</insert>
+	
+	<!-- 查询成品所需要的配方原料数据 -->
+	<select id="selectRecipeRaw" parameterType="Integer" resultType="MaterialOrderDetails">
+		select pd.proId,pd.podsQuantity*mrd.realityDosage/1000 as Weight,rm.rawMaterialId 
+		from productionOrderDetails pd
+		join main_recipe mr
+		on mr.proId=pd.proId
+		join main_recipedetail mrd
+		on mrd.recipeId=mr.recipeId
+		join main_rawMaterial rm
+		on mrd.rawMaterialId=rm.rawMaterialId
+		where pd.poId=#{poId}
+	</select>
+	
+	<!-- 添加领料表详情数据 -->
+	<insert id="addMaterialOrderDetails" parameterType="MaterialOrderDetails">
+		insert into materialOrderDetails(moId,rawMaterialId,weight) 
+		values(#{moId},#{rawMaterialId},#{weight})
+	</insert>
+	
+	<!-- 修改生产订单领料状态poMaterialState -->
+	<update id="updatePoMaterialState" parameterType="Integer">
+		update productionOrder set poMaterialState ='待签收' where poId=#{poId}
+	</update>
+	
+	<!-- 修改生产订单的生产状态 -->
+	<update id="updatePoState" parameterType="Integer">
+		update productionOrder set poState='生产中' where poId=#{poId}
+	</update>
+	
+	<!-- 结束生产查询界面 -->
+	<select id="selectOvrePo" parameterType="Integer" resultType="AddPlan">
+		select p.podId,m.proId,m.proName,p.podsQuantity,p.podsPracticalQuantity
+		from productionOrderDetails p
+		join main_product m 
+		on p.proId=m.proId
+		where poId=#{poId}
+	</select>
+	
+	<!-- 修改生产订单详情已完成数 -->
+	<update id="updateAccomplishNum" parameterType="AddPlan">
+		update productionOrderDetails set podsPracticalQuantity=#{podsPracticalQuantity} 
+		where podId=#{podId}
+	</update>
+	
+	<!-- 新增成品质检管理详情 -->
+	<insert id="addProductionQualityDetails" parameterType="AddPlan">
+		insert into productionQualityDetails(proId,proQuantity) values(#{proId},#{podsPracticalQuantity})
+	</insert>
+	
+	<!-- 删除新增成品质检管理详情 -->
+	<delete id="deleteCancelOver">
+		delete from productionQualityDetails where pqId=1
+	</delete>
+	
+	<!-- 恢复修改的生产订单详情已完成数 -->
+	<update id="updateCancelOver" parameterType="Integer">
+		update productionOrderDetails set podsPracticalQuantity=0 where poId=#{poId}
+	</update>
+	
+	<!-- 查询生产成品管理详情(质检)表中是否存在该成品 -->
+	<select id="selectPqDetails" resultType="AddPlan">
+		select * from productionQualityDetails where pqId=1
+	</select>
+	
+	<!-- 成品存在,修改生产成品管理详情的成品数量 -->
+	<update id="updatePqDetails" parameterType="AddPlan">
+		update productionQualityDetails set proQuantity=#{podsPracticalQuantity} where pqdId=#{pqdId}
+	</update>
+	
+	<!-- 新增生产成品管理(质检) -->
+	<insert id="addProductionQuality" parameterType="MaterialOrder" useGeneratedKeys="true" keyProperty="pqId">
+		insert into productionQuality(poId,proposerId,createDate,visibles) 
+		values(#{poId},#{proposerId},#{applydate},#{materialDes})
+	</insert>
+	
+	<!-- 修改成品质检管理详情的外键id -->
+	<update id="updatePqPqId" parameterType="Integer">
+		update productionQualityDetails set pqId=#{pqId} where pqId=1
+	</update>
+	
+	<!-- 查询所有生产订单详情实际完成量 -->
+	<select id="selectPoPracticalQuantity" parameterType="Integer" resultType="AddPlan">
+		select sum(podsPracticalQuantity) as podsPracticalQuantity from productionOrderDetails where poId=#{poId}
+	</select>
+	
+	<!-- 修改生产订单实际完成量 -->
+	<update id="updatePoPracticalQuantity" parameterType="AddPlan">
+		update productionOrder set poPracticalQuantity=#{podsPracticalQuantity} where poId=#{poId}
+	</update>
+	
+	<!--修改月计划表实际完成数  -->
+	<update id="updateMrealityNumber" parameterType="AddPlan">
+		update mPlan m
+		join dPlan d
+		on m.mPlanId=d.mPlanId
+		set m.mRealityNumber =m.mRealityNumber+#{podsPracticalQuantity}
+		where d.dPlanId=#{dplanId}
+	</update>
+	
+	<!-- 连接查询剩余完成数 -->
+	<select id="selectMplanDetailsRealityNumber" resultType="AddPlan" parameterType="Integer">
+		select * from productionOrderDetails where poId=#{poId}
+	</select>
+	
+	<!-- 修改月计划详情剩余完成数 -->
+	<update id="updateMplanDetailsAddSurplus" parameterType="AddPlan">
+		update mplanDetails set mDetailsSurplus=mDetailsSurplus+#{number} where proId=#{proId}
+	</update>
+	
+	<!-- 修改结束生产状态 -->
+	<update id="updateProductionOrder" parameterType="Integer">
+		update productionOrder set poState='生产结束' where poId=#{poId}
+	</update>
+</mapper>

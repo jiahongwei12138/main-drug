@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drug.production.mapper.SelectProductMapper">
+	
+
+	<select id="selectProduct" resultType="com.drug.entity.MianProduct">
+		select * from main_product
+	</select>
+	
+	<insert id="addMPlan" parameterType="com.drug.entity.AddPlan">
+		insert into mplanDetails(mPlanId,proId,mPlanQuantity,mDetailsSurplus,mPracticalQuantity) 
+		values(1,#{proId},#{number},#{number},0)
+	</insert>
+	
+	<select id="selectMplanDetails" resultType="com.drug.entity.AddPlan">
+		select d.mpdId,mp.proId, mp.proName,d.mPlanQuantity as number
+		from mplanDetails d
+		join main_product mp
+		on mp.proId=d.proId
+		where d.mPlanId=1
+	</select>
+	
+	<insert id="addMplans" parameterType="AddPlans" useGeneratedKeys="true" keyProperty="mPlanId">
+		insert into mPlan(mApplyDate,mProposerId,mPlanNumber,mAuditingDate,mBegindate,mEnddate,mPlanDetailDes) 
+		values(#{mAuditingDate},#{mProposerId},#{mPlanNumber},null,null,null,#{mPlanDetailDes})
+	</insert>
+	
+	<select id="selectEmployee" resultType="com.drug.entity.MainEmployee">
+		select * from main_employee
+	</select>
+	
+	<update id="updateMplanDetails" parameterType="Integer">
+		update mplanDetails set mPlanId=#{mPlanId} where mPlanId=1
+	</update>
+	
+	<!-- 修改取消后恢复原来的数据 -->
+	<delete id="delectRestoreMPlan">
+		delete from mplanDetails where mPlanId=1 
+	</delete>
+	
+	<!-- 修改月计划中的删除(修改月计划详情表中的外键id为2) -->
+	<update id="deleteEditProduct" parameterType="Integer">
+		update mplanDetails set mPlanId=2 where mpdId=#{mpdId}
+	</update>
+	
+	<!-- 恢复修改前删除的数据 -->
+	<update id="updateEditProduct" parameterType="Integer">
+		update mplanDetails set mPlanId=#{mPlanId} where mPlanId=2
+	</update>
+	
+	<!-- 确认后修改(月计划修改中新增的数据) -->
+	<update id="updateEditAffirm" parameterType="Integer">
+		update mplanDetails set mPlanId=#{mPlanId} where mPlanId=1
+	</update>
+	
+	<!-- 确认后修改(月计划修改中删除的数据) -->
+	<delete id="updateDelAffirm">
+		delete from mplanDetails where mPlanId=2
+	</delete>
+	
+	<!-- 查询修改后的月计划成品总数量 -->
+	<select id="selectEditAffirmNum" resultType="AddPlan" parameterType="Integer">
+		select sum(mPlanQuantity) as number from mplanDetails where mPlanId=#{mPlanId}
+	</select>
+	
+	<!-- 修改日计划单中的计划总数 -->
+	<update id="updateMplanNumber" parameterType="AddPlan">
+	update mPlan set mPlanNumber=#{number} where mPlanId=#{mplanId}
+	</update>
+	
+	
+	<select id="selectQuantity" resultType="Integer">
+		select sum(mPlanQuantity) from mplanDetails where mPlanId=1
+	</select>
+	
+	<delete id="deleteCancel">
+		delete from mplanDetails where mPlanId=1
+	</delete>
+	
+	<delete id="deleteCancelMplanDetails">
+		delete from dplanDetails where dPlanId=1
+	</delete>
+	
+	<select id="queryMplanDetails" parameterType="Integer" resultType="com.drug.entity.AddPlan">
+		select d.mpdId,mp.proId, mp.proName,d.mPlanQuantity as number
+		from mplanDetails d
+		join main_product mp
+		on mp.proId=d.proId
+		where d.mPlanId=#{mplanId} or d.mPlanId=1
+	</select>
+	
+	<delete id="deleteMplan" parameterType="Integer">
+		update mPlan set mVisibles=0 where mPlanId=#{mPlanId}
+	</delete>
+	
+	<delete id="deleteProduct" parameterType="Integer">
+		delete from mplanDetails where mpdId=#{mpdId}
+	</delete>
+
+	<update id="updateAudit" parameterType="com.drug.entity.MProductionPlan">
+		update mPlan set mAuditingDate=#{mAuditingDate},mAuditorName=#{mAuditorName},mStatus='已审核'  where mPlanId=#{mPlanId}
+	</update>	
+	
+	<!-- 查询制定日计划界面参数 -->
+	<select id="selectDplanDetails" resultType="AddPlan" parameterType="Integer">
+		select d.mpdId,mp.proId, mp.proName,d.mPlanQuantity as number,d.mDetailsSurplus,d.dQuantity as dPlanQuantity
+		from mplanDetails d
+		join main_product mp
+		on mp.proId=d.proId
+		where d.mPlanId=#{mplanId}
+	</select>
+	
+	<!--修改月计划详情表里面为日计划预留的计划生产数-->
+	<update id="updatedQuantity" parameterType="AddPlan">
+		update mplanDetails set dQuantity=#{dPlanQuantity} where mpdId=#{mpdId}
+	</update>
+	
+	<!-- 新增日计划详情(日计划表id暂时设为1,确定后再修改) -->
+	<insert id="addDplanDetails" parameterType="AddPlan">
+		insert into dPlanDetails(proId,dPlanQuantity,podsSurplus) 
+		values(#{proId},#{dPlanQuantity},#{dPlanQuantity})
+	</insert>
+	
+	<!-- 新增之前查询一次如果商品之前添加过则只修改数量 -->
+	<select id="selectdPlanDetailsProId" resultType="AddPlan">
+		select * from dPlanDetails where dPlanId=1
+	</select>
+	
+	<!-- 修改日生产详情表计划数量 -->
+	<update id="updatedPlanQuantity" parameterType="AddPlan">
+		update dPlanDetails set dPlanQuantity=#{dPlanQuantity},podsSurplus=#{number} where dpdId=#{dpdId}
+	</update>
+	
+	<!-- 插入日计划表 -->
+	<insert id="addDplan" parameterType="AddPlans" useGeneratedKeys="true" keyProperty="dPlanId">
+		insert into dPlan(mPlanId,dApplyDate,dProposerId,dplanDetailDes) 
+		values(#{mPlanId},#{mAuditingDate},#{mProposerId},#{mPlanDetailDes})
+	</insert>
+	
+	<insert id="updateDetDPlanId" parameterType="Integer">
+		update dPlanDetails set dPlanId=#{dPlanId} where dPlanId=1
+	</insert>
+	
+	<update id="updateDquantityReset">
+		update mplanDetails set dQuantity=0
+	</update>
+	
+	<!-- 当月日计划完成总数 -->
+	<select id="selectAllDplanQuantity" parameterType="AddPlan" resultType="AddPlan">
+		select sum(dPlanQuantity) as number from dPlanDetails d
+		join dPlan p
+		on d.dPlanId=p.dPlanId
+		where p.mPlanId=#{mplanId} and d.proId=#{proId}
+	</select>
+	
+	<!-- 查询月计划详情表中的剩余数量 -->
+	<select id="selectmDetailsSurplus" resultType="AddPlan" parameterType="Integer">
+		select mpdId,mDetailsSurplus,dQuantity as number from mplanDetails where mPlanId=#{mplanId}
+	</select>
+	
+	<!-- 修改月计划详情表中的剩余数量 -->
+	<update id="updatemDetailsSurplus" parameterType="AddPlan">
+		update mplanDetails set mDetailsSurplus=#{number} where mpdId=#{mpdId}
+	</update>
+</mapper>
