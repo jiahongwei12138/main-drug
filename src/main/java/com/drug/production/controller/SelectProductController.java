@@ -192,6 +192,7 @@ public class SelectProductController {
 	 */
 	@RequestMapping("updateAudit")
 	public int updateAudit(MProductionPlan mProductionPlan,Integer mplanId,String proName) {
+		
 		mProductionPlan.setMAuditorName(proName);
 		mProductionPlan.setMPlanId(mplanId);
 		int row=selectProductService.updateAudit(mProductionPlan);

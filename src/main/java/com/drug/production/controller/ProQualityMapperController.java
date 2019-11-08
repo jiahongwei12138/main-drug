@@ -11,13 +11,15 @@ import com.drug.entity.PqDetails;
 import com.drug.entity.ProQuality;
 import com.drug.production.service.ProQualityMapperService;
 import com.drug.util.ToolClass;
+import com.drug.warehouse.mapper.MainProductInStorageMapper;
 
 @RestController
 public class ProQualityMapperController {
 	
 	@Autowired
 	private ProQualityMapperService proQualityMapperService;
-	
+	@Autowired
+	private MainProductInStorageMapper mainProductInStorageMapper ;
 	/**
 	 * 功能描述:查询成品管理界面
 	 * @return
@@ -39,6 +41,7 @@ public class ProQualityMapperController {
 		System.err.println(proQuality.getQualitystatus());
 		proQuality.setPqId(pqId);
 		proQualityMapperService.updateProductionQuality(proQuality);
+		mainProductInStorageMapper.insInfInStorage(pqId);
 	}
 	
 	/**

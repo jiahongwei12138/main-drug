@@ -9,6 +9,7 @@ import com.drug.entity.AddPlan;
 import com.drug.entity.MaterialOrder;
 import com.drug.entity.MaterialOrderDetails;
 import com.drug.entity.ProductionOrder;
+import com.drug.entity.ReturnOf;
 import com.drug.production.mapper.ProductionOrderMapper;
 import com.drug.production.service.ProductionOrderService;
 
@@ -146,5 +147,10 @@ public class ProductionOrderServiceImpl implements ProductionOrderService{
 	@Override
 	public void updateProductionOrder(Integer poId) {
 		productionOrderMapper.updateProductionOrder(poId);
+	}
+
+	@Override
+	public void addreturnOf(ReturnOf returnOf) {
+		productionOrderMapper.addreturnOf(returnOf);
 	}
 }

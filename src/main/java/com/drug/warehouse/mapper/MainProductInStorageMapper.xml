@@ -51,7 +51,7 @@
 	
 	
 	<insert id="insInfInStorage" parameterType="int">
-		insert into main_productInStorage (piSType,piSTime,whID,piSState,checkStates,checkStaffId,poOBoId)
-		values (1,now(),1,'未入库','未审核',null,#{pqId});
+		insert into main_productInStorage (piSType,piSTime,whID,checkStaffId,poOBoId)
+		values (1,now(),1,null,#{pqId});
 	</insert>
 </mapper>

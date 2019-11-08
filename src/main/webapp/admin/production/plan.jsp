@@ -87,10 +87,11 @@
 			<div class="layui-inline"
 				style="padding-left: 0px; margin-top: 20px;">
 				<label width="120px" style="margin: 0 5px 0 20px; font-size: 13px;">审核日期</label>
-				<div class="layui-input-inline">
-					<input type="text" class="layui-input" id="test5" name="mAuditingDate"
-						placeholder="yyyy-MM-dd">
-				</div>
+				<div class="layui-input-block">
+      			<input name="mAuditingDate" class="layui-input" id="test5" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="date"/>
+    		</div>
+    		
+    		
 			</div>
 			<div style="padding-left: 0px; margin-top: 15px;">
 				<label width="120px" style="margin: 0 5px 0 20px; font-size: 13px;">审核人员</label>
@@ -383,7 +384,7 @@
 
 					table.render({
 						elem : '#test2',
-						url : '${APP_PATH}/addProduct.do',
+						url : '${APP_PATH}/addProductYzz.do',
 						toolbar : '#toolbarDemo2',
 						totalRow : true,
 						cols : [[{
@@ -561,6 +562,9 @@
 					case 'isAll':
 						var data = checkStatus.data;
 						var mplanId=data[0].mplanId;
+						
+						
+						
 						if (data.length == 1) {
 							//判断月计划审核状态
 							if (data[0].mstatus == '未审核') {

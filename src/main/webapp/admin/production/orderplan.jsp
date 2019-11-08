@@ -540,7 +540,7 @@
 								}
 							});
 						}else{
-							layer.msg('该订单还未开始生产');
+							layer.msg('该订单还未开始生产或者生产已经结束');
 						}
 					}else if (data.length > 1){
 						layer.msg('一次只能结束生产一个订单');

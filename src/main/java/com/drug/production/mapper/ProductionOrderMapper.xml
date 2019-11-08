@@ -149,4 +149,10 @@
 	<update id="updateProductionOrder" parameterType="Integer">
 		update productionOrder set poState='生产结束' where poId=#{poId}
 	</update>
+	
+	<!-- 新增退料表 -->
+	<insert id="addreturnOf" parameterType="ReturnOf"  useGeneratedKeys="true" keyProperty="returnOfId">
+		insert into returnOf(poId,proposerId,applydate) 
+		values(#{poId},#{returnOfId},#{applydate})
+	</insert>
 </mapper>

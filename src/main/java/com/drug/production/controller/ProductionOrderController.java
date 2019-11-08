@@ -12,6 +12,7 @@ import com.drug.entity.AddPlan;
 import com.drug.entity.MaterialOrder;
 import com.drug.entity.MaterialOrderDetails;
 import com.drug.entity.ProductionOrder;
+import com.drug.entity.ReturnOf;
 import com.drug.production.service.ProductionOrderService;
 import com.drug.util.ToolClass;
 
@@ -27,6 +28,9 @@ public class ProductionOrderController {
 	
 	@Autowired
 	private AddPlan addPlan;
+	
+	@Autowired
+	private ReturnOf returnOf;
 	
 	/**
 	 * 	功能描述:查询生产订单界面
@@ -191,6 +195,10 @@ public class ProductionOrderController {
 		addPlan.setDplanId(dplanId);
 		productionOrderService.updateMrealityNumber(addPlan);
 		
+		returnOf.setPoId(poId);
+		returnOf.setApplydate(materialOrder.getApplydate());
+		returnOf.setReturnOfId(materialOrder.getProposerId());
+		
 		//连接查询剩余完成数
 		List<AddPlan> list=productionOrderService.selectMplanDetailsRealityNumber(poId);
 		for(AddPlan a :list) {
@@ -202,6 +210,10 @@ public class ProductionOrderController {
 				this.addPlan.setNumber(result);
 				//修改月计划详情剩余完成数
 				productionOrderService.updateMplanDetailsAddSurplus(this.addPlan);
+				//新增退料表
+				productionOrderService.addreturnOf(returnOf);
+				int returnOfId=returnOf.getReturnOfId();
+				//新增退料表详情
 				break;
 			}
 		}

@@ -8,6 +8,7 @@ import com.drug.entity.AddPlan;
 import com.drug.entity.MaterialOrder;
 import com.drug.entity.MaterialOrderDetails;
 import com.drug.entity.ProductionOrder;
+import com.drug.entity.ReturnOf;
 
 @Repository
 public interface ProductionOrderMapper {
@@ -158,4 +159,10 @@ public interface ProductionOrderMapper {
 	 * @param poId
 	 */
 	public void updateProductionOrder(Integer poId);
+	
+	/**
+	 * 功能描述:新增退料表
+	 * @param returnOf
+	 */
+	public void addreturnOf(ReturnOf returnOf);
 }
