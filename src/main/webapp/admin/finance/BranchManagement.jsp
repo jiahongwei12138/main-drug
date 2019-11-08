@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <%-- <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -52,10 +51,11 @@ function allProvince(){
 
 window.onload = allProvince;
 //注册table，form
-layui.use(['table','form','laydate'], function(){
+layui.use(['table','form','laydate','jquery'], function(){
   var table = layui.table;
   var form = layui.form;
  var laydate = layui.laydate;
+ var $ = layui.jquery;
   
   //常规用法
   laydate.render({
@@ -63,18 +63,18 @@ layui.use(['table','form','laydate'], function(){
   });
   table.render({
     elem: '#test',//table Id
-    url:'add1.do',//路劲
+    url:'${APP_PATH}/queryBranchStorefactsheet.do',//路劲
     toolbar: '#toolbarDemo',
     title: '采购订单',//标题
     limits: [5, 10, 15], //设置每页显示数
     cols: [[
     	{type: 'checkbox', fixed: 'left'},
-        {field:'stuId', title:'分店编号', fixed: 'left', unresize: true},
-        {field:'thId', title:'分店名称', },
-        {field:'stuName', title:'分店地址',edit: 'text', },
-        {field:'stuName', title:'签订时间'},
-        {field:'stuName', title:'合同状态'},
-    ]]
+        {field:'bsfId', title:'分店编号', fixed: 'left', unresize: true},
+        {field:'bsfName', title:'分店名称', },
+        {field:'bsfAddress', title:'分店地址',edit: 'text', },
+        {field:'bsfTel', title:'联系电话'},
+        {field:'pactState', title:'合同状态'},
+    ]]      
     ,page: true //启动分页
   });
   
@@ -106,7 +106,7 @@ layui.use(['table','form','laydate'], function(){
 			form.render();
   });      
         
-  
+  var index;
   //头工具栏事件
   table.on('toolbar(test)', function(obj){
     var checkStatus = table.checkStatus(obj.config.id);
@@ -137,8 +137,8 @@ layui.use(['table','form','laydate'], function(){
         }
       break;
       case 'audit':
-    	 
-               layer.open({
+    	  $("#form2")[0].reset();
+               index=layer.open({
                    title:'新增分店',//标题
                    type:1,//样式
                    area:['auto','480px'],//大小
@@ -177,7 +177,25 @@ layui.use(['table','form','laydate'], function(){
     }
   });
   
-  
+  $("#btn").click(function(){
+	  $.ajax({
+		  type:"post",
+		  url:"${APP_PATH}/addBranchStorefactsheet.do",
+		  data:$("#form2").serialize(),
+		  success:function(result){
+			  if(result==false){
+					layer.msg("添加失败", {time:2000, icon:5, shift:6});
+				}else{
+					layer.msg("添加成功", {time:2000, icon:1, shift:3},function(){
+						layer.close(index);
+						table.reload('test', {
+							  url:'${APP_PATH}/queryBranchStorefactsheet.do'
+						});
+					});
+				}
+		  }
+	  });
+  });
   
 });
 
@@ -203,19 +221,30 @@ layui.use(['table','form','laydate'], function(){
           <div class="layui-form-item">
     <label class="layui-form-label">分店名称</label>
     <div class="layui-input-inline">
-      <input type="text" name="username" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
+      <input type="text" name="bsfName" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
     </div>
   </div>
-  
   <div class="layui-form-item">
-    <label class="layui-form-label">请选择地区</label>
+    <label class="layui-form-label">联系电话</label>
     <div class="layui-input-inline">
-     <select  id="province123"  onchange="changeCity()" lay-filter="cs">
+      <input type="text" name="bsfTel" lay-verify="required" placeholder="请输入电话" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">负责人</label>
+    <div class="layui-input-inline">
+      <input type="text" name="staffName" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">选择地区</label>
+    <div class="layui-input-inline">
+     <select name="diqu"  id="province123"  onchange="changeCity()" lay-filter="cs">
         <option>请选择省/城市</option>
-      </select> 
+      </select>
     </div>
     <div class="layui-input-inline">
-      <select  id="city123">
+      <select name="city" id="city123">
         <option>请选择城市/地区</option>
       </select>
     </div>
@@ -223,23 +252,23 @@ layui.use(['table','form','laydate'], function(){
    <div class="layui-form-item">
    <label class="layui-form-label">详细地址</label>
     <div class="layui-input-inline">
-      <input type="text" name="username" style="width:300px;" lay-verify="required" placeholder="地址" autocomplete="off" class="layui-input">
+      <input type="text" name="bsfAddress" style="width:300px;" lay-verify="required" placeholder="地址" autocomplete="off" class="layui-input">
     </div>
   </div>
   <div class="layui-form-item">
     <label class="layui-form-label">签订合同</label>
     <div class="layui-input-inline">
-      <select name="quiz1">
-        <option value="">是否签订</option>
-        <option value="签订">签订</option>
-        <option value="不签订">不签订</option>
+      <select name="pactState">
+        <option value="未签订">是否签订</option>
+        <option value="签订">未签订</option>
+        <option value="不签订">已签订</option>
       </select>
     </div>
     </div>
    <div class="layui-form-item">
     <br>
     <div class="layui-input-block">
-     <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" style="position:absolute;left:110px;" onclick="gitAudit();" >提交</button>
+     <button type="button" id="btn" class="layui-btn layui-btn-sm layui-btn-normal" style="position:absolute;left:110px;">提交</button>
     </div>
   </div>
    

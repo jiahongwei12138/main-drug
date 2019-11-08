@@ -10,7 +10,7 @@ import com.drug.entity.AddPlan;
 import com.drug.entity.AddPlans;
 import com.drug.entity.MProductionPlan;
 import com.drug.entity.MainEmployee;
-import com.drug.entity.MianProduct;
+import com.drug.entity.MainProduct;
 import com.drug.production.mapper.SelectProductMapper;
 import com.drug.production.service.SelectProductService;
 
@@ -21,8 +21,8 @@ public class SelectProductServiceImpl implements SelectProductService{
 	private SelectProductMapper selectProductMapper;
 	
 	@Override
-	public List<MianProduct> selectProduct() {
-		List<MianProduct> list=selectProductMapper.selectProduct();
+	public List<MainProduct> selectProduct() {
+		List<MainProduct> list=selectProductMapper.selectProduct();
 		return list;
 	}
 

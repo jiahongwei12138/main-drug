@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drug.purchase.mapper.MainPurchaseMajorPlanDetailsMapper">
+	
+	<select id="getMajorPlanDetails" parameterType="Integer" resultType="com.drug.entity.MainPurchaseMajorPlanDetails">
+		SELECT * FROM main_purchase__majorPlan_details WHERE majorPlanId=#{majorPlanId}
+	</select>
+	
+	<insert id="setInsertMajorPlanDetails" parameterType="com.drug.entity.MainPurchaseMajorPlanDetails">
+		INSERT INTO main_purchase__majorPlan_details
+		(detailsName,detailsQuantity,detailsRealQuantity,majorPlanId,unit)
+ 		VALUES(#{detailsName},#{detailsQuantity},#{detailsRealQuantity},#{majorPlanId},#{unit})
+	</insert>
+	
+	<update id="updateMajorPlanDetails" parameterType="com.drug.entity.MainPurchaseMajorPlanDetails">
+		UPDATE main_purchase__majorPlan_details SET detailsName=#{detailsName},detailsQuantity=#{detailsQuantity},
+		detailsRealQuantity=#{detailsRealQuantity},unit=#{unit} WHERE detailsId=#{detailsId} AND majorPlanId=#{majorPlanId}
+	</update>
+	
+</mapper>

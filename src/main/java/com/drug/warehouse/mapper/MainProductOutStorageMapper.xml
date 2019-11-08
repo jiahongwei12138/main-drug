@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.drug.warehouse.mapper.MainProductOutStorageMapper">
+	
+	<select id="getOutStorageInf" parameterType="Map" resultType="MainProductOutStorage">
+		select * from main_productOutStorage p
+		join main_storage s 
+		on p.whID = s.storageId
+		where posState like CONCAT(CONCAT('%', #{posState}), '%')
+		limit #{page},#{limit}
+	</select>
+	<select id="getCountOSI" resultType="int">
+		select count(*) from main_productOutStorage p
+		join main_storage s 
+		on p.whID = s.storageId
+		where posState like CONCAT(CONCAT('%', #{posState}), '%')
+	</select>
+	
+	<select id="getOutStorageInfReady" parameterType="Map" resultType="MainProductOutStorage">
+		select * from main_productOutStorage p
+		join main_storage s 
+		on p.whID = s.storageId
+		join main_employee e
+		on p.checkStaffId = e.empId
+		where posState like CONCAT(CONCAT('%', #{posState}), '%')
+		limit #{page},#{limit}
+	</select>
+	<select id="getCountOSIR" resultType="int">
+		select count(*) from main_productOutStorage p
+		join main_storage s 
+		on p.whID = s.storageId
+		join main_employee e
+		on p.checkStaffId = e.empId
+		where posState like CONCAT(CONCAT('%', #{posState}), '%')
+	</select>
+</mapper>

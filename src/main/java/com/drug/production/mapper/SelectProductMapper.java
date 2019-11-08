@@ -8,7 +8,7 @@ import com.drug.entity.AddPlan;
 import com.drug.entity.AddPlans;
 import com.drug.entity.MProductionPlan;
 import com.drug.entity.MainEmployee;
-import com.drug.entity.MianProduct;
+import com.drug.entity.MainProduct;
 
 @Repository
 public interface SelectProductMapper {
@@ -16,7 +16,7 @@ public interface SelectProductMapper {
 	 * 	功能描述:查询药品
 	 * @return
 	 */
-	public List<MianProduct> selectProduct();
+	public List<MainProduct> selectProduct();
 	
 	/**
 	 * 	功能描述:添加月计划详情表

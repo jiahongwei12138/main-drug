@@ -13,6 +13,9 @@ public class MainModel {
 	private boolean spread=false;
 	private boolean checked=false;
 	private Integer menuType;
+	/**
+	 * 子模块集合
+	 */
 	private List<MainModel> children=new ArrayList<MainModel>();
 	
 	public List<MainModel> getChildren() {

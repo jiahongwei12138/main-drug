@@ -8,6 +8,7 @@
   <title>layout 后台大布局 - Layui</title>
   <link rel="stylesheet" href="${APP_PATH }/layui/css/layui.css">
   <script type="text/javascript" src="${APP_PATH }/js/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="${APP_PATH }/js/ajaxRequest.js"></script>
   <script>
 			var delay=400;             //文字出现的时间间隔
 			var text="医药ERP";  //预定文字
@@ -232,12 +233,12 @@
       <li class="layui-nav-item" ><a href=""><i class="layui-icon layui-icon-notice" style="color:white;font-size:18px;"></i></a></li>
       <li class="layui-nav-item">
         <a href="javascript:;">
-          <img src="${APP_PATH }/images/QQ.jpg" class="layui-nav-img">
-          ${name}
+          <img src="/pic/${employee.headUrl }" class="layui-nav-img">
+          ${employee.empName}
         </a>
         <dl class="layui-nav-child">
           <dd><a href="">基本资料</a></dd>
-          <dd><a href="">安全设置</a></dd>
+          <dd><a href="${APP_PATH }/logout.do">退出系统</a></dd>
         </dl>
       </li>
       <li class="layui-nav-item"><a href=""><i class="layui-icon layui-icon-close" style="font-size:20px;color:white;"></i></a></li>
@@ -247,8 +248,8 @@
   <div class="layui-side layui-bg-black">
     <div class="layui-side-scroll">
         <div class="layui-inline" style="margin:20px;">
-  			<img src="${APP_PATH }/images/QQ.jpg" width="70px" class="layui-circle">
-  			<font color="#595b5c" size="3px">Li.</font>
+  			<img src="/pic/${employee.headUrl }" width="70px" class="layui-circle">
+  			<font color="#595b5c" size="3px">${employee.empName}</font>
 		</div>
         <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
         <ul class="layui-nav layui-nav-tree"  style="border-top:1px solid #E6E6E6;" id="tree" lay-filter="test">
@@ -317,6 +318,7 @@ layui.use('element', function(){
 		type:'POST',
 		dataType:'json',
 		success:function(back){
+			console.log(back);
 			var str = "";
 			var jack = back.data;
 			for(var i = 0;i < jack.length;i++){

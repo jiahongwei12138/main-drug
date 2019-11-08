@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drug.purchase.mapper.MainPurchaseDetailsMapper">
+	
+	<select id="getPurchaseDetails" parameterType="Map" resultType="com.drug.entity.MainPurchaseDetails">
+		SELECT * FROM main_purchase_details WHERE main_purchase_details.detailsReservedOne=#{majorPlanId}
+ 		AND main_purchase_details.planId=#{planId}
+	</select>
+	
+	<insert id="insertPurchaseDetails" parameterType="com.drug.entity.MainPurchaseDetails">
+		INSERT INTO main_purchase_details(detailsName,detailsCategory,detailsQuantity,
+		detailsUnitPrice,detailsPrice,planId,detailsReservedOne) 
+		VALUES(#{detailsName},#{detailsCategory},#{detailsQuantity},#{detailsUnitPrice},
+		#{detailsQuantity}*#{detailsUnitPrice},#{planId},#{detailsReservedOne});
+	</insert>
+	
+	<update id="updatePurchaseDetails" parameterType="com.drug.entity.MainPurchaseDetails">
+		UPDATE main_purchase_details SET detailsName=#{detailsName},detailsCategory=#{detailsCategory}
+		,detailsQuantity=#{detailsQuantity},detailsUnitPrice=#{detailsUnitPrice},
+		detailsPrice=#{detailsQuantity}*#{detailsUnitPrice} WHERE planId=#{planId} AND detailsReservedOne=#{detailsReservedOne}
+	</update>
+	
+	<update id="updatePurchaseDetailsOrderState" parameterType="com.drug.entity.MainPurchaseDetails">
+		UPDATE main_purchase_details SET detailSqualityStatus=#{detailSqualityStatus} 
+		WHERE detailsId=#{detailsId} AND detailsReservedOne=#{detailsReservedOne} AND planId=#{planId}
+	</update>
+	
+</mapper>

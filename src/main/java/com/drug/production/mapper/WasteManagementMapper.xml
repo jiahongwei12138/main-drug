@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drug.production.mapper.WasteManagementMapper">
+	<select id="selectWasteManagement" resultType="com.drug.entity.WasteManagement" parameterType="Map">
+		SELECT w.wasteId ,mp.proName, wd.wasteQuantity,w.applydate,w.status 
+		FROM waste w JOIN wasteDetails wd ON w.wasteId=wd.wasteId
+		JOIN main_product mp ON wd.proId=mp.proId limit #{page},#{limit}
+	</select>
+	
+	<select id="selectWasteCount" resultType="int">
+		select count(wasteId) from waste
+	</select>
+	<update id="checkWasreManagement" parameterType="Integer">
+		UPDATE waste SET `status`='已审核' WHERE wasteId=#{wasteId}
+	</update>
+
+</mapper>

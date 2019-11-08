@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.drug.infoManagement.mapper.BranchClientMapper">
+
+	<select id="getProduct" resultType="MainProduct">
+		SELECT p.*,h.`hqtId`,h.`hqtName` FROM main_product p 
+		INNER JOIN main_headquarters h
+		ON p.`hqtId`=h.`hqtId`
+	</select>
+	
+	<insert id="addSaleOrder" parameterType="MainSaleOrder" useGeneratedKeys="true" keyProperty="orderId">
+		insert into main_saleorder(orderNum,payTime,payrMoney,bsfId,bpoId)
+		values(#{orderNum},#{payTime},#{payrMoney},#{bsfId},#{bpoId})
+	</insert>
+	
+	<insert id="addSaleOrderDetail" parameterType="Map">
+		insert into main_saleorderdetail(proId,orderId,proNum,proPrice)
+		values
+		<foreach collection="purchaseList" item="p" separator=",">
+			(#{p.proId},#{orderId},#{p.bpodQuantity},#{p.bpodSubtotal})
+		</foreach>
+	</insert>
+	
+	<insert id="addBackSale" parameterType="MainBranchbacksale" useGeneratedKeys="true" keyProperty="backSaleId">
+		insert into main_branchbacksale(backReason,backMoney,backTime,backOrderNum,bsfId,bprId)
+		values(#{backReason},#{backMoney},#{backTime},#{backOrderNum},#{bsfId},#{bprId})
+	</insert>
+	
+	<insert id="addBackSaleDetail" parameterType="Map">
+		insert into main_branchbacksaledetail(proId,backSaleId,proNum,proPrice)
+		values
+		<foreach collection="purchaseReturnList" item="p" separator=",">
+			(#{p.proId},#{backSaleId},#{p.bprdQuantity},#{p.proPrice})
+		</foreach>
+	</insert>
+</mapper>

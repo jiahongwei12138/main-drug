@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.drug.infoManagement.mapper.BranchBackSaleMapper">
+	
+	<!-- 查询退货单 -->
+	<select id="queryBranchBackSaleOrder" resultType="MainBranchbacksale">
+		SELECT s.*,b.`bsfName` FROM main_branchbacksale s 
+		INNER JOIN branch_storefactsheet b
+		ON s.`bsfId`=b.`bsfId` 
+		<where>
+			<if test="backTime!=null and backTime!=''">
+				s.`backTime` LIKE concat("%",#{backTime},"%")
+			</if>
+			<if test="checkState!=null and checkState!=''">
+				AND s.`checkState`=#{checkState}
+			</if>
+			<if test="bsfName!=null and bsfName!=''">
+				AND b.`bsfName`=#{bsfName}
+			</if>
+		</where>
+	</select>
+	<!-- 修改退货单审核状态 -->
+	<update id="checkbackOrder" parameterType="Integer">
+		update main_branchbacksale set checkState='已审核' where backSaleId=#{backSaleId}
+	</update>
+	<!-- 修改退货单质检状态 -->
+	<update id="checkOrderInStoreCheckState" parameterType="Integer">
+		update main_branchbacksale set inStoreCheckState='已质检' where backSaleId=#{backSaleId}
+	</update>
+	<!-- 删除退货单 -->
+	<delete id="deleteBackSaleOrder">
+		delete from main_branchbacksale where backSaleId=#{backSaleId}
+	</delete>
+	<!-- 根据退货单id删除订单详情 -->
+	<delete id="deleteBackSaleOrderDetial" parameterType="Integer">
+		delete from main_branchbacksaledetail where backSaleId=#{backSaleId}
+	</delete>
+	<!-- 查询退货单详情 -->
+	<select id="queryBackSaleOrderDetail" parameterType="Integer" resultType="MainBranchbacksaledetail">
+		SELECT p.`proBatchNumber`,p.`proName`,p.`retailPrice`,s.* 
+		FROM main_branchbacksaledetail s
+		INNER JOIN main_product p
+		ON s.`proId`=p.`proId` WHERE s.`backSaleId`=#{backSaleId}
+	</select>
+</mapper>

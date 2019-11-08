@@ -63,9 +63,6 @@
 	<update id="deletRoleById" parameterType="String">
 		update main_role set roleState='已删除' where roleId=#{roleId}
 	</update>
-	<!-- <delete id="deletRoleById" parameterType="String">
-		delete from main_role where roleId=#{roleId}
-	</delete> -->
 	
 	<!-- 通过角色Id修改员工表的角色Id -->
 	<update id="updateEmpByRoleId" parameterType="String">

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drug.purchase.mapper.MainSupplierOfferMapper">
+	<select id="getSupplierOfferInfo" parameterType="Integer" resultType="com.drug.entity.MainSupplierOffer">
+		SELECT offerId,offerName,offerPrice,offerPlaceOfOrigin,offerRemark,supplierId
+ 		FROM main_supplier_offer WHERE supplierId=#{id}
+	</select>
+	
+	<select id="selectSupplierOfferCount" resultType="Integer">
+		SELECT COUNT(offerId) FROM main_supplier_offer
+	</select>
+	
+	<insert id="addSupplierOfferInfo" parameterType="com.drug.entity.MainSupplierOffer">
+		INSERT INTO main_supplier_offer(offerName,offerPrice,offerPlaceOfOrigin,offerRemark,supplierId)
+		 VALUES(#{offerName},#{offerPrice},#{offerPlaceOfOrigin},#{offerRemark},#{supplierId})
+	</insert>
+	
+	<update id="updateSupplierOffer" parameterType="com.drug.entity.MainSupplierOffer">
+		UPDATE main_supplier_offer SET offerName=#{offerName},offerPrice=#{offerPrice},
+		offerPlaceOfOrigin=#{offerPlaceOfOrigin},offerRemark=#{offerRemark}
+		 WHERE supplierId=#{supplierId} AND offerId=#{offerId}
+	</update>
+	
+	<delete id="deleteSupplierOffer" parameterType="com.drug.entity.MainSupplierOffer">
+		DELETE FROM main_supplier_offer WHERE supplierId=#{supplierId} AND offerId=#{offerId}
+	</delete>
+	
+</mapper>

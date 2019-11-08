@@ -62,6 +62,5 @@
 		<foreach collection="list" item="emp" separator=";">
 			UPDATE main_department SET personNumber=#{emp.deptPersonNum} where deptId=#{emp.deptId}
 		</foreach>
-		
 	</update>
 </mapper>

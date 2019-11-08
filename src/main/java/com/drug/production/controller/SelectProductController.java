@@ -12,7 +12,7 @@ import com.drug.entity.AddPlan;
 import com.drug.entity.AddPlans;
 import com.drug.entity.MProductionPlan;
 import com.drug.entity.MainEmployee;
-import com.drug.entity.MianProduct;
+import com.drug.entity.MainProduct;
 import com.drug.production.service.SelectProductService;
 import com.drug.util.ToolClass;
 
@@ -31,7 +31,7 @@ public class SelectProductController {
 	 */
 	@RequestMapping("selectProduct")
 	public Map<String,Object> selectProduct(){ 
-		List<MianProduct> list=selectProductService.selectProduct();
+		List<MainProduct> list=selectProductService.selectProduct();
 		Map<String,Object> tableData=ToolClass.responseByData(list,list.size());
 		return tableData;
 	}

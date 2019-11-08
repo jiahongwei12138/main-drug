@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.drug.infoManagement.mapper.LogMapper">
+
+	<select id="queryLog" resultType="MainLog" parameterType="Map">
+		select * from
+		(
+		select * from main_log 
+		<where>
+			<if test="startTime !=null and startTime !='' and endTime !=null and endTime !='' ">
+				dateTimes BETWEEN #{startTime} AND #{endTime}
+			</if>
+		</where>
+		order by logId desc
+		)log
+		limit #{page},#{limit}
+	</select>
+	
+	<select id="getCountLog" resultType="Integer">
+		select count(*) from main_log
+		<where>
+			<if test="startTime !=null and startTime !='' and endTime !=null and endTime !='' ">
+				dateTimes BETWEEN #{startTime} AND #{endTime}
+			</if>
+		</where>
+	</select>
+	
+	<delete id="deletLogById" parameterType="Integer">
+		delete from main_log where logId=#{logId}
+	</delete>
+	
+	<delete id="deleteBatchLogById" parameterType="Integer">
+		delete from main_log
+		<where>
+			logId in
+			<foreach collection="array" item="logId" open="(" close=")" separator=",">
+				#{logId}
+			</foreach>
+		</where>
+	</delete>
+</mapper>

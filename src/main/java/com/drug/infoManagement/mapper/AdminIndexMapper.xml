@@ -14,4 +14,14 @@
 	<select id="queryByMenu" resultMap="MainModelMap">
 		select * from main_model
 	</select>
+	
+	<select id="queryByMenuByRoleId" resultMap="MainModelMap" parameterType="Integer">
+		SELECT * FROM main_model m INNER JOIN main_role_model rm
+		ON m.`modelId`=rm.`modelId` INNER JOIN main_role r
+		ON r.`roleId`=rm.`roleId` WHERE r.`roleId`=#{roleId}
+	</select>
+	
+	<select id="login" parameterType="MainEmployee" resultType="MainEmployee">
+		select * from main_employee where empState='未删除' and empName=#{empName} and empPwd=#{empPwd}
+	</select>
 </mapper>

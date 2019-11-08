@@ -3,7 +3,7 @@
 <mapper namespace="com.drug.production.mapper.SelectProductMapper">
 	
 
-	<select id="selectProduct" resultType="com.drug.entity.MianProduct">
+	<select id="selectProduct" resultType="com.drug.entity.MainProduct">
 		select * from main_product
 	</select>
 	
