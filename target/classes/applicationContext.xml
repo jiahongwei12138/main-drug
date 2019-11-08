@@ -22,7 +22,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
         <property name="password" value="123456"/>
     </bean> -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" /><!-- allowMultiQueries=true允许批量新增或修改 -->
 		<property name="url" value="jdbc:mysql://localhost:3306/drug?characterEncoding=utf-8&amp;allowMultiQueries=true"/>
 		<property name="username" value="root"/>
 		<property name="password" value="123456"/>

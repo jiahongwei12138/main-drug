@@ -17,7 +17,7 @@ import com.drug.infoManagement.service.AdminIndexService;
 import com.drug.util.ToolClass;
 
 /**
-   *   类描述：后台首页
+ * 类描述：后台首页
  * @author jhw
  * @dateTime 2019年10月23日下午7:05:22
  * @version 1.0
