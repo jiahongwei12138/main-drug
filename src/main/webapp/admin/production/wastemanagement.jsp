@@ -5,7 +5,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<title>废料管理</title>
+		<title>生产废料管理</title>
 		<link rel="stylesheet" href="../layui/css/layui.css">
 	</head>
 	<body class="layui-layout-body">

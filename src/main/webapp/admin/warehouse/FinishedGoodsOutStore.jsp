@@ -183,7 +183,7 @@
 					if(data.checkStates=="已审核"){
 						layer.msg('不能重复审核',{icon: 6});
 						}else{
-							layer.confirm('是否审核并入库', {icon: 3, title:'提示'}, function(index){
+							layer.confirm('是否审核并出库', {icon: 3, title:'提示'}, function(index){
 									  console.log(data);
 									   $.ajax({
 										  url:'${APP_PATH}/OutProStorageCheck.do',

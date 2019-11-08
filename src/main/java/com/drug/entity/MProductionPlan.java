@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,9 +26,9 @@ public class MProductionPlan {
 	//申请时间
 	private String mApplyDate;
 	//生产月计划完成总量
-	private Integer mPlanQuantity;
+	private Integer mPlanNumber;
 	//生产月计划实际完成总量
-	private Integer mPracticalQuantity;
+	private Integer mRealityNumber;
 	//生产进度
 	//private String  productionSchedule;
 	//审核状态

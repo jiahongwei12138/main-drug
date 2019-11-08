@@ -13,6 +13,7 @@ public class ProductionOrderDetails {
 	private Integer proQuantity;		//生产数量
 	private Integer proPassQuantity;	//通过数量
 	private Double percent;				//合格率
+	
 	public Integer getPodId() {
 		return podId;
 	}

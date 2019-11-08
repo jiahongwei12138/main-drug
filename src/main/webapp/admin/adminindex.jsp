@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>layout 后台大布局 - Layui</title>
+  <title>总店后台管理界面</title>
   <link rel="stylesheet" href="${APP_PATH }/layui/css/layui.css">
   <script type="text/javascript" src="${APP_PATH }/js/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="${APP_PATH }/js/ajaxRequest.js"></script>

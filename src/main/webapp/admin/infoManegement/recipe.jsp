@@ -40,10 +40,12 @@
 	<div class="layui-input-inline">
 		 <input type="text" id="realityDosage" name="realityDosage" lay-verify="number" placeholder="请输入" autocomplete="off" class="layui-input">
 	</div>
+	
 	<label width="120px" style="margin:0 5px 0 20px;font-size:13px;">单位（g）</label>
 	<div class="layui-input-inline">
 		 <input type="text" id="unit" name="unit" lay-verify="number" placeholder="请输入" autocomplete="off" class="layui-input">
 	</div>
+
 	<button type="button" lay-event="addRecipe" class="layui-btn layui-btn-normal">添加</button>
   </div>
 </script>
@@ -220,6 +222,7 @@
 												layer.msg("添加失败", {time:3000, icon:5, shift:6});
 											}else{
 												table.reload('detailsTable');
+												form.render(); 
 											}
 							    	  }
 							    	  

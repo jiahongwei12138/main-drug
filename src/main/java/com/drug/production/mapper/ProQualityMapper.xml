@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drug.production.mapper.ProQualityMapper">
+	<!-- 查询成品管理界面 -->
+	<select id="selectProductionQualityView" resultType="ProQuality">
+		select pq.pqId,po.poId,po.poPracticalQuantity,pq.createDate,pq.qualitystatus,pq.qualityInspector
+		from productionquality pq
+		join productionOrder po
+		on po.poId=pq.poId
+		where pq.pqVisibles=1
+	</select>
+	
+	<!-- 成品质检 -->
+	<update id="updateProductionQuality" parameterType="ProQuality">
+		update productionquality set qualitystatus=#{qualitystatus},qualityInspector=#{qualityInspector},
+		qsData=#{qsData},visibles=#{visibles} where pqId=#{pqId}
+	</update>
+	
+	<!-- 成品质检删除 -->
+	<update id="deleteProductionQuality" parameterType="Integer">
+		update productionquality set pqVisibles=0 where pqId=#{pqId}
+	</update>
+	
+	<!-- 查询成品质检详情Id -->
+	<select id="selectProqualitydetails" parameterType="Integer" resultType="PqDetails">
+		select q.pqdId,p.proId,p.proName,q.proQuantity from productionqualitydetails q
+		join main_product p
+		on q.proId=p.proId
+		where q.pqId=#{pqId}
+	</select>
+
+</mapper>

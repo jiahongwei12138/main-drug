@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
-
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -132,7 +132,7 @@ public class MainProductInStorageController {
 			list = mainProductInStorageService.getProductionOrderDetailsInf(poOBoId);
 			//进行成品仓库的添加
 			for(ProductionOrderDetails pd :list) {
-				mainProductInStorageService.updProStorageInf(new MainProductStorage(pd.getProId(),pd.getProPassQuantity(),whID));
+				mainProductInStorageService.updProStorageInf(new MainProductStorage(pd.getProId(),pd.getProQuantity(),whID));
 			}
 			//添加成功后修改入库表中入库状态，审核状态，入库时间，审核人姓名
 			
